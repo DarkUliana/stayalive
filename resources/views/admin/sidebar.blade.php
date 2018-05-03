@@ -5,6 +5,9 @@
         </div>
 
         <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a class="card-link" href="{{ url('/players') }}">
+                    Players
+                </a></li>
             <li class="list-group-item"><a class="card-link" href="{{ url('/technologies') }}">
                     Technologies
                 </a></li>
