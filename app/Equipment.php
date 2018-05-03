@@ -3,7 +3,7 @@
 namespace App;
 
 
-class equipment extends Slot
+class Equipment extends Slot
 {
     protected $table = 'equipment';
 }

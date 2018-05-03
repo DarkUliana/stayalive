@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('shop-articles', 'Admin\ShopArticlesController');
     Route::get('shop-item', 'Admin\ShopArticlesController@item');
 
+    Route::resource('players', 'Admin\PlayersController');
+
 });
 
 
