@@ -4,8 +4,8 @@
         <?php $counter = 0; ?>
         @foreach($properties as $property)
             <div class="form-group">
-                <label for="InventorySlotType" class="col-md-4 control-label">{{ $property->name }}</label>
-                <div class="col-md-6">
+                <label for="InventorySlotType" class="col-md-12 control-label">{{ $property->name }}</label>
+                <div class="col-md-12">
                     <input type="hidden" name="Properties[{{ $counter }}][propertyID]"
                            value="{{ $property->ID }}">
                     <input class="form-control" name="Properties[{{ $counter }}][propertyValue]"

@@ -1,42 +1,31 @@
-@extends('layouts.app')
+<div class="col-md-3" id="itemBlade">
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+    <div class="card">
+        <div class="card-header"><strong>Edit item #{{ $item->ID }}</strong></div>
+        <div class="card-body" id="itemBody">
 
-@section('content')
-    <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
+            @if ($errors->any())
+                <ul class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
 
-            <div class="col-md-9">
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-header">Edit item #{{ $item->ID }}</div>
-                    <div class="card-body">
-                        <a href="{{ url('items?'.session('itemsParams')) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <br />
-                        <br />
+            <form method="POST" action="{{ url('/items/' . $item->ID) }}" accept-charset="UTF-8" class="form-horizontal"
+                  enctype="multipart/form-data">
+                {{ method_field('PATCH') }}
+                {{ csrf_field() }}
 
-                        @if ($errors->any())
-                            <ul class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+                @include ('admin.items.form', ['submitButtonText' => 'Update'])
 
-                        <form method="POST" action="{{ url('/items/' . $item->ID) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            {{ csrf_field() }}
+            </form>
 
-                            @include ('admin.items.form', ['submitButtonText' => 'Update'])
-
-                        </form>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-@endsection
+</div>
+

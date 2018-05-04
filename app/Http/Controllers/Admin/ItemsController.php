@@ -50,7 +50,24 @@ class ItemsController extends Controller
         }
 
         $items = $items->paginate($perPage);
+
         $types = $this->getTypes();
+
+        if($request->ajax()) {
+
+            $array = [
+                'pagination' => (string)$items->appends(['search' => $request->get('search'),
+                    'filter' => $request->get('filter'),
+                    'sort' => $request->get('sort')])->links(),
+
+                'items' => (string)view('admin.items.item-tr', compact('items', 'types'))
+            ];
+
+
+            return response($array);
+        }
+
+
 
         return view('admin.items.index', compact('items', 'types'));
     }
@@ -84,7 +101,6 @@ class ItemsController extends Controller
         ]);
 
         $itemData = $request->all();
-        $itemData['Type'] = ItemType::where('type', $itemData['InventorySlotType'])->value('SerializeType');
 
         unset($itemData['Properties']);
 
@@ -101,6 +117,11 @@ class ItemsController extends Controller
             }
         }
 
+        if($request->ajax()) {
+
+            return response(['status' => 'Item added!'], 200);
+        }
+
         return redirect("items/$item->ID/edit")->with('status', 'Item added!');
     }
 
@@ -115,7 +136,13 @@ class ItemsController extends Controller
     {
         $item = Item::where('ID', $id)->with('properties')->first();
 
-        return view('admin.items.show', compact('item'));
+        $properties = DB::table('item_properties')
+            ->leftJoin('properties', 'item_properties.propertyID', '=', 'properties.ID')
+            ->where('item_properties.itemID', $id)
+            ->select('properties.name', 'properties.ID', 'item_properties.propertyValue as value')
+            ->get();
+
+        return view('admin.items.show', compact('item', 'properties'));
     }
 
     /**
@@ -175,6 +202,10 @@ class ItemsController extends Controller
             }
         }
 
+        if($request->ajax()) {
+
+            return response(['status' => 'Item updated!'], 200);
+        }
 
         return redirect("items/$id/edit")->with('status', 'Item updated!');
     }
@@ -182,13 +213,19 @@ class ItemsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param \Illuminate\Http\Request $request
      * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         Item::destroy($id);
+
+        if($request->ajax()) {
+
+            return response(['status' => 'Item deleted!']);
+        }
 
         return redirect(url()->previous())->with('status', 'Item deleted!');
     }

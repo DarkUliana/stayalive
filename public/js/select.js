@@ -9,30 +9,7 @@ $(document).ready(function () {
 
     $('.language').select2({width: '100%'});
 
-    $('#filter').select2({width: '150px', minimumResultsForSearch: Infinity, placeholder: 'Type'});
+    $('#filter').select2({width: '150px', placeholder: 'Type'});
 
-    $('#filter').on('select2:select', function () {
-
-        $('#filterForm').submit();
-    });
-
-    $('#inventorySlotType').select2({width: '100%', minimumResultsForSearch: Infinity});
-
-    $('#inventorySlotType').on('select2:select', function () {
-
-        var type = {"type" : $(this).val()};
-
-        $.ajax({
-            url: '/properties',
-            method: 'GET',
-            data: type,
-            success: function (data) {
-
-                console.log(data);
-                $('#properties').empty();
-                $('#properties').append(data);
-            },
-        });
-    });
 });
 

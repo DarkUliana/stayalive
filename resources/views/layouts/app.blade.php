@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/menu.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
@@ -46,8 +47,9 @@
         width: 10px;
 
     }
+
     /*th {*/
-        /*font-size: 14px;*/
+    /*font-size: 14px;*/
     /*}*/
 
 </style>
@@ -111,8 +113,14 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<script src="{{ asset('js/parts.js') }}"></script>
 <script src="{{ asset('js/select.js') }}"></script>
-<script src="{{ asset('js/items.js') }}"></script>
+
+@if(\Illuminate\Support\Facades\Request::is('items'))
+    <script src="{{ asset('js/items.js') }}"></script>
+@endif
+
 
 {{--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>--}}
 {{--<script type="text/javascript" src="{{ asset('datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>--}}
