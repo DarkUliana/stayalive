@@ -16,7 +16,7 @@ class CreateCloudItemsTable extends Migration
         Schema::create('cloud_items', function (Blueprint $table) {
             $table->increments('ID');
             $table->string('googleID');
-            $table->string('uniqueID')->unique();
+            $table->string('uniqueID', 200)->unique();
             $table->string('sourceID');
             $table->string('imageName');
             $table->boolean('inStuck');
