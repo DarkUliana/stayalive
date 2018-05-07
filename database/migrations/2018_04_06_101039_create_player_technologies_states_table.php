@@ -15,7 +15,7 @@ class CreatePlayerTechnologiesStatesTable extends Migration
     {
         Schema::create('player_technologies_states', function (Blueprint $table) {
             $table->bigIncrements('ID');
-            $table->unsignedInteger('googleID');
+            $table->string('googleID');
             $table->unsignedInteger('technologyID');
             $table->tinyInteger('technologyState');
             $table->timestamps();

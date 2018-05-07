@@ -15,7 +15,7 @@ class CreateAfterCraftItemsTable extends Migration
     {
         Schema::create('after_craft_items', function (Blueprint $table) {
             $table->bigIncrements('ID');
-            $table->integer('googleID')->unsigned();
+            $table->string('googleID');
             $table->integer('Index')->nullable();
             $table->integer('CurrentCount')->nullable();
             $table->float('currentDurability')->nullable();

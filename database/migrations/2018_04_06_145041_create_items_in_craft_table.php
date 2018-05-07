@@ -15,7 +15,7 @@ class CreateItemsInCraftTable extends Migration
     {
         Schema::create('items_in_craft', function (Blueprint $table) {
             $table->increments('ID');
-            $table->unsignedInteger('googleID');
+            $table->string('googleID');
             $table->integer('countToCraft');
             $table->integer('timeToCraft');
             $table->integer('itemID');

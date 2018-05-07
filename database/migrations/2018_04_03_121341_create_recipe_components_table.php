@@ -18,12 +18,6 @@ class CreateRecipeComponentsTable extends Migration
             $table->unsignedInteger('recipeID');
             $table->unsignedInteger('itemID');
             $table->integer('neededCount');
-            $table->foreign('itemID')
-                ->references('ID')->on('items')
-                ->onDelete('cascade');
-            $table->foreign('recipeID')
-                ->references('ID')->on('recipes')
-                ->onDelete('cascade');
         });
     }
 

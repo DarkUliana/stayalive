@@ -14,15 +14,9 @@ class CreateRecipeTechnologiesTable extends Migration
     public function up()
     {
         Schema::create('recipe_technologies', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('ID');
             $table->unsignedInteger('recipeID');
             $table->unsignedInteger('technologyID');
-            $table->foreign('recipeID')
-                ->references('ID')->on('recipes')
-                ->onDelete('cascade');
-            $table->foreign('technologyID')
-                ->references('ID')->on('technologies')
-                ->onDelete('cascade');
         });
     }
 

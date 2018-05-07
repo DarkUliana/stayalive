@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemTypePropertyNamesTable extends Migration
+class CreateItemTypePropertiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class CreateItemTypePropertyNamesTable extends Migration
     {
         Schema::create('item_type_properties', function (Blueprint $table) {
             $table->increments('ID');
-            $table->integer('typeID');
+            $table->integer('InventorySlotType');
             $table->integer('propertyID');
             $table->timestamps();
         });

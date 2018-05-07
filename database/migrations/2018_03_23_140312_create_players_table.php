@@ -17,7 +17,7 @@ class CreatePlayersTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments('ID');
-            $table->unsignedInteger('googleID')->nullable()->unique();
+            $table->string('googleID')->unique();
             $table->string('Name')->nullable();
             $table->string('email')->nullable();
             $table->string('password')->nullable();

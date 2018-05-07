@@ -16,9 +16,9 @@ class CreateItemPropertiesTable extends Migration
         Schema::create('item_properties', function (Blueprint $table) {
             $table->increments('ID');
             $table->unsignedInteger('itemID');
-            $table->string('propertyName');
+            $table->string('propertyID');
             $table->double('propertyValue');
-            $table->timestamp();
+            $table->timestamps();
 
         });
     }
@@ -30,6 +30,6 @@ class CreateItemPropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items_property');
+        Schema::dropIfExists('item_properties');
     }
 }

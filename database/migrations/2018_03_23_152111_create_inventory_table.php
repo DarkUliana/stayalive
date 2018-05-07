@@ -17,7 +17,7 @@ class CreateInventoryTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('ID');
-            $table->integer('googleID')->unsigned();
+            $table->string('googleID');
             $table->integer('Index')->nullable();
             $table->integer('CurrentCount')->nullable();
             $table->float('currentDurability')->nullable();
@@ -25,9 +25,6 @@ class CreateInventoryTable extends Migration
             $table->integer('SlotType')->nullable();
             $table->integer('itemID')->nullable();
             $table->timestamps();
-            $table->foreign('googleID')
-                ->references('googleID')->on('players')
-                ->onDelete('cascade');
         });
     }
 

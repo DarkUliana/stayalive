@@ -67,5 +67,11 @@ Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 Route::post('recover', 'AuthController@recover');
 
+Route::get('unique-id', 'UniqueIdController');
+
+Route::post('cloud-items', 'CloudItemController@postItems');
+Route::get('cloud-items', 'CloudItemController@getItems');
+
+
 
 //});

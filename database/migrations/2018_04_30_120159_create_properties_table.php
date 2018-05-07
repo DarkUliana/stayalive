@@ -15,7 +15,7 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->increments('ID');
-            $table->integer('InventorySlotType');
+            $table->integer('type');
             $table->string('name');
             $table->timestamps();
         });

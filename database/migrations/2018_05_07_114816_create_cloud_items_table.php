@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlayerBuildingTechnologiesTable extends Migration
+class CreateCloudItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreatePlayerBuildingTechnologiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('player_building_technologies', function (Blueprint $table) {
+        Schema::create('cloud_items', function (Blueprint $table) {
             $table->increments('ID');
             $table->string('googleID');
-            $table->boolean('inBuilding')->nullable();
-            $table->unsignedInteger('idCurrentBuildingTech')->nullable();
+            $table->string('uniqueID')->unique();
+            $table->string('sourceID');
+            $table->string('imageName');
+            $table->boolean('inStuck');
+            $table->integer('count');
+            $table->boolean('isTaken');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ class CreatePlayerBuildingTechnologiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('player_building_technologies');
+        Schema::dropIfExists('cloud_items');
     }
 }

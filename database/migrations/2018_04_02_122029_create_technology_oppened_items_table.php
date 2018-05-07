@@ -14,12 +14,9 @@ class CreateTechnologyOppenedItemsTable extends Migration
     public function up()
     {
         Schema::create('technology_oppened_items', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('ID');
             $table->unsignedInteger('technologyID');
             $table->unsignedInteger('itemID');
-            $table->foreign('technologyID')
-                ->references('ID')->on('technologies')
-                ->onDelete('cascade');
         });
     }
 

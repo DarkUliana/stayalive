@@ -18,7 +18,6 @@ class CreateItemsTable extends Migration
             $table->string('Name');
             $table->integer('MaxInStack');
             $table->bigInteger('InventorySlotType');
-            $table->string('Type');
             $table->timestamps();
         });
     }
