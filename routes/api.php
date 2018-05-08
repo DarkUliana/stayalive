@@ -72,6 +72,9 @@ Route::get('unique-id', 'UniqueIdController');
 Route::post('cloud-items', 'CloudItemController@postItems');
 Route::get('cloud-items', 'CloudItemController@getItems');
 
+Route::post('quests', 'QuestController@store');
+Route::get('quests', 'QuestController@index');
+
 
 
 //});
