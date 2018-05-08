@@ -75,6 +75,8 @@ Route::get('cloud-items', 'CloudItemController@getItems');
 Route::post('quests', 'QuestController@store');
 Route::get('quests', 'QuestController@index');
 
+Route::post('player-quests', 'PlayerQuestController@store');
+Route::get('player-quests', 'PlayerQuestController@index');
 
 
 //});
