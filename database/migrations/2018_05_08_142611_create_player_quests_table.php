@@ -14,7 +14,11 @@ class CreatePlayerQuestsTable extends Migration
     public function up()
     {
         Schema::create('player_quests', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('ID');
+            $table->string('googleID');
+            $table->enum('type', ['simple', 'star']);
+            $table->integer('progress');
+            $table->integer('questID');
             $table->timestamps();
         });
     }
