@@ -47,6 +47,7 @@ class PlayerController extends Controller
             $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
             $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
             $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+            $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
         }
 
         return response('ok', 200);

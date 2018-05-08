@@ -33,8 +33,8 @@ Route::post('{slot}', 'SlotsController@updateOrCreate')->where('slot', 'equipmen
 
 Route::get('time', 'TimeController@index');
 
-Route::get('timer/{type}', 'TimerController@show')->where('type', '^(tech|craft|walking|last-save)$');
-Route::post('timer/{type}', 'TimerController@updateOrCreate')->where('type', '^(tech|craft|walking|last-save)$');
+Route::get('timer/{type}', 'TimerController@show')->where('type', '^(tech|craft|walking|last-save|quest)$');
+Route::post('timer/{type}', 'TimerController@updateOrCreate')->where('type', '^(tech|craft|walking|last-save|quest)$');
 
 Route::get('item', 'ItemController@index');
 Route::post('item', 'ItemController@store');
