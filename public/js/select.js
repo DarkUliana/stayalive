@@ -13,3 +13,21 @@ $(document).ready(function () {
 
 });
 
+var i = {
+    "googleID": "10",
+    "starQuest":
+        {
+            "questControllerData": "{\"progress\":50}",
+            "questID": 19
+        }
+    ,
+    "questsData":
+        [
+            {"questControllerData": "{\"progress\":0}", "questID": 11},
+
+            {"questControllerData": "{\"progress\":0}", "questID": 1},
+
+            {"questControllerData": "{\"progress\":2}", "questID": 2}
+        ]
+};
+
