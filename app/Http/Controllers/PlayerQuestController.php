@@ -14,9 +14,16 @@ class PlayerQuestController extends Controller
             return response('Invalid data', 400);
         }
 
-        $quests = new PlayerQuestCollection(PlayerQuest::where('googleID', $request->googleID)->get());
+        $quests = PlayerQuest::where('googleID', $request->googleID)->get();
 
-        return response($quests, 200);
+        if($quests->isEmpty()) {
+            return response('', 404);
+        }
+
+        $questsArr = new PlayerQuestCollection($quests);
+
+
+        return response($questsArr, 200);
 
     }
 
