@@ -6,16 +6,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Quest;
+use App\Reward;
+use App\RewardType;
 use Illuminate\Http\Request;
 
 class QuestsController extends Controller
 {
-    public $rewardTypes = [
-        'CommonBox',
-        'RareBox',
-        'EpicBox',
-        'LegendaryBox'
-    ];
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +23,7 @@ class QuestsController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $quests = Quest::latest()->paginate($perPage);
+            $quests = Quest::where('name', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $quests = Quest::latest()->paginate($perPage);
         }
@@ -42,7 +38,10 @@ class QuestsController extends Controller
      */
     public function create()
     {
-        return view('admin.quests.create');
+        $rewards = Reward::all();
+        $types = RewardType::all();
+
+        return view('admin.quests.create', compact('rewards', 'types'));
     }
 
     /**
@@ -59,7 +58,7 @@ class QuestsController extends Controller
         
         Quest::create($requestData);
 
-        return redirect('admin/quests')->with('flash_message', 'Quest added!');
+        return redirect('quests')->with('flash_message', 'Quest added!');
     }
 
     /**
@@ -86,8 +85,10 @@ class QuestsController extends Controller
     public function edit($id)
     {
         $quest = Quest::findOrFail($id);
+        $rewards = Reward::all();
+        $types = RewardType::all();
 
-        return view('admin.quests.edit', compact('quest'));
+        return view('admin.quests.edit', compact('quest', 'rewards', 'types'));
     }
 
     /**
@@ -106,7 +107,7 @@ class QuestsController extends Controller
         $quest = Quest::findOrFail($id);
         $quest->update($requestData);
 
-        return redirect('admin/quests')->with('flash_message', 'Quest updated!');
+        return redirect('quests')->with('flash_message', 'Quest updated!');
     }
 
     /**
@@ -120,6 +121,6 @@ class QuestsController extends Controller
     {
         Quest::destroy($id);
 
-        return redirect('admin/quests')->with('flash_message', 'Quest deleted!');
+        return redirect('quests')->with('flash_message', 'Quest deleted!');
     }
 }

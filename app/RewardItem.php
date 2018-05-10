@@ -11,6 +11,6 @@ class RewardItem extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'created_at', 'updated_at', 'rewardID'
+        'created_at', 'updated_at', 'rewardID', 'ID'
     ];
 }

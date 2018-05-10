@@ -11,11 +11,20 @@ class Reward extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'ID'
     ];
 
-    public function items()
+    protected $appends = ['id'];
+
+    public static $snakeAttributes = false;
+
+    public function rewardList()
     {
         return $this->hasMany('App\RewardItem', 'rewardID', 'ID');
+    }
+
+    public function getIdAttribute()
+    {
+        return $this->attributes['ID'];
     }
 }

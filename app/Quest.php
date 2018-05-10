@@ -23,4 +23,9 @@ class Quest extends Model
     {
         return $this->hasOne('App\QuestType', 'ID', 'typeID');
     }
+
+    public function reward()
+    {
+        return $this->hasOne('App\Reward', 'ID', 'rewardID');
+    }
 }

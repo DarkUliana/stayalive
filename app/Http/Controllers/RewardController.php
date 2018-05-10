@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Reward;
+use App\RewardItem;
 use Illuminate\Http\Request;
 
 class RewardController extends Controller
 {
     public function index()
     {
-        return Reward::all()->toArray();
+        $rewards = Reward::with('rewardList')->get()->toArray();
+        return response(['rewards' => $rewards], 200);
     }
 
     public function store(Request $request)
@@ -18,6 +20,10 @@ class RewardController extends Controller
             return response('Invalid data', 400);
         }
 
+        Reward::truncate();
+        RewardItem::truncate();
+
+        $counter = 0;
         foreach ($request->rewards as $reward) {
 
             $temp = $reward;
@@ -25,10 +31,16 @@ class RewardController extends Controller
             unset($temp['rewardList']);
 
             $rewardObj = Reward::create($temp);
-             foreach ($reward->rewardList as $item) {
 
-                 
+             foreach ($reward['rewardList'] as $item) {
+
+                 $itemObj = new RewardItem($item);
+                 $rewardObj->items()->save($itemObj);
+
              }
+             ++$counter;
         }
+
+        return response("$counter Rewards were recorded");
     }
 }

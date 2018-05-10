@@ -26,6 +26,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/shop-articles') }}">
                     Shop Articles
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/quests') }}">
+                    Quests
+                </a></li>
         </ul>
 
     </div>

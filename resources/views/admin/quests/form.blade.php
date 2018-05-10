@@ -1,9 +1,12 @@
+<div class="form-group">
+    <label for="name" class="col-md-4 control-label"></label>
+</div>
 <div class="form-group {{ $errors->has('typeID') ? 'has-error' : ''}}">
-    <label for="typeID" class="col-md-4 control-label">{{ 'Typeid' }}</label>
+    <label for="typeID" class="col-md-4 control-label">{{ 'Type' }}</label>
     <div class="col-md-6">
         <select name="typeID" class="form-control" id="typeID" >
-    @foreach (json_decode('{}', true) as $optionKey => $optionValue)
-        <option value="{{ $optionKey }}" {{ (isset($quest->typeID) && $quest->typeID == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+    @foreach ($types as $value)
+        <option value="{{ $value->ID }}" {{ (isset($quest->typeID) && $quest->typeID == $value->ID) ? 'selected' : ''}}>{{ $value->name }}</option>
     @endforeach
 </select>
         {!! $errors->first('typeID', '<p class="help-block">:message</p>') !!}
@@ -15,23 +18,23 @@
         {!! $errors->first('level', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('starPoints') ? 'has-error' : ''}}">
-    <label for="starPoints" class="col-md-4 control-label">{{ 'Starpoints' }}</label>
+    <label for="starPoints" class="col-md-4 control-label">{{ 'StarPoints' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="starPoints" type="number" id="starPoints" value="{{ $quest->starPoints or ''}}" >
         {!! $errors->first('starPoints', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('countToDo') ? 'has-error' : ''}}">
-    <label for="countToDo" class="col-md-4 control-label">{{ 'Counttodo' }}</label>
+    <label for="countToDo" class="col-md-4 control-label">{{ 'CountToDo' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="countToDo" type="number" id="countToDo" value="{{ $quest->countToDo or ''}}" >
         {!! $errors->first('countToDo', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('rewardID') ? 'has-error' : ''}}">
-    <label for="rewardID" class="col-md-4 control-label">{{ 'Rewardid' }}</label>
+    <label for="rewardID" class="col-md-4 control-label">{{ 'Reward' }}</label>
     <div class="col-md-6">
         <select name="rewardID" class="form-control" id="rewardID" >
-    @foreach (json_decode('{}', true) as $optionKey => $optionValue)
-        <option value="{{ $optionKey }}" {{ (isset($quest->rewardID) && $quest->rewardID == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+    @foreach ($rewards as $value)
+        <option value="{{ $value->ID }}" {{ (isset($quest->rewardID) && $quest->rewardID == $value->ID) ? 'selected' : ''}}>{{ $value->name }}</option>
     @endforeach
 </select>
         {!! $errors->first('rewardID', '<p class="help-block">:message</p>') !!}
