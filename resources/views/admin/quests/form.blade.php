@@ -1,5 +1,9 @@
 <div class="form-group">
-    <label for="name" class="col-md-4 control-label"></label>
+    <label for="name" class="col-md-4 control-label">{{ 'Name' }}</label>
+    <div class="col-md-6">
+        <input class="form-control" name="name" type="string" id="name" value="{{ $quest->name or ''}}" >
+        {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+    </div>
 </div>
 <div class="form-group {{ $errors->has('typeID') ? 'has-error' : ''}}">
     <label for="typeID" class="col-md-4 control-label">{{ 'Type' }}</label>
