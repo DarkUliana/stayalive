@@ -12,6 +12,6 @@ class QuestFieldType extends Model
 
     public function fieldName()
     {
-        return $this->hasOne('App\Property', 'ID', 'fieldID');
+        return $this->hasOne('App\AdditionalQuestsField', 'ID', 'fieldID');
     }
 }

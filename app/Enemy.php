@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RewardType extends Model
+class Enemy extends Model
 {
     //
 }

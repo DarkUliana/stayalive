@@ -49,16 +49,24 @@
                                     <th> Type</th>
                                     <td> {{ $quest->type->name }} </td>
                                 </tr>
+
+                                <tr>
+                                    <th> {{ $field['name'] }}</th>
+                                    <td> {{ $field['count'] }} </td>
+                                </tr>
+
+
                                 <tr>
                                     <th> Level</th>
-                                    <td> {{ $quest->level }} </td>
+                                    <td> {{ $quest->level or 0 }} </td>
                                 </tr>
                                 <tr>
                                     <th> StarPoints</th>
                                     <td> {{ $quest->starPoints }} </td>
                                 </tr>
                                 <tr>
-                                    <th>Reward</th><td>{{ $quest->reward->name }}</td>
+                                    <th>Reward</th>
+                                    <td>{{ $quest->reward->name }}</td>
                                 </tr>
                                 </tbody>
                             </table>
