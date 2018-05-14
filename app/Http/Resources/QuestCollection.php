@@ -16,7 +16,7 @@ class QuestCollection extends ResourceCollection
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -30,15 +30,15 @@ class QuestCollection extends ResourceCollection
             $itemFields['questID'] = $itemFields['ID'];
             unset($itemFields['ID']);
 
-            foreach ($quest->fields as $field) {
-
-                $itemFields[$field->fieldName->name] = $field['value'];
+            if (isset($quest->field)) {
+                $itemFields[($quest->field->fieldName->name)] = $quest->field->value;
             }
 
             $questsArray[] = [
                 'Type' => $quest->type->type,
                 'Json' => json_encode($itemFields)
             ];
+
         }
 
         return ["allQuestsData" => $questsArray];

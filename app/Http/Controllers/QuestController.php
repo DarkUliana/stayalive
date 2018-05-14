@@ -52,7 +52,7 @@ class QuestController extends Controller
             foreach ($value['fields'] as $name => $field) {
 
                 $fieldObj = new QuestField($field);
-                $quest->fields()->save($fieldObj);
+                $quest->field()->save($fieldObj);
             }
             ++$counter;
         }
