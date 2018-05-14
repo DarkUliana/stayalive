@@ -17,7 +17,9 @@
     </div>
 </div>
 @if(isset($quest))
-    @include('admin.quests.item', ['name' => $quest->field->fieldname->name, 'ID' => $quest->field->fieldName->ID])
+    @isset($items)
+        @include('admin.quests.item', ['name' => $quest->field->fieldname->name, 'ID' => $quest->field->fieldName->ID])
+    @endisset
 @else
     @include('admin.quests.item', ['name' => $field->name, 'ID' => $field->ID])
 @endif

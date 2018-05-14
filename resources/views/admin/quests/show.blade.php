@@ -50,10 +50,12 @@
                                     <td> {{ $quest->type->name }} </td>
                                 </tr>
 
-                                <tr>
-                                    <th> {{ $field['name'] }}</th>
-                                    <td> {{ $field['count'] }} </td>
-                                </tr>
+                                @if(!empty($field))
+                                    <tr>
+                                        <th> {{ $field['name'] }}</th>
+                                        <td> {{ $field['count'] }} </td>
+                                    </tr>
+                                @endif
 
 
                                 <tr>

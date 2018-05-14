@@ -63,12 +63,18 @@ class QuestsController extends Controller
     {
 
         $requestData = $request->all();
-        $field = $requestData['field'];
-        unset($requestData['field']);
 
         $quest = Quest::create($requestData);
-        $fieldObj = new QuestField($field);
-        $quest->field()->save($fieldObj);
+
+        if (isset($requestData['field'])) {
+
+            $field = $requestData['field'];
+            unset($requestData['field']);
+
+            $fieldObj = new QuestField($field);
+            $quest->field()->save($fieldObj);
+        }
+
 
         return redirect('quests')->with('flash_message', 'Quest added!');
     }
@@ -84,23 +90,27 @@ class QuestsController extends Controller
     {
         $quest = Quest::findOrFail($id);
         $field = [];
-        switch ($quest->field->fieldName->name) {
-            case('itemID'):
 
-                $field['name'] = $quest->field->item->Name;
-                $field['count'] = $quest->countToDo;
-                break;
+        if (isset($quest->field)) {
 
-            case('technologyID'):
-                $field['name'] = $quest->field->technology->name;
-                $field['count'] = $quest->countToDo;
-                break;
+            switch ($quest->field->fieldName->name) {
+                case('itemID'):
 
-            case('enemy'):
+                    $field['name'] = $quest->field->item->Name;
+                    $field['count'] = $quest->countToDo;
+                    break;
 
-                $field['name'] = $quest->field->enemy->name;
-                $field['count'] = $quest->countToDo;
-                break;
+                case('technologyID'):
+                    $field['name'] = $quest->field->technology->name;
+                    $field['count'] = $quest->countToDo;
+                    break;
+
+                case('enemy'):
+
+                    $field['name'] = $quest->field->enemy->name;
+                    $field['count'] = $quest->countToDo;
+                    break;
+            }
         }
 
         return view('admin.quests.show', compact('quest', 'field'));
@@ -119,7 +129,10 @@ class QuestsController extends Controller
         $rewards = Reward::all();
         $types = QuestType::all();
 
-        $items = $this->getItems($quest->field->fieldName->name);
+        if (isset($quest->field)) {
+            $items = $this->getItems($quest->field->fieldName->name);
+        }
+
 
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items'));
     }
@@ -136,16 +149,21 @@ class QuestsController extends Controller
     {
 
         $requestData = $request->all();
-        $field = $requestData['field'];
-        unset($requestData['field']);
 
         $quest = Quest::findOrFail($id);
         $quest->update($requestData);
 
         QuestField::where('questID', $id)->delete();
 
-        $fieldObj = new QuestField($field);
-        $quest->field()->save($fieldObj);
+        if (isset($requestData['field'])) {
+
+            $field = $requestData['field'];
+            unset($requestData['field']);
+
+            $fieldObj = new QuestField($field);
+            $quest->field()->save($fieldObj);
+        }
+
 
         return redirect('quests')->with('flash_message', 'Quest updated!');
     }
@@ -172,7 +190,7 @@ class QuestsController extends Controller
         }
 
         $questType = QuestType::find($request->type);
-        if(!isset($questType->field)) {
+        if (!isset($questType->field)) {
             return '';
         }
 
