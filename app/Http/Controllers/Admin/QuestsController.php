@@ -171,7 +171,12 @@ class QuestsController extends Controller
             return '';
         }
 
-        $type = QuestType::find($request->type)->field->fieldName;
+        $questType = QuestType::find($request->type);
+        if(!isset($questType->field)) {
+            return '';
+        }
+
+        $type = $questType->field->fieldName;
         $items = $items = $this->getItems($type->name);
         $name = ucfirst($type->name);
         $ID = $type->ID;
