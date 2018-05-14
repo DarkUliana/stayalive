@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('players', 'Admin\PlayersController');
 
     Route::resource('quests', 'Admin\QuestsController');
+    Route::get('quest-items', 'Admin\QuestsController@items');
 
 });
 

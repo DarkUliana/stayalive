@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRewardTypesTable extends Migration
+class CreateEnemiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRewardTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('reward_types', function (Blueprint $table) {
+        Schema::create('enemies', function (Blueprint $table) {
             $table->increments('ID');
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateRewardTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reward_types');
+        Schema::dropIfExists('enemies');
     }
 }

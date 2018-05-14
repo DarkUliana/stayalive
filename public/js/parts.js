@@ -92,4 +92,22 @@ $(document).ready(function () {
     if ($('tr').length === 7) {
         $('#addShopItem').attr('disabled', 'disabled');
     }
+
+    $('#typeID').on('change', function () {
+
+        console.log('type');
+        var type = {"type": $(this).val()};
+
+        $.ajax({
+            url: '/quest-items',
+            method: 'GET',
+            data: type,
+            success: function (data) {
+
+                $('#questObject').remove();
+                $('#questType').after(data);
+            },
+        });
+    });
+    console.log(1);
 });

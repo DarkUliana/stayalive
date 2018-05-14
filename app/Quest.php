@@ -14,9 +14,9 @@ class Quest extends Model
         'created_at', 'updated_at',
     ];
 
-    public function fields()
+    public function field()
     {
-        return $this->hasMany('App\QuestField', 'questID', 'ID');
+        return $this->hasOne('App\QuestField', 'questID', 'ID');
     }
 
     public function type()

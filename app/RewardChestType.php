@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AdditionalQuestsField extends Model
+class RewardChestType extends Model
 {
     protected $primaryKey = 'ID';
 
