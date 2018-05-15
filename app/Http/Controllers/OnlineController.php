@@ -22,9 +22,11 @@ class OnlineController extends Controller
             return response('false', 200);
         }
 
+        $return = $online->online;
+
         if (!isset($request->withoutTouch)) {
             $online->touch();
         }
-        return response($online->online, 200);
+        return response($return, 200);
     }
 }

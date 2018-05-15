@@ -146,19 +146,15 @@ class PlayersController extends Controller
 
     protected function playersOnline($players)
     {
-        $arr =[];
-        foreach ($players as $player)
-        {
-//            $params = [
-//                'googleID' => $player->googleID,
-//                'withoutTouch' => true
-//            ];
-//            $client = new HttpClient();
-//            $response = $client->request('GET', env('APP_URL').'/api/online', ['query' => $params]);
-//            $online = $response->getBody()->getContents();
+        $arr = [];
+        foreach ($players as $player) {
 
-            if
-            $online = Online::where('googleID', $player->googleID)->first()->online;
+            if (!empty(Online::where('googleID', $player->googleID)->first())) {
+
+                $online = Online::where('googleID', $player->googleID)->first()->online;
+            } else {
+                $online = 'false';
+            }
 
             $arr[] = [
                 'googleID' => $player->googleID,
