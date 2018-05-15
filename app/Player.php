@@ -13,7 +13,7 @@ class Player extends Model
      * @var array
      */
     protected $hidden = [
-        'ID', 'password', 'remember_token', 'email', 'created_at', 'updated_at',
+        'ID', 'password', 'remember_token', 'email', 'created_at', 'updated_at', 'online'
     ];
 
     protected $guarded = [];
