@@ -19,7 +19,7 @@ class TimerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function updateOrCreate(Request $request)
@@ -30,7 +30,16 @@ class TimerController extends Controller
         ];
 
         $timer = Timer::updateOrCreate($data);
-        $timer->start = Carbon::now();
+
+        if (isset($request->seconds)) {
+
+            $time = new Carbon($timer->start);
+            $timer->start = $time->addSeconds($request->seconds);
+        } else {
+
+            $timer->start = Carbon::now();
+        }
+
         $timer->save();
 
         return response($timer->start, 201);
@@ -47,7 +56,7 @@ class TimerController extends Controller
             ->where('type', $this->type)
             ->first();
 
-        if(empty($timer)) {
+        if (empty($timer)) {
             return response('NULL', 404);
         }
 
