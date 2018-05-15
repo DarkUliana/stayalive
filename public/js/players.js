@@ -18,7 +18,7 @@ function online() {
 
             data.forEach(function (item) {
 
-                var element = $('td:contains(' + item.googleID + ')').next().first();
+                var element = $('tr>td:nth-child(4):contains(' + item.googleID + ')').next().first();
 
                 element.empty();
 
@@ -30,8 +30,34 @@ function online() {
 
 
             });
-            // $('tbody').append(data);
-            // $('.component:last').select2({width: '100%'});
+
         },
+    });
+
+    $('#deletePlayersButton').on('click', function () {
+
+        $('#deleteForm').submit();
+
+    });
+
+    $('.delBtn').on('click', function (e) {
+
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.closest('tr').find('td:nth-child(4)').text();
+
+        $.ajax({
+
+            url: 'players/' + id,
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            success: function () {
+
+                btn.closest('tr').remove();
+            },
+        });
     });
 }

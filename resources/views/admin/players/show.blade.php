@@ -10,18 +10,18 @@
                     <div class="card-header">player {{ $player->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/admin/players') }}" title="Back">
+                        <a href="{{ url('/players') }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>
                         </a>
-                        <a href="{{ url('/admin/players/' . $player->ID . '/edit') }}" title="Edit player">
+                        <a href="{{ url('/players/' . $player->ID . '/edit') }}" title="Edit player">
                             <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                                       aria-hidden="true"></i> Edit
                             </button>
                         </a>
 
-                        <form method="POST" action="{{ url('admin/players' . '/' . $player->ID) }}"
+                        <form method="POST" action="{{ url('players' . '/' . $player->ID) }}"
                               accept-charset="UTF-8" style="display:inline">
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}

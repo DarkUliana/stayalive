@@ -121,27 +121,34 @@ class PlayersController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param Request $request
      *
      * @param  int $id
      *
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($googleID)
+    public function destroy(Request $request, $googleID = null)
     {
-        AfterCraftItems::where('googleID', $googleID)->delete();
-        Equipment::where('googleID', $googleID)->delete();
-        Inventory::where('googleID', $googleID)->delete();
-        ItemsInCraft::where('googleID', $googleID)->delete();
-        PlayerBuildingTechnology::where('googleID', $googleID)->delete();
-        PlayerChestItems::where('googleID', $googleID)->delete();
-        PlayerTechnologiesStates::where('googleID', $googleID)->delete();
-        Timer::where('googleID', $googleID)->delete();
-        Online::where('googleID', $googleID)->delete();
+//        var_dump($googleID); die();
+        if (isset($request->googleIDs)) {
 
-        Player::where('googleID', $googleID)->delete();
+            $count = 0;
+            foreach ($request->googleIDs as $ID => $check) {
 
+                if ($check == 'on') {
 
-        return redirect('players')->with('flash_message', 'Player deleted!');
+                    $this->delete($ID);
+                }
+                ++$count;
+            }
+
+            return redirect('players')->with('flash_message', "$count Players deleted!");
+        }
+
+        $this->delete($googleID);
+
+        return response('ok', 200);
     }
 
     protected function playersOnline($players)
@@ -162,5 +169,21 @@ class PlayersController extends Controller
             ];
         }
         return $arr;
+    }
+
+    protected function delete($googleID)
+    {
+
+        AfterCraftItems::where('googleID', $googleID)->delete();
+        Equipment::where('googleID', $googleID)->delete();
+        Inventory::where('googleID', $googleID)->delete();
+        ItemsInCraft::where('googleID', $googleID)->delete();
+        PlayerBuildingTechnology::where('googleID', $googleID)->delete();
+        PlayerChestItems::where('googleID', $googleID)->delete();
+        PlayerTechnologiesStates::where('googleID', $googleID)->delete();
+        Timer::where('googleID', $googleID)->delete();
+        Online::where('googleID', $googleID)->delete();
+
+        Player::where('googleID', $googleID)->delete();
     }
 }
