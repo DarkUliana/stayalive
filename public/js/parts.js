@@ -95,7 +95,7 @@ $(document).ready(function () {
 
     $('#typeID').on('change', function () {
 
-        console.log('type');
+
         var type = {"type": $(this).val()};
 
         $.ajax({
@@ -109,5 +109,5 @@ $(document).ready(function () {
             },
         });
     });
-    console.log(1);
+
 });

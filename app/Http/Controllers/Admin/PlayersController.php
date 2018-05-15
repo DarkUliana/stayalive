@@ -16,6 +16,7 @@ use App\PlayerChestItems;
 use App\PlayerTechnologiesStates;
 use App\Timer;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client as HttpClient;
 
 class PlayersController extends Controller
 {
@@ -30,9 +31,15 @@ class PlayersController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $players = Player::latest()->paginate($perPage);
+            $players = Player::where('Name', $keyword)->paginate($perPage);
         } else {
             $players = Player::latest()->paginate($perPage);
+        }
+
+        if ($request->ajax()) {
+
+            $response = $this->playersOnline($players);
+            return response($response, 200);
         }
 
         return view('admin.players.index', compact('players'));
@@ -57,9 +64,9 @@ class PlayersController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
+
         Player::create($requestData);
 
         return redirect('players')->with('flash_message', 'Player added!');
@@ -68,7 +75,7 @@ class PlayersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -82,7 +89,7 @@ class PlayersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -97,15 +104,15 @@ class PlayersController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $player = Player::findOrFail($id);
         $player->update($requestData);
 
@@ -115,7 +122,7 @@ class PlayersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -135,5 +142,29 @@ class PlayersController extends Controller
 
 
         return redirect('players')->with('flash_message', 'Player deleted!');
+    }
+
+    protected function playersOnline($players)
+    {
+        $arr =[];
+        foreach ($players as $player)
+        {
+//            $params = [
+//                'googleID' => $player->googleID,
+//                'withoutTouch' => true
+//            ];
+//            $client = new HttpClient();
+//            $response = $client->request('GET', env('APP_URL').'/api/online', ['query' => $params]);
+//            $online = $response->getBody()->getContents();
+
+            if
+            $online = Online::where('googleID', $player->googleID)->first()->online;
+
+            $arr[] = [
+                'googleID' => $player->googleID,
+                'online' => $online
+            ];
+        }
+        return $arr;
     }
 }
