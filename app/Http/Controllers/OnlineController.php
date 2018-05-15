@@ -14,19 +14,19 @@ class OnlineController extends Controller
 
 
         if (empty($online)) {
-            Online::create(['googleID' => $request->googleID]);
+
+            if (!isset($request->withoutTouch)) {
+                Online::create(['googleID' => $request->googleID]);
+            }
+
             return response('false', 200);
         }
 
-        $now = new Carbon();
-        $player = new Carbon($online->updated_at);
-        $diff = $player->diffInSeconds($now, false);
+        $return = $online->online;
 
-        if ($diff < 30) {
-            return response('true', 200);
+        if (!isset($request->withoutTouch)) {
+            $online->touch();
         }
-
-        $online->touch();
-        return response('false', 200);
+        return response($return, 200);
     }
 }

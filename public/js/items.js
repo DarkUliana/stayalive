@@ -18,8 +18,6 @@ $(document).ready(function () {
         $.get(url, $(this).serialize(), function (data) {
 
 
-            // $('tr').remove();
-            console.log(data);
             $('#itemsTbody').html(data.items);
             $('.pagination-wrapper').empty().html(data.pagination);
 
@@ -198,7 +196,6 @@ function deleteOnClick() {
             },
             success: function (data) {
 
-                // console.log($(this).closest('tr'));
                 item.closest('tr').remove();
                 $('#itemsCol>.alert').remove();
 

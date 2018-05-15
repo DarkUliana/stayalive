@@ -24,7 +24,13 @@ class Player extends Model
         'isSpawnInLocation' => 'boolean',
     ];
 
+    protected $appends = ['online'];
     protected $primaryKey = 'ID';
+
+    public function toJson($options = 0) {
+        $this->setAttributeVisibility('online'); // set visibility stuff here
+        return parent::toJson();
+    }
 
     public function setGenderAttribute($value)
     {
