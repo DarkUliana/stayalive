@@ -48,7 +48,7 @@ $(document).ready(function () {
 
 function online() {
     $.ajax({
-        url: 'players-online' + window.location.search.substr(1),
+        url: 'players-online' + '?' + window.location.search.substr(1),
         method: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
