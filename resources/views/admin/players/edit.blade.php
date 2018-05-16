@@ -29,6 +29,10 @@
 
                         </form>
 
+                        <form>
+                            @include('admin.players.inventory-form')
+                        </form>
+
                     </div>
                 </div>
             </div>

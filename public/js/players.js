@@ -73,9 +73,4 @@ function online() {
 
         },
     });
-<<<<<<< HEAD
-
-
-=======
->>>>>>> master
 }
