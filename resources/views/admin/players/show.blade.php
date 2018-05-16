@@ -35,8 +35,11 @@
                         <br/>
 
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                                 <tbody>
+                                <tr>
+                                    <th colspan="2" class="text-center">Player</th>
+                                </tr>
                                 <tr>
                                     <th>ID</th>
                                     <td>{{ $player->ID }}</td>
@@ -49,6 +52,30 @@
                                     <th> GoogleID</th>
                                     <td> {{ $player->googleID }} </td>
                                 </tr>
+                                <tr>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th colspan="3" class="text-center">Inventory</th>
+                                </tr>
+
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Count</th>
+                                    <th>Durability</th>
+                                </tr>
+                                @foreach($inventory as $item)
+                                    <tr>
+                                        <th>{{ $item['name'] }}</th>
+                                        <th>{{ $item['CurrentCount'] }}</th>
+                                        <th>{{ $item['currentDurability'] }}</th>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

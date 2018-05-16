@@ -29,7 +29,8 @@
 
                         </form>
 
-                        <form>
+                        <form method="POST" action="{{ url('player-items') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                            {{ csrf_field() }}
                             @include('admin.players.inventory-form')
                         </form>
 

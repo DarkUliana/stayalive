@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Inventory;
 use App\Item;
+use App\ItemProperty;
 use App\ItemsInCraft;
 use App\Online;
 use App\Player;
@@ -18,6 +19,7 @@ use App\PlayerTechnologiesStates;
 use App\Timer;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as HttpClient;
+use Illuminate\Support\Facades\DB;
 
 class PlayersController extends Controller
 {
@@ -83,8 +85,9 @@ class PlayersController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
+        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get(), true);
 
-        return view('admin.players.show', compact('player'));
+        return view('admin.players.show', compact('player', 'inventory'));
     }
 
     /**
@@ -97,7 +100,7 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
-        $inventory = Inventory::where('googleID', $id)->get();
+        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get());
         $items = Item::all();
 
         return view('admin.players.edit', compact('player', 'items', 'inventory'));
@@ -133,7 +136,7 @@ class PlayersController extends Controller
      */
     public function destroy(Request $request, $googleID = null)
     {
-//        var_dump($googleID); die();
+
         if (isset($request->googleIDs)) {
 
             $count = 0;
@@ -188,5 +191,123 @@ class PlayersController extends Controller
         Online::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
+    }
+
+    protected function getInventory($items, $forShow = false)
+    {
+        $array = [];
+
+        foreach ($items as $item) {
+
+
+            $temp = $item->toArray();
+
+            if ($item->itemID == -1) {
+
+                if ($forShow) {
+                    continue;
+                }
+
+                $temp['name'] = '';
+                $temp['maxInStack'] = 0;
+                $temp['maxDurability'] = 0;
+
+            } else {
+                $property = ItemProperty::where('itemID', $item->itemID)->where('propertyID', 1)->first();
+
+                if (!empty($property)) {
+
+                    $temp['maxDurability'] = $property->propertyValue;
+                } else {
+
+                    $temp['maxDurability'] = 0;
+                }
+
+                $temp['name'] = $item->item->Name;
+                $temp['maxInStack'] = $item->item->MaxInStack;
+
+
+                if ($temp['currentDurability'] > $temp['maxDurability']) {
+                    $temp['maxDurability'] = $temp['currentDurability'];
+                }
+
+            }
+            $array[] = $temp;
+
+        }
+
+        if (!$forShow && empty($array)) {
+
+            $array = $this->seedInventory();
+        }
+
+        return $array;
+    }
+
+    public function saveItems(Request $request)
+    {
+
+        foreach ($request->items as $item) {
+
+            Inventory::where('googleID', $request->googleID)
+                ->where('Index', $item['Index'])
+                ->delete();
+
+            Inventory::create(array_merge($item, ['googleID' => $request->googleID, 'available' => 1]));
+        }
+        return redirect('players')->with('flash_message', "Player items updated!");
+    }
+
+    protected function seedInventory()
+    {
+        $array = [];
+
+        for ($i = 1; $i <= 10; ++$i) {
+            $array[] = [
+                'name' => '',
+                'CurrentCount' => 0,
+                'currentDurability' => 0,
+                'maxInStack' => 0,
+                'itemID' => -1,
+                'maxDurability' => 0,
+                'Index' => $i
+            ];
+        }
+
+        return $array;
+    }
+
+    public function getItem(Request $request, $id)
+    {
+
+        if ($id == -1) {
+
+            $item = [
+                'ID' => $id,
+                'MaxInStack' => 0,
+                'maxDurability' => 0
+            ];
+
+            return response($item, 200);
+        }
+
+        $item = Item::find($id)->toArray();
+
+        $maxDurability = DB::table('item_properties')
+            ->leftJoin('properties', 'item_properties.propertyID', '=', 'properties.ID')
+            ->where('item_properties.itemID', $id)
+            ->where('properties.name', '=', 'maxDurability')
+            ->value('item_properties.propertyValue');
+
+
+        if ($maxDurability != null) {
+
+            $item['maxDurability'] = $maxDurability;
+        } else {
+
+            $item['maxDurability'] = 0;
+        }
+
+        return response($item, 200);
     }
 }

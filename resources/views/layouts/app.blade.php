@@ -125,6 +125,10 @@
     <script src="{{ asset('js/players.js') }}"></script>
 @endif
 
+@if(\Illuminate\Support\Facades\Request::is('players/*'))
+    <script src="{{ asset('js/player.js') }}"></script>
+@endif
+
 
 {{--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>--}}
 {{--<script type="text/javascript" src="{{ asset('datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>--}}

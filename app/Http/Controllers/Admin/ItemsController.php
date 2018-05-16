@@ -21,14 +21,14 @@ class ItemsController extends Controller
      */
     public function index(Request $request)
     {
-        session(['itemsParams'=> $request->getQueryString()]);
+        session(['itemsParams' => $request->getQueryString()]);
 
         $keyword = $request->get('search');
         $filter = $request->get('filter');
         $sort = $request->get('sort');
 
         $type = 'asc';
-        if(!empty ($request->get('type'))) {
+        if (!empty ($request->get('type'))) {
             $type = $request->get('type');
         }
         $perPage = 25;
@@ -53,7 +53,7 @@ class ItemsController extends Controller
 
         $types = $this->getTypes();
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
 
             $array = [
                 'pagination' => (string)$items->appends(['search' => $request->get('search'),
@@ -66,7 +66,6 @@ class ItemsController extends Controller
 
             return response($array);
         }
-
 
 
         return view('admin.items.index', compact('items', 'types'));
@@ -93,7 +92,6 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-//        var_dump($request->input()); die();
         $this->validate($request, [
             'Name' => 'required',
             'MaxInStack' => 'required',
@@ -117,7 +115,7 @@ class ItemsController extends Controller
             }
         }
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
 
             return response(['status' => 'Item added!'], 200);
         }
@@ -128,11 +126,13 @@ class ItemsController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
+     *
      * @param  int $id
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $item = Item::where('ID', $id)->with('properties')->first();
 
@@ -141,6 +141,7 @@ class ItemsController extends Controller
             ->where('item_properties.itemID', $id)
             ->select('properties.name', 'properties.ID', 'item_properties.propertyValue as value')
             ->get();
+
 
         return view('admin.items.show', compact('item', 'properties'));
     }
@@ -202,7 +203,7 @@ class ItemsController extends Controller
             }
         }
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
 
             return response(['status' => 'Item updated!'], 200);
         }
@@ -222,7 +223,7 @@ class ItemsController extends Controller
     {
         Item::destroy($id);
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
 
             return response(['status' => 'Item deleted!']);
         }
@@ -233,8 +234,7 @@ class ItemsController extends Controller
     public function properties(Request $request)
     {
 
-        if(!isset($request->type) || $request->type == 1)
-        {
+        if (!isset($request->type) || $request->type == 1) {
             return '';
         }
 
