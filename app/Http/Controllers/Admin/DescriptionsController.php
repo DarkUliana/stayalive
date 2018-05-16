@@ -10,6 +10,7 @@ use App\Description;
 use App\Language;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class DescriptionsController extends Controller
 {
@@ -218,5 +219,22 @@ class DescriptionsController extends Controller
         }
 
         return $description;
+    }
+
+    public function symbols()
+    {
+        $array = DB::table('description_localizations')->where('languageID', 1)->pluck('description');
+//        var_dump($array); die();
+
+        $length = 0;
+        $lengthWithoutSpaces = 0;
+
+        foreach ($array as $item) {
+
+            $length += strlen(str_replace("NULL", "", $item));
+            $lengthWithoutSpaces += strlen(str_replace("NULL", "", str_replace(" ","", $item)));
+        }
+
+        echo $length, ' ', $lengthWithoutSpaces;
     }
 }
