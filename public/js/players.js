@@ -1,9 +1,38 @@
 $(document).ready(function () {
+
     online();
     $('#sidebar').addClass('col-md-2').addClass('offset-md-2').removeClass('col-md-3');
 
 
     setInterval(online, 5000);
+
+    $('#deletePlayersButton').on('click', function () {
+
+        $('#deleteForm').submit();
+
+    });
+
+    $('.delBtn').on('click', function (e) {
+
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.closest('tr').find('td:nth-child(4)').text();
+
+        $.ajaxSetup({cache: false});
+        $.ajax({
+
+            url: 'players/' + id,
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            success: function () {
+
+                btn.closest('tr').remove();
+            },
+        });
+    });
 });
 
 function online() {
@@ -34,30 +63,5 @@ function online() {
         },
     });
 
-    $('#deletePlayersButton').on('click', function () {
 
-        $('#deleteForm').submit();
-
-    });
-
-    $('.delBtn').on('click', function (e) {
-
-        e.preventDefault();
-        var btn = $(this);
-        var id = btn.closest('tr').find('td:nth-child(4)').text();
-
-        $.ajax({
-
-            url: 'players/' + id,
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-
-            success: function () {
-
-                btn.closest('tr').remove();
-            },
-        });
-    });
 }

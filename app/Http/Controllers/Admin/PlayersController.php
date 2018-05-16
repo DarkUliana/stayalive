@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Inventory;
+use App\Item;
 use App\ItemsInCraft;
 use App\Online;
 use App\Player;
@@ -96,8 +97,10 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
+        $inventory = Inventory::where('googleID', $id)->get();
+        $items = Item::all();
 
-        return view('admin.players.edit', compact('player'));
+        return view('admin.players.edit', compact('player', 'items'));
     }
 
     /**
