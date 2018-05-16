@@ -63,23 +63,22 @@
                                             </td>
                                             <td>
                                                 <a href="{{ url('/players/' . $item->ID) }}" title="View player">
-                                                    <button class="btn btn-info btn-sm"><i class="fa fa-eye"
+                                                    <div class="btn btn-info btn-sm"><i class="fa fa-eye"
                                                                                            aria-hidden="true"></i> View
-                                                    </button>
+                                                    </div>
                                                 </a>
                                                 <a href="{{ url('/players/' . $item->ID . '/edit') }}"
                                                    title="Edit player">
-                                                    <button class="btn btn-primary btn-sm"><i
+                                                    <div class="btn btn-primary btn-sm"><i
                                                                 class="fa fa-pencil-square-o"
                                                                 aria-hidden="true"></i> Edit
-                                                    </button>
+                                                    </div>
                                                 </a>
 
-                                                    <button class="btn btn-danger btn-sm  delBtn"
-                                                            title="Delete player"
-                                                            onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                                    <div class="btn btn-danger btn-sm  deleteOnePlayer"
+                                                            title="Delete player">
                                                         <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
-                                                    </button>
+                                                    </div>
                                             </td>
                                         </tr>
                                     @endforeach

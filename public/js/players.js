@@ -4,11 +4,51 @@ $(document).ready(function () {
 
 
     setInterval(online, 5000);
+
+    $('#deletePlayersButton').on('click', function () {
+
+        result = confirm('Do you want to delete players?');
+
+        if (result) {
+
+            $('#deleteForm').submit();
+        }
+
+    });
+
+    $('.deleteOnePlayer').on('click', function (e) {
+
+        e.preventDefault();
+
+        result = confirm('Do you want to delete the player?');
+
+        if (result) {
+
+            var btn = $(this);
+            var id = btn.closest('tr').find('td:nth-child(4)').text();
+
+            $.ajax({
+
+                url: 'players/' + id,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function () {
+
+                    btn.closest('tr').remove();
+                },
+            });
+        }
+
+
+    });
 });
 
 function online() {
     $.ajax({
-        url: window.location.href,
+        url: 'players-online' + window.location.search.substr(1),
         method: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -32,32 +72,5 @@ function online() {
             });
 
         },
-    });
-
-    $('#deletePlayersButton').on('click', function () {
-
-        $('#deleteForm').submit();
-
-    });
-
-    $('.delBtn').on('click', function (e) {
-
-        e.preventDefault();
-        var btn = $(this);
-        var id = btn.closest('tr').find('td:nth-child(4)').text();
-
-        $.ajax({
-
-            url: 'players/' + id,
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-
-            success: function () {
-
-                btn.closest('tr').remove();
-            },
-        });
     });
 }

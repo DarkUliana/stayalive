@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('players', 'Admin\PlayersController');
     Route::delete('players', 'Admin\PlayersController@destroy');
+    Route::get('players-online', 'Admin\PlayersController@index');
 
     Route::resource('quests', 'Admin\QuestsController');
     Route::get('quest-items', 'Admin\QuestsController@items');
