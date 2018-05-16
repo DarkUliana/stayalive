@@ -100,7 +100,7 @@ class PlayersController extends Controller
         $inventory = Inventory::where('googleID', $id)->get();
         $items = Item::all();
 
-        return view('admin.players.edit', compact('player', 'items'));
+        return view('admin.players.edit', compact('player', 'items', 'inventory'));
     }
 
     /**
