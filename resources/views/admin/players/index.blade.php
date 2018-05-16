@@ -75,9 +75,8 @@
                                                     </div>
                                                 </a>
 
-                                                    <div class="btn btn-danger btn-sm  delBtn"
-                                                            title="Delete player"
-                                                            onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                                    <div class="btn btn-danger btn-sm  deleteOnePlayer"
+                                                            title="Delete player">
                                                         <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
                                                     </div>
                                             </td>

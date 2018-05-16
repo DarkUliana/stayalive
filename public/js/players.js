@@ -8,36 +8,47 @@ $(document).ready(function () {
 
     $('#deletePlayersButton').on('click', function () {
 
-        $('#deleteForm').submit();
+        result = confirm('Do you want to delete players?');
+
+        if (result) {
+
+            $('#deleteForm').submit();
+        }
 
     });
 
-    $('.delBtn').on('click', function (e) {
+    $('.deleteOnePlayer').on('click', function (e) {
 
         e.preventDefault();
-        var btn = $(this);
-        var id = btn.closest('tr').find('td:nth-child(4)').text();
 
-        $.ajaxSetup({cache: false});
-        $.ajax({
+        result = confirm('Do you want to delete the player?');
 
-            url: 'players/' + id,
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+        if (result) {
 
-            success: function () {
+            var btn = $(this);
+            var id = btn.closest('tr').find('td:nth-child(4)').text();
 
-                btn.closest('tr').remove();
-            },
-        });
+            $.ajax({
+
+                url: 'players/' + id,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function () {
+
+                    btn.closest('tr').remove();
+                },
+            });
+        }
+
     });
 });
 
 function online() {
     $.ajax({
-        url: window.location.href,
+        url: 'players-online' + window.location.search.substr(1),
         method: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -62,6 +73,9 @@ function online() {
 
         },
     });
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> master
 }
