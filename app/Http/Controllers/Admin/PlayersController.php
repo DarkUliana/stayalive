@@ -249,11 +249,12 @@ class PlayersController extends Controller
 
         foreach ($request->items as $item) {
 
+
             Inventory::where('googleID', $request->googleID)
                 ->where('Index', $item['Index'])
                 ->delete();
 
-            Inventory::create(array_merge($item, ['googleID' => $request->googleID, 'available' => 1]));
+            Inventory::create(array_merge($item, ['googleID' => $request->googleID, 'available' => 1, 'SlotType' => 511]));
         }
         return redirect('players')->with('flash_message', "Player items updated!");
     }
