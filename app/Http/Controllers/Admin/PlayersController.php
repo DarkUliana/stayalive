@@ -100,7 +100,7 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
-        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get());
+        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->where('available', 1)->get());
         $items = Item::all();
 
         return view('admin.players.edit', compact('player', 'items', 'inventory'));
