@@ -38,7 +38,7 @@ class SlotsController extends Controller
     public function show(Request $request)
     {
 
-        $slots = new SlotCollection($this->model::where('googleID', $request->googleID)->sortBy('Index')->get());
+        $slots = new SlotCollection($this->model::where('googleID', $request->googleID)->get()->sortBy('Index'));
 
         return response($slots, 200);
     }

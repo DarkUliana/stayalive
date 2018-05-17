@@ -85,7 +85,7 @@ class PlayersController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
-        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->sortBy('Index')->get(), true);
+        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get()->sortBy('Index'), true);
 
         return view('admin.players.show', compact('player', 'inventory'));
     }
@@ -100,7 +100,7 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
-        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->where('available', 1)->sortBy('Index')->get());
+        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->where('available', 1)->get()->sortBy('Index'));
         $items = Item::all();
 
         return view('admin.players.edit', compact('player', 'items', 'inventory'));
