@@ -82,7 +82,6 @@ class DescriptionController extends Controller
         }
 
         $csv->output('descriptions.csv');
-//        return response()->download('descriptions.csv');
 
     }
 
@@ -90,15 +89,14 @@ class DescriptionController extends Controller
     {
         $array = $description->toArray();
 
-
-        foreach ($description->localizations as $localization) {
+        foreach ($description->localizations->sortBy('languageID') as $localization) {
             $array["{$localization->language->language} name"] = $localization->name;
             $array["{$localization->language->language} description"] = $localization->description;
         }
 
         unset($array['localizations']);
         unset($array['allLanguages']);
-
+        
         return $array;
     }
 
