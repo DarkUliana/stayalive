@@ -18,6 +18,7 @@ class ShopArticle extends Model
     protected $casts = [
         'inGold' => 'boolean',
         'hot' => 'boolean',
+        'onSale' => 'boolean',
     ];
 
     public function items()
@@ -31,6 +32,11 @@ class ShopArticle extends Model
     }
 
     public function setHotAttribute($value)
+    {
+        $this->attributes['hot'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public function setOnSaleAttribute($value)
     {
         $this->attributes['hot'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }

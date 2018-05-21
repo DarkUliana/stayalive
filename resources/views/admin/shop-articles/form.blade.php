@@ -35,15 +35,30 @@
 <div class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
     <label for="price" class="col-md-4 control-label">{{ 'Price' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="price" type="number" id="price" value="{{ $shopArticle->price or ''}}">
+        <input class="form-control" name="price" type="number" id="price" value="{{ $shopArticle->price or 0}}">
         {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 <div class="form-group {{ $errors->has('sale') ? 'has-error' : ''}}">
     <label for="sale" class="col-md-4 control-label">{{ 'Sale' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="sale" type="number" id="sale" value="{{ $shopArticle->sale or ''}}">
+        <input class="form-control" name="sale" type="number" id="sale" value="{{ $shopArticle->sale or 0}}">
         {!! $errors->first('sale', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+<div class="form-group {{ $errors->has('onSale') ? 'has-error' : ''}}">
+    <label for="hot" class="col-md-4 control-label">{{ 'onSale' }}</label>
+    <div class="col-md-6">
+        <div class="radio">
+            <label><input name="onSale" type="radio"
+                          value="1"  @if(isset($shopArticle)) {{ (1 == $shopArticle->onSale) ? 'checked' : '' }} @else {{ 'checked' }} @endif> Yes</label>
+        </div>
+        <div class="radio">
+            <label><input name="onSale" type="radio"
+                          value="0" {{ (isset($shopArticle) && 0 == $shopArticle->onSale) ? 'checked' : '' }}>
+                No</label>
+        </div>
+        {!! $errors->first('hot', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 <div class="form-group {{ $errors->has('hot') ? 'has-error' : ''}}">
@@ -73,10 +88,10 @@
     </div>
 </div>
 <div class="form-group {{ $errors->has('dateTime') ? 'has-error' : ''}}">
-    <label for="datTime" class="col-md-4 control-label">{{ 'DateTime' }}</label>
+    <label for="datTime" class="col-md-4 control-label">{{ 'DateTime (the end date of sales)' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="dateTime" type="datetime-local" id="datTime"
-               value="{{ $shopArticle->dateTime or ''}}">
+               value="{{ $shopArticle->dateTime or date('Y-m-d\TH:i')}}">
         {!! $errors->first('dateTime', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

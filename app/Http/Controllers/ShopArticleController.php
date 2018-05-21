@@ -27,7 +27,6 @@ class ShopArticleController extends Controller
         $counter = 0;
         foreach ($articles as $article) {
 
-//            var_dump($article); die();
             $articleObject = ShopArticle::create($article['article']);
 
             foreach ($article['items'] as $item) {

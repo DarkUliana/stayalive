@@ -9,7 +9,7 @@
     <td>
         <div class="form-group">
             <input class="form-control" name="items[{{$counter}}][count]" type="number"
-                   value="{{ $item->count or ''}}">
+                   value="{{ $item->count or 0}}">
         </div>
     </td>
     <td>
