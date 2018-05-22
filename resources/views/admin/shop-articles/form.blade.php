@@ -46,21 +46,6 @@
         {!! $errors->first('sale', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div class="form-group {{ $errors->has('onSale') ? 'has-error' : ''}}">
-    <label for="hot" class="col-md-4 control-label">{{ 'onSale' }}</label>
-    <div class="col-md-6">
-        <div class="radio">
-            <label><input name="onSale" type="radio"
-                          value="1"  @if(isset($shopArticle)) {{ (1 == $shopArticle->onSale) ? 'checked' : '' }} @else {{ 'checked' }} @endif> Yes</label>
-        </div>
-        <div class="radio">
-            <label><input name="onSale" type="radio"
-                          value="0" {{ (isset($shopArticle) && 0 == $shopArticle->onSale) ? 'checked' : '' }}>
-                No</label>
-        </div>
-        {!! $errors->first('hot', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
 <div class="form-group {{ $errors->has('hot') ? 'has-error' : ''}}">
     <label for="hot" class="col-md-4 control-label">{{ 'Hot' }}</label>
     <div class="col-md-6">
@@ -87,7 +72,7 @@
         {!! $errors->first('shopItemType', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div class="form-group {{ $errors->has('dateTime') ? 'has-error' : ''}}">
+<div class="form-group {{ $errors->has('dateTime') ? 'has-error' : ''}}" id="dateTimeDiv">
     <label for="datTime" class="col-md-4 control-label">{{ 'DateTime (the end date of sales)' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="dateTime" type="datetime-local" id="datTime"

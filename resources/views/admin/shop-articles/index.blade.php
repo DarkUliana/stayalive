@@ -4,7 +4,6 @@
     <div class="container">
         <div class="row">
             @include('admin.sidebar')
-
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">Shop articles</div>
@@ -76,21 +75,8 @@
                                             <div class="col-md-2"></div>
                                         </div>
                                     </th>
-                                    <th>inGold
-                                        {{--<div class="row">--}}
-                                        {{--<div class="col-md-8">InGold</div>--}}
-                                        {{--<div class="col-md-2">--}}
-                                        {{--<div class="sort">--}}
-                                        {{--<a href="{{ url('/shop-articles?sort=inGold&type=asc') }}"><span--}}
-                                        {{--class="octicon octicon-chevron-up up"></span></a><a--}}
-                                        {{--href="{{ url('/shop-articles?sort=inGold&type=desc') }}"><span--}}
-                                        {{--class="octicon octicon-chevron-down down"></span></a>--}}
-                                        {{--</div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-md-2"></div>--}}
-                                        {{--</div>--}}
-                                    </th>
-
+                                    <th>inGold</th>
+                                    <th>onSale</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -108,6 +94,16 @@
                                             @else
                                                 <span class="fa fa-money" style="color: #2ca02c"></span>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <form action="{{ url('/shop-articles/' . $item->ID) }}"
+                                                  accept-charset="UTF-8" class="form-horizontal"
+                                                  enctype="multipart/form-data">
+
+                                                <input class="onSale" type="checkbox" name="onSale"
+                                                       @if($item->onSale) checked @endif>
+
+                                            </form>
                                         </td>
                                         <td>
 

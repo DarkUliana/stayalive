@@ -11,7 +11,14 @@ class ShopArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $articles = new ShopArticleCollection(ShopArticle::where('onSale', 1)->where('dateTime', '>', date('Y-m-d H:i:s', time()))->with('items')->get());
+        $collection = ShopArticle
+            ::where(function ($query) {
+                $query->where('shopItemType', '<>',  8)
+                    ->orWhere('dateTime', '>', date('Y-m-d H:i:s', time()));
+            })
+            ->where('onSale', 1)
+            ->with('items')->get();
+        $articles = new ShopArticleCollection($collection);
 
         return response($articles, 200);
     }

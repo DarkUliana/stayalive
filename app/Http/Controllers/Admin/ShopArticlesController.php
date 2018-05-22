@@ -46,7 +46,7 @@ class ShopArticlesController extends Controller
     {
         $keyword = $request->get('search');
         $sort = $request->get('sort');
-        $type = $request->get('type')?$request->get('type'):'asc';
+        $type = $request->get('type') ? $request->get('type') : 'asc';
         $perPage = 25;
 
         $shopArticles = ShopArticle::where([]);
@@ -149,13 +149,31 @@ class ShopArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if ($request->ajax()) {
+            $requestData = $request->all();
+
+            if(!isset($requestData['onSale'])) {
+
+                $requestData['onSale'] = 0;
+            } else {
+
+                $requestData['onSale'] = 1;
+            }
+
+            $shopArticle = ShopArticle::findOrFail($id);
+            $shopArticle->update($requestData);
+
+            return response('ok', 200);
+        }
+
         $this->validate($request, $this->validateArray);
 
         $requestData = $request->all();
+
+
         $article = $requestData;
         unset($article['items']);
 
-//        var_dump($article); die();
         $shopArticle = ShopArticle::findOrFail($id);
         $shopArticle->update($article);
 

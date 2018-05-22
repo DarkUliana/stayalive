@@ -18,10 +18,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
-    {{--<script type="text/javascript" src="{{  }}/bower_components/jquery/jquery.min.js"></script>--}}
 
-    {{--<link rel="stylesheet" href=" {{ asset('datetimepicker/css/bootstrap-datetimepicker.css') }}" />--}}
-    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />--}}
+    @if(\Illuminate\Support\Facades\Request::is('shop-articles'))
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/titatoggle/2.1.2/titatoggle-dist-min.css" />
+    @endif
+
 
 
 </head>
@@ -107,7 +108,6 @@
 </div>
 
 <!-- Scripts -->
-{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -129,11 +129,13 @@
     <script src="{{ asset('js/player.js') }}"></script>
 @endif
 
+@if(\Illuminate\Support\Facades\Request::is('shop-articles'))
+    <script src="{{ asset('js/shop-articles.js') }}"></script>
+@endif
 
-{{--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>--}}
-{{--<script type="text/javascript" src="{{ asset('datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>--}}
-{{--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>--}}
+@if(\Illuminate\Support\Facades\Request::is('shop-articles/*'))
+    <script src="{{ asset('js/shop-article.js') }}"></script>
+@endif
 
-{{--<script src="{{ asset('js/datetime.js') }}"></script>--}}
 </body>
 </html>
