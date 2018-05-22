@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $('#sidebar').addClass('col-md-2').addClass('offset-md-2').removeClass('col-md-3');
+
     $('.onSale').on('change', function () {
 
         var data = $(this).closest('form').serialize();
