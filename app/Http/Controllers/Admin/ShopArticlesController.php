@@ -23,7 +23,7 @@ class ShopArticlesController extends Controller
     public $validateArray = [
 
         'shopItemCategory' => 'required|integer',
-        'price' => 'required|integer',
+        'price' => 'required|numeric',
         'sale' => 'required|integer',
         'hot' => 'required|in:0,1',
         'onSale' => 'required|in:0,1',
