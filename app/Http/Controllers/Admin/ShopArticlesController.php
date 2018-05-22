@@ -20,8 +20,25 @@ class ShopArticlesController extends Controller
             'Coin'
         ];
 
+    public $validateArray = [
+
+        'shopItemCategory' => 'required|integer',
+        'price' => 'required|integer',
+        'sale' => 'required|integer',
+        'hot' => 'required|in:0,1',
+        'onSale' => 'required|in:0,1',
+        'inGold' => 'required|in:0,1',
+        'dateTime' => 'required|date_format:"Y-m-d\TH:i"',
+        'items.*.imageName' => 'required|string',
+        'items.*.count' => 'required|integer',
+        'items.*.inStuck' => 'required|in:0,1'
+
+    ];
+
     /**
      * Display a listing of the resource.
+     *
+     * @param Request $request
      *
      * @return \Illuminate\View\View
      */
@@ -45,7 +62,7 @@ class ShopArticlesController extends Controller
             $shopArticles = $shopArticles->latest();
         }
 
-        $shopArticles = $shopArticles->paginate();
+        $shopArticles = $shopArticles->paginate($perPage);
         $categories = $this->categories;
 
         return view('admin.shop-articles.index', compact('shopArticles', 'categories'));
@@ -71,13 +88,7 @@ class ShopArticlesController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
-
-            'shopID' => 'required|unique:shop_articles',
-            'shopItemCategory' => 'required',
-            'price' => 'required',
-
-        ]);
+        $this->validate($request, array_merge(['shopID' => 'required|unique:shop_articles'], $this->validateArray));
 
 
         $requestData = $request->all();
@@ -138,17 +149,13 @@ class ShopArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'shopItemCategory' => 'required',
-            'price' => 'required',
-
-        ]);
+        $this->validate($request, $this->validateArray);
 
         $requestData = $request->all();
         $article = $requestData;
         unset($article['items']);
 
-
+//        var_dump($article); die();
         $shopArticle = ShopArticle::findOrFail($id);
         $shopArticle->update($article);
 
