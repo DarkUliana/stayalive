@@ -80,7 +80,7 @@
     <label for="shopItemType" class="col-md-4 control-label">{{ 'ShopItemType' }}</label>
     <div class="col-md-6">
         <select name="shopItemType" class="form-control" id="shopItemType">
-            @foreach (json_decode('{"1":"Simple", "2":"Pack", "3":"Superpack"}', true) as $optionKey => $optionValue)
+            @foreach (json_decode('{"1":"Simple", "4":"Pack", "8":"Superpack"}', true) as $optionKey => $optionValue)
                 <option value="{{ $optionKey }}" {{ (isset($shopArticle->shopItemType) && $shopArticle->shopItemType == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
             @endforeach
         </select>

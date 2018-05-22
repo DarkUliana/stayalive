@@ -155,7 +155,7 @@ class ShopArticlesController extends Controller
         $article = $requestData;
         unset($article['items']);
 
-
+//        var_dump($article); die();
         $shopArticle = ShopArticle::findOrFail($id);
         $shopArticle->update($article);
 

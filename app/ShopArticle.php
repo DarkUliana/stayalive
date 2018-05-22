@@ -38,6 +38,6 @@ class ShopArticle extends Model
 
     public function setOnSaleAttribute($value)
     {
-        $this->attributes['hot'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        $this->attributes['onSale'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 }
