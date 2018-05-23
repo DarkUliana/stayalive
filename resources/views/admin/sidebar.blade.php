@@ -29,6 +29,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/quests') }}">
                     Quests
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/versions') }}">
+                    Versions
+                </a></li>
         </ul>
 
     </div>
