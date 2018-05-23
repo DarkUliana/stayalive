@@ -151,7 +151,6 @@ class QuestsController extends Controller
         $requestData = $request->all();
 
         $quest = Quest::findOrFail($id);
-        $quest->update($requestData);
 
         QuestField::where('questID', $id)->delete();
 
@@ -163,6 +162,8 @@ class QuestsController extends Controller
             $fieldObj = new QuestField($field);
             $quest->field()->save($fieldObj);
         }
+
+        $quest->update($requestData);
 
 
         return redirect('quests')->with('flash_message', 'Quest updated!');
