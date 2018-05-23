@@ -102,9 +102,9 @@ class RecipesController extends Controller
     {
         $recipe = Recipe::findOrFail($id);
         $items = Item::all();
-        $selectedItems = getValuesFromEloquentArray($recipe->components, 'itemID');
+        $selectedItems = $this->getValuesFromEloquentArray($recipe->components, 'itemID');
         $technologies = Technology::all();
-        $selectedTechnologies = getValuesFromEloquentArray($recipe->technologies, 'technologyID');
+        $selectedTechnologies = $this->getValuesFromEloquentArray($recipe->technologies, 'technologyID');
 
         return view('admin.recipes.edit', compact('recipe', 'items', 'selectedItems', 'technologies', 'selectedTechnologies'));
     }
@@ -190,4 +190,16 @@ class RecipesController extends Controller
         $counter = $request->counter + 1;
         return view('admin.recipes.component', compact('counter', 'items'));
     }
+
+
+
+    public function getValuesFromEloquentArray($items, $key)
+    {
+        $array = [];
+        foreach ($items as $item) {
+            $array[] = $item->{$key};
+        }
+        return $array;
+    }
+
 }
