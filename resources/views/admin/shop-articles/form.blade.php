@@ -42,7 +42,7 @@
 <div class="form-group {{ $errors->has('sale') ? 'has-error' : ''}}">
     <label for="sale" class="col-md-4 control-label">{{ 'Sale' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="sale" type="number" id="sale" value="{{ $shopArticle->sale or 0}}">
+        <input class="form-control" name="sale" type="number" id="sale" step="0.01" value="{{ $shopArticle->sale or 0}}">
         {!! $errors->first('sale', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

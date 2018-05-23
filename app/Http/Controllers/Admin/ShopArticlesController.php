@@ -24,7 +24,7 @@ class ShopArticlesController extends Controller
 
         'shopItemCategory' => 'required|integer',
         'price' => 'required|numeric',
-        'sale' => 'required|integer',
+        'sale' => 'required|numeric',
         'hot' => 'required|in:0,1',
         'inGold' => 'required|in:0,1',
         'dateTime' => 'required|date_format:"Y-m-d\TH:i"',
