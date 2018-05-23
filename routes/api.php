@@ -81,5 +81,6 @@ Route::get('player-quests', 'PlayerQuestController@index');
 Route::post('rewards', 'RewardController@store');
 Route::get('rewards', 'RewardController@index');
 
+Route::get('version', 'VersionController');
 
 //});

@@ -50,6 +50,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('quests', 'Admin\QuestsController');
     Route::get('quest-items', 'Admin\QuestsController@items');
 
+    Route::resource('versions', 'Admin\VersionsController');
+
 });
 
 
