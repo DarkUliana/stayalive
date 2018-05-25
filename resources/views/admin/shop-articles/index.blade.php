@@ -84,7 +84,7 @@
                                 @foreach($shopArticles as $item)
                                     <tr>
                                         <td>{{$item->ID }}</td>
-                                        <td>{{ $item->shopID }}</td>
+                                        <td  @if($item->hot) style="color: #4CC552; font-weight: bold" @endif>{{ $item->shopID }}</td>
                                         <td>{{ $categories[$item->shopItemCategory] }}</td>
 
                                         <td>{{ $item->price }}</td>
