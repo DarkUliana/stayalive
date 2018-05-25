@@ -9,7 +9,7 @@
                     <div class="card-header">technology {{ $technology->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/technologies') }}" title="Back">
+                        <a href="{{ url()->previous() }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

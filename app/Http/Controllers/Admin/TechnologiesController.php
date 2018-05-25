@@ -20,13 +20,35 @@ class TechnologiesController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
+        $sort = $request->get('sort');
+
+        $type = $request->get('type');
+        if (empty($type)) {
+            $type = 'asc';
+        }
+
         $perPage = 25;
 
+        $technologies = Technology::where([]);
+
         if (!empty($keyword)) {
-            $technologies = Technology::where('name', 'like', "%$keyword%")->latest()->paginate($perPage);
-        } else {
-            $technologies = Technology::latest()->paginate($perPage);
+
+            $technologies = $technologies->where('name', 'like', "%$keyword%")->latest();
+
         }
+        if (!empty($sort)) {
+
+            $technologies = $technologies->orderBy($sort, $type);
+
+        }
+
+
+        if (empty($keyword) && empty($sort)) {
+
+            $technologies = $technologies->latest('updated_at');
+        }
+
+        $technologies = $technologies->paginate($perPage);
 
         return view('admin.technologies.index', compact('technologies'));
     }
@@ -51,10 +73,10 @@ class TechnologiesController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
         $data = $this->prepareDataForWrite($requestData);
-        
+
         $technology = Technology::create($data['properties']);
         foreach ($data['items'] as $item) {
 
@@ -68,7 +90,7 @@ class TechnologiesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -82,7 +104,7 @@ class TechnologiesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -99,7 +121,7 @@ class TechnologiesController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -125,7 +147,7 @@ class TechnologiesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

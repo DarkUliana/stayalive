@@ -137,5 +137,9 @@
     <script src="{{ asset('js/shop-article.js') }}"></script>
 @endif
 
+@if(\Illuminate\Support\Facades\Request::is('technologies'))
+    <script src="{{ asset('js/technologies.js') }}"></script>
+@endif
+
 </body>
 </html>
