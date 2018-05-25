@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\AfterCraftItems;
+use App\CloudItem;
 use App\Equipment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,9 @@ use App\Online;
 use App\Player;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
+use App\PlayerQuest;
 use App\PlayerTechnologiesStates;
+use App\ShopArticle;
 use App\Timer;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as HttpClient;
@@ -181,12 +184,15 @@ class PlayersController extends Controller
     {
 
         AfterCraftItems::where('googleID', $googleID)->delete();
+        CloudItem::where('googleID', $googleID)->delete();
         Equipment::where('googleID', $googleID)->delete();
         Inventory::where('googleID', $googleID)->delete();
         ItemsInCraft::where('googleID', $googleID)->delete();
         PlayerBuildingTechnology::where('googleID', $googleID)->delete();
         PlayerChestItems::where('googleID', $googleID)->delete();
+        PlayerQuest::where('googleID', $googleID)->delete();
         PlayerTechnologiesStates::where('googleID', $googleID)->delete();
+        ShopArticle::where('googleID', $googleID)->delete();
         Timer::where('googleID', $googleID)->delete();
         Online::where('googleID', $googleID)->delete();
 
