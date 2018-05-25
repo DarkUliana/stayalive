@@ -192,7 +192,6 @@ class PlayersController extends Controller
         PlayerChestItems::where('googleID', $googleID)->delete();
         PlayerQuest::where('googleID', $googleID)->delete();
         PlayerTechnologiesStates::where('googleID', $googleID)->delete();
-        ShopArticle::where('googleID', $googleID)->delete();
         Timer::where('googleID', $googleID)->delete();
         Online::where('googleID', $googleID)->delete();
 
