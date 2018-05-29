@@ -50,6 +50,8 @@ Route::post('recipe', 'RecipeController@store');
 Route::get('tech-list', 'PlayerTechListController@show');
 Route::post('tech-list', 'PlayerTechListController@store');
 
+Route::get('raft', 'PlayerTechListController@getRaftState');
+
 Route::get('items-in-craft', 'ItemsInCraftController@show');
 Route::post('items-in-craft', 'ItemsInCraftController@store');
 

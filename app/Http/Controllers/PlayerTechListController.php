@@ -126,4 +126,19 @@ class PlayerTechListController extends Controller
 //        $response['playerTechList'] = json_encode($response['playerTechList']);
         return $response;
     }
+
+    public function getRaftState(Request $request)
+    {
+        if(!isset($request->googleID)) {
+            return response('Invalid data', 400);
+        }
+
+        $state = States::where('googleID', $request->googleID)->where('technologyID', 14)->first();
+        if(!$state) {
+
+            return response('Not found', 404);
+        }
+
+        return response($state->technologyState, 200);
+    }
 }
