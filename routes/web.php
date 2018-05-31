@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('versions', 'Admin\VersionsController');
 
+    Route::resource('dialogs', 'Admin\DialogsController');
+    Route::get('dialog-description', 'Admin\DialogsController@description');
+
 });
 
 
