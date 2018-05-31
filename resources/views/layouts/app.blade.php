@@ -20,9 +20,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
 
     @if(\Illuminate\Support\Facades\Request::is('shop-articles'))
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/titatoggle/2.1.2/titatoggle-dist-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/titatoggle/2.1.2/titatoggle-dist-min.css"/>
     @endif
 
+    @if(\Illuminate\Support\Facades\Request::is('dialogs/*'))
+        {{--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--}}
+    @endif
 
 
 </head>
@@ -140,6 +143,12 @@
 @if(\Illuminate\Support\Facades\Request::is('technologies'))
     <script src="{{ asset('js/technologies.js') }}"></script>
 @endif
+
+@if(\Illuminate\Support\Facades\Request::is('dialogs/*'))
+    <script src="{{ asset('js/dialog.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+@endif
+
 
 </body>
 </html>

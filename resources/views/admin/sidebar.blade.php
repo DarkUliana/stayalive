@@ -32,6 +32,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/versions') }}">
                     Versions
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/dialogs') }}">
+                    Dialogs
+                </a></li>
         </ul>
 
     </div>
