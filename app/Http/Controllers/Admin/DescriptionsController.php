@@ -20,6 +20,8 @@ class DescriptionsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $sort = $request->get('sort');
 
@@ -116,7 +118,13 @@ class DescriptionsController extends Controller
             $description->localizations()->save($localizationModel);
         }
 
-        return redirect('descriptions')->with('flash_message', 'Description added!');
+        $params = '';
+        if ($request->session()->has('itemsParams')) {
+
+            $params ='?' . session('itemsParams');
+        }
+
+        return redirect('descriptions' . $params)->with('flash_message', 'Description added!');
     }
 
     /**
@@ -180,7 +188,14 @@ class DescriptionsController extends Controller
             $description->localizations()->save($localizationModel);
         }
 
-        return redirect('descriptions')->with('flash_message', 'Description updated!');
+        $params = '';
+        if ($request->session()->has('itemsParams')) {
+
+            $params ='?' . session('itemsParams');
+        }
+
+
+        return redirect('descriptions' . $params)->with('flash_message', 'Description updated!');
     }
 
     /**
