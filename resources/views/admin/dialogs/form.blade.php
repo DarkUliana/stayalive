@@ -33,11 +33,13 @@
     </tr>
 
     <tbody>
-        @foreach($dialog->descriptions as $value)
+    @isset($dialog)
+        @foreach($dialog->descriptions->sortBy('number') as $value)
 
             @include('admin.dialogs.description', ['index' => $loop->index])
 
         @endforeach
+    @endisset
     </tbody>
 
 </table>

@@ -4,15 +4,20 @@ $(document).ready(function () {
 
         var optionTexts = [];
 
-        $('tr .counter').each(function() {
+        $('tr .counter').each(function () {
             optionTexts.push(parseInt($(this).text()))
         });
 
         var max = Math.max.apply(null, optionTexts);
-        console.log(max);
-        var index = {"index" : $('tr:last-child>.number').val()};
 
-        console.log(index);
+        var index = {"index": $('tbody tr:last-child .number').val()};
+
+
+        if ($('.number').length == 0) {
+
+            index = {"index": 0};
+        }
+
 
         $.ajax({
             url: '/dialog-description',
@@ -29,7 +34,7 @@ $(document).ready(function () {
     });
 
     $('.deleteDescription').on('click', function () {
-
+        $(this).closest('tr').remove();
         sortDescriptions();
     });
 

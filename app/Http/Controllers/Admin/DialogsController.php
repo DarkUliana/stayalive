@@ -54,10 +54,24 @@ class DialogsController extends Controller
      */
     public function store(Request $request)
     {
+
+        $dialogData = $request->all();
+        $descriptions = $request->descriptions;
+
+        unset($dialogData['descriptions']);
+
+
+
+        $dialog = Dialog::create($dialogData);
+        $dialog->update($dialogData);
+
+        foreach ($descriptions as $description) {
+
+            $descriptionObj = new DialogDescription($description);
+            $dialog->descriptions()->save($descriptionObj);
+        }
         
-        $requestData = $request->all();
-        
-        Dialog::create($requestData);
+
 
         return redirect('dialogs')->with('flash_message', 'Dialog added!');
     }
@@ -105,12 +119,14 @@ class DialogsController extends Controller
         $dialogData = $request->all();
         $descriptions = $request->descriptions;
 
-        unset($dialogData['descsription']);
+        unset($dialogData['descriptions']);
 
 
         
         $dialog = Dialog::findOrFail($id);
         $dialog->update($dialogData);
+
+        DialogDescription::where('dialogID', $id)->delete();
 
         foreach ($descriptions as $description) {
 
@@ -139,7 +155,7 @@ class DialogsController extends Controller
     public function description(Request $request)
     {
         $descriptions = Description::all();
-        $index = $request->index;
+        $index = $request->index+1;
 
         return view('admin.dialogs.description', compact('descriptions', 'index'));
     }
