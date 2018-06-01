@@ -11,7 +11,7 @@ class Quest extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'created_at', 'updated_at',
+        'daily', 'typeID', 'created_at', 'updated_at'
     ];
 
     public function field()
