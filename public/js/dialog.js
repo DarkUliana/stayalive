@@ -33,6 +33,19 @@ $(document).ready(function () {
         });
     });
 
+
+    $('input[type=radio][name=daily]').change(function () {
+        if (this.value === '1') {
+
+            $('#dialogCard').removeClass('d-block').addClass('d-none');
+        }
+        else if (this.value === '0') {
+
+            $('#dialogCard').removeClass('d-none').addClass('d-block');
+        }
+    });
+
+
     $('.deleteDescription').on('click', function () {
         $(this).closest('tr').remove();
         sortDescriptions();

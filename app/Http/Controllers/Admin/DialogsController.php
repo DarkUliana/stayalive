@@ -60,18 +60,7 @@ class DialogsController extends Controller
 
         unset($dialogData['descriptions']);
 
-
-
-        $dialog = Dialog::create($dialogData);
-        $dialog->update($dialogData);
-
-        foreach ($descriptions as $description) {
-
-            $descriptionObj = new DialogDescription($description);
-            $dialog->descriptions()->save($descriptionObj);
-        }
-        
-
+        $this->createDialog($dialogData, $descriptions);
 
         return redirect('dialogs')->with('flash_message', 'Dialog added!');
     }
@@ -121,18 +110,7 @@ class DialogsController extends Controller
 
         unset($dialogData['descriptions']);
 
-
-        
-        $dialog = Dialog::findOrFail($id);
-        $dialog->update($dialogData);
-
-        DialogDescription::where('dialogID', $id)->delete();
-
-        foreach ($descriptions as $description) {
-
-            $descriptionObj = new DialogDescription($description);
-            $dialog->descriptions()->save($descriptionObj);
-        }
+        $this->updateDialog($id, $dialogData, $descriptions);
 
         return redirect('dialogs')->with('flash_message', 'Dialog updated!');
     }
@@ -158,5 +136,30 @@ class DialogsController extends Controller
         $index = $request->index+1;
 
         return view('admin.dialogs.description', compact('descriptions', 'index'));
+    }
+
+    public function updateDialog($id, $dialogData, $descriptions)
+    {
+        $dialog = Dialog::findOrFail($id);
+        $dialog->update($dialogData);
+
+        DialogDescription::where('dialogID', $id)->delete();
+
+        $this->storeDescriptions($descriptions, $dialog);
+    }
+
+    public function createDialog($dialogData, $descriptions)
+    {
+        $dialog = Dialog::create($dialogData);
+        $this->storeDescriptions($descriptions, $dialog);
+    }
+
+    public function storeDescriptions($descriptions, $dialog)
+    {
+        foreach ($descriptions as $description) {
+
+            $descriptionObj = new DialogDescription($description);
+            $dialog->descriptions()->save($descriptionObj);
+        }
     }
 }

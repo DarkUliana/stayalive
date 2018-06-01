@@ -5,6 +5,23 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+
+<div class="form-group {{ $errors->has('daily') ? 'has-error' : ''}}">
+    <div class="col-md-6">
+        <div class="radio">
+            <label><input name="daily" type="radio"
+                          value="1" @if (isset($quest)) {{ (1 == $quest->daily) ? 'checked' : '' }} @else {{ 'checked' }} @endif>
+                daily</label>
+        </div>
+        <div class="radio">
+            <label><input name="daily" type="radio"
+                          value="0" @if (isset($quest)) {{ (0 == $quest->daily) ? 'checked' : '' }} @endif>
+                linear</label>
+        </div>
+        {!! $errors->first('daily', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
 <div class="form-group {{ $errors->has('typeID') ? 'has-error' : ''}}" id="questType">
     <label for="typeID" class="col-md-4 control-label">{{ 'Type' }}</label>
     <div class="col-md-6">
@@ -16,18 +33,19 @@
         {!! $errors->first('typeID', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+
 @if(isset($quest))
     @isset($items)
-        @include('admin.quests.item', ['name' => $quest->field->fieldname->name, 'ID' => $quest->field->fieldName->ID])
+        @include('admin.quests.item', ['name' => $quest->field->fieldname->name, 'ID' => $quest->field->fieldName->ID, 'inputType' => $quest->field->fieldName->type])
     @endisset
 @else
-    @include('admin.quests.item', ['name' => $field->name, 'ID' => $field->ID])
+    @include('admin.quests.item', ['name' => $field->name, 'ID' => $field->ID,  'inputType' => $field->type])
 @endif
 
 <div class="form-group {{ $errors->has('countToDo') ? 'has-error' : ''}}">
     <label for="countToDo" class="col-md-4 control-label">{{ 'CountToDo' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="countToDo" type="number" id="countToDo" value="{{ $quest->countToDo or ''}}">
+        <input class="form-control" name="countToDo" type="number" id="countToDo" value="{{ $quest->countToDo or 0}}">
         {!! $errors->first('countToDo', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -42,7 +60,7 @@
     <label for="starPoints" class="col-md-4 control-label">{{ 'StarPoints' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="starPoints" type="number" id="starPoints"
-               value="{{ $quest->starPoints or ''}}">
+               value="{{ $quest->starPoints or 0}}">
         {!! $errors->first('starPoints', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -56,6 +74,33 @@
             @endforeach
         </select>
         {!! $errors->first('rewardID', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
+<div id="dialogCard" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
+    <div class="card-header"><h5>Dialog</h5></div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Description</th>
+                <th>Speaker</th>
+
+                <th>
+                    <button id="addDescription" type="button" class="btn btn-success">Add</button>
+                </th>
+            </tr>
+
+            <tbody>
+            @isset($dialog)
+                @foreach($dialog->descriptions->sortBy('number') as $value)
+
+                    @include('admin.dialogs.description', ['index' => $loop->index])
+
+                @endforeach
+            @endisset
+            </tbody>
+
+        </table>
     </div>
 </div>
 

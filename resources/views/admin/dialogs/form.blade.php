@@ -16,12 +16,6 @@
         {!! $errors->first('questID', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-
-<div class="form-group">
-    <div class="col-md-offset-4 col-md-4">
-        <input class="btn btn-primary" type="submit" value="{{ $submitButtonText or 'Create' }}">
-    </div>
-</div>
 <table class="table table-bordered">
     <tr>
         <th>Description</th>
@@ -43,4 +37,11 @@
     </tbody>
 
 </table>
+
+<div class="form-group">
+    <div class="col-md-offset-4 col-md-4">
+        <input class="btn btn-primary" type="submit" value="{{ $submitButtonText or 'Create' }}">
+    </div>
+</div>
+
 

@@ -31,7 +31,18 @@ class QuestCollection extends ResourceCollection
             unset($itemFields['ID']);
 
             if (isset($quest->field)) {
-                $itemFields[($quest->field->fieldName->name)] = $quest->field->value;
+
+                switch ($quest->field->fieldName->type) {
+                    case 'integer':
+                        $itemFields[($quest->field->fieldName->name)] = (integer)$quest->field->value;
+                        break;
+                    case 'double':
+                        $itemFields[($quest->field->fieldName->name)] = (double)$quest->field->value;
+                        break;
+                    case 'string':
+                        $itemFields[($quest->field->fieldName->name)] = $quest->field->value;
+                        break;
+                }
             }
 
             $questsArray[] = [

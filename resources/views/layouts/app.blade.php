@@ -19,11 +19,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
 
-    @if(\Illuminate\Support\Facades\Request::is('shop-articles'))
+    @if(Request::is('shop-articles'))
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/titatoggle/2.1.2/titatoggle-dist-min.css"/>
     @endif
 
-    @if(\Illuminate\Support\Facades\Request::is('dialogs/*'))
+    @if(Request::is('dialogs/*'))
         {{--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--}}
     @endif
 
@@ -120,31 +120,32 @@
 <script src="{{ asset('js/parts.js') }}"></script>
 <script src="{{ asset('js/select.js') }}"></script>
 
-@if(\Illuminate\Support\Facades\Request::is('items'))
+@if(Request::is('items'))
     <script src="{{ asset('js/items.js') }}"></script>
 @endif
 
-@if(\Illuminate\Support\Facades\Request::is('players'))
+@if(Request::is('players'))
     <script src="{{ asset('js/players.js') }}"></script>
 @endif
 
-@if(\Illuminate\Support\Facades\Request::is('players/*'))
+@if(Request::is('players/*'))
     <script src="{{ asset('js/player.js') }}"></script>
 @endif
 
-@if(\Illuminate\Support\Facades\Request::is('shop-articles'))
+@if(Request::is('shop-articles'))
     <script src="{{ asset('js/shop-articles.js') }}"></script>
 @endif
 
-@if(\Illuminate\Support\Facades\Request::is('shop-articles/*'))
+@if(Request::is('shop-articles/*'))
     <script src="{{ asset('js/shop-article.js') }}"></script>
 @endif
 
-@if(\Illuminate\Support\Facades\Request::is('technologies'))
+@if(Request::is('technologies'))
     <script src="{{ asset('js/technologies.js') }}"></script>
 @endif
 
-@if(\Illuminate\Support\Facades\Request::is('dialogs/*'))
+@if(Request::is('dialogs/*') || Request::is('quests/*'))
+
     <script src="{{ asset('js/dialog.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @endif
