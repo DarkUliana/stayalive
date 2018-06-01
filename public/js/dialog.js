@@ -29,6 +29,7 @@ $(document).ready(function () {
             success: function (data) {
 
                 $('table').append(data);
+                deleteDescription();
             },
         });
     });
@@ -45,11 +46,8 @@ $(document).ready(function () {
         }
     });
 
+    deleteDescription();
 
-    $('.deleteDescription').on('click', function () {
-        $(this).closest('tr').remove();
-        sortDescriptions();
-    });
 
     $('tbody').sortable({update: sortDescriptions}).disableSelection();
 
@@ -62,6 +60,13 @@ $(document).ready(function () {
     }
 
 });
+
+function deleteDescription() {
+    $('.deleteDescription').on('click', function () {
+        $(this).closest('tr').remove();
+        sortDescriptions();
+    });
+}
 
 
 
