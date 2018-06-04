@@ -6,16 +6,35 @@
             @include('admin.sidebar')
 
             <div class="col-md-9">
+                <div class="alert d-none">
+
+                </div>
+
                 <div class="card">
                     <div class="card-header"><h3>Descriptions</h3></div>
                     <div class="card-body">
-                        <a href="{{ url('/descriptions/create') }}" class="btn btn-success btn-sm"
-                           title="Add New description">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-                        <a href="{{ url('/description-export') }}" class="btn btn-danger btn-sm" id="export">
-                            <i class="fa fa-download" aria-hidden="true"></i> Download
-                        </a>
+                        <div class="row">
+                            <a href="{{ url('/descriptions/create') }}" title="Add New description"
+                               style="margin-right: 7px">
+                                <button class="btn btn-success btn-sm">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                                </button>
+                            </a>
+                            <a href="{{ url('/description-export') }}" id="export" style="margin-right: 7px">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fa fa-download" aria-hidden="true"></i> Download
+                                </button>
+                            </a>
+
+                            <form method="POST" enctype="multipart/form-data" action="{{ url('/description-import') }}"
+                                  id="import">
+                                <label class="btn btn-info btn-sm">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    Upload <input type="file" name="csv" accept=".csv" hidden id="inputFile">
+                                </label>
+                            </form>
+
+                        </div>
 
                         <form method="GET" action="{{ url('/descriptions') }}" accept-charset="UTF-8"
                               class="form-inline my-2 my-lg-0 float-right" role="search">

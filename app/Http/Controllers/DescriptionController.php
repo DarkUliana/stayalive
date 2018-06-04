@@ -6,6 +6,8 @@ use App\DescriptionLocalization;
 use App\Language;
 use Illuminate\Http\Request;
 use App\Description;
+use Illuminate\Support\Facades\DB;
+use League\Csv\Reader;
 
 class DescriptionController extends Controller
 {
@@ -74,7 +76,7 @@ class DescriptionController extends Controller
         $descriptions = Description::with('localizations')->get();
 
         $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
-        
+
         $csv->insertOne($this->getColumnListing());
 
         foreach ($descriptions as $description) {
@@ -96,16 +98,42 @@ class DescriptionController extends Controller
 
         unset($array['localizations']);
         unset($array['allLanguages']);
-        
+
         return $array;
     }
 
-    public function import()
+    public function import(Request $request)
     {
-        \League\Csv\Reader::createFromPath('/path/to/your/csv/file.csv', 'r');;
+//        var_dump($request->input()); die();
+        if (!$request->hasFile('csv')) {
+
+            return response('Error', 400);
+        }
+
+        $csv = Reader::createFromPath($request->file('csv'), 'r');
+
+        $csv->setOffset(1);
+        $csv->each(function ($row) {
+
+            $id = Description::where('key', $row[1])->first()->ID;
+
+            $data = [
+                'name' => $row[2],
+                'description' => $row[3]
+            ];
+
+            DescriptionLocalization::where('descriptionID', $id)
+                ->where('languageID', 1)->update($data);
+
+            return true;
+
+        });
+
+        return response('File was uploaded!', 200);
+
     }
 
-    protected  function getColumnListing()
+    function getColumnListing()
     {
         $columns = ['ID', 'key'];
 

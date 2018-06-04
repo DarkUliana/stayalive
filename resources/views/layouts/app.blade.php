@@ -150,6 +150,10 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @endif
 
+@if(Request::is('descriptions'))
+    <script src="{{ asset('js/descriptions.js') }}"></script>
+@endif
+
 
 </body>
 </html>
