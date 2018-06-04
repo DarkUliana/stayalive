@@ -17,6 +17,7 @@ use App\Player;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerQuest;
+use App\PlayerReward;
 use App\PlayerTechnologiesStates;
 use App\ShopArticle;
 use App\Timer;
@@ -194,6 +195,7 @@ class PlayersController extends Controller
         PlayerTechnologiesStates::where('googleID', $googleID)->delete();
         Timer::where('googleID', $googleID)->delete();
         Online::where('googleID', $googleID)->delete();
+        PlayerReward::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
