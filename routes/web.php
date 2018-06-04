@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('technologies', 'Admin\TechnologiesController');
 
     Route::resource('items', 'Admin\ItemsController');
+    Route::get('items-export', 'Admin\ItemsController@export');
     Route::get('properties', 'Admin\ItemsController@properties');
 
     Route::resource('recipes', 'Admin\RecipesController');
@@ -34,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('description-import', 'DescriptionController@import');
 
     Route::get('symbols', 'Admin\DescriptionsController@symbols');
-    
+
     Route::resource('languages', 'Admin\LanguagesController');
     Route::get('language-item', 'Admin\LanguagesController@languageItem');
 

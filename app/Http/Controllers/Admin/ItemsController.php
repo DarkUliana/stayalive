@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Description;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -11,6 +12,7 @@ use App\Property;
 use Illuminate\Http\Request;
 use App\ItemProperty;
 use Illuminate\Support\Facades\DB;
+use League\Csv\Writer;
 
 class ItemsController extends Controller
 {
@@ -256,6 +258,58 @@ class ItemsController extends Controller
         foreach ($types as $type) {
             $array[$type->type] = $type->typeName;
         }
+
+        return $array;
+    }
+
+    public function export()
+    {
+        $items = DB::table('items')
+            ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
+            ->select('items.ID')
+            ->where('recipes.Level', '!=', 'NULL')
+            ->orderBy('recipes.Level')
+            ->orderBy('recipes.CraftTime')
+            ->pluck('items.ID');
+
+
+        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+        $csv->insertOne(['Damage', 'Attack Speed', 'Armor']);
+
+        foreach ($items as $item) {
+            $csv->insertOne($this->toArrayForExport($item));
+        }
+
+        $csv->output('items.csv');
+    }
+
+    protected function toArrayForExport($id)
+    {
+        $array = [];
+
+        $item = Item::find($id);
+
+        if($item->properties) {
+            foreach ($item->properties as $property) {
+
+                switch ($property->propertyName->name) {
+
+                    case 'damage':
+                        $array['Damage'] = $property->propertyValue;
+                        break;
+                    case 'attackSpeed':
+                        $array['Attack Speed'] = $property->propertyValue;
+                        break;
+                    case 'armor':
+                        $array['Armor'] = $property->propertyValue;
+                        break;
+                }
+            }
+        } else {
+            $array['Damage'] = $array['Attack Speed'] = $array['Armor'] = 'NULL';
+        }
+
 
         return $array;
     }

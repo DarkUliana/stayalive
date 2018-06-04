@@ -6,8 +6,8 @@ use App\DescriptionLocalization;
 use App\Language;
 use Illuminate\Http\Request;
 use App\Description;
-use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
+use League\Csv\Writer;
 
 class DescriptionController extends Controller
 {
@@ -75,7 +75,7 @@ class DescriptionController extends Controller
     {
         $descriptions = Description::with('localizations')->get();
 
-        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+        $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
         $csv->insertOne($this->getColumnListing());
 

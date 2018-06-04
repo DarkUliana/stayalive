@@ -13,6 +13,12 @@
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
+                        <a href="{{ url('/items-export') }}" id="export" style="margin-right: 7px">
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fa fa-download" aria-hidden="true"></i> Download
+                            </button>
+                        </a>
+
                         <form id="filterForm" method="GET" action="{{ url('/items') }}" accept-charset="UTF-8"
                               class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group" style="margin-right: 20px">

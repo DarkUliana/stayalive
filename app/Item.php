@@ -24,4 +24,8 @@ class Item extends Model
         return $this->hasOne('App\ItemType', 'type', 'InventorySlotType');
     }
 
+    public function recipe()
+    {
+        return $this->hasOne('App\Recipe', 'ItemID', 'ID');
+    }
 }
