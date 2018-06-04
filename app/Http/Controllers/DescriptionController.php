@@ -100,6 +100,11 @@ class DescriptionController extends Controller
         return $array;
     }
 
+    public function import()
+    {
+        \League\Csv\Reader::createFromPath('/path/to/your/csv/file.csv', 'r');;
+    }
+
     protected  function getColumnListing()
     {
         $columns = ['ID', 'key'];
