@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('descriptions', 'Admin\DescriptionsController');
     Route::get('localization', 'Admin\DescriptionsController@localization');
     Route::get('description-export', 'DescriptionController@export');
+    Route::get('symbols', 'Admin\DescriptionsController@symbols');
 
     Route::resource('languages', 'Admin\LanguagesController');
     Route::get('language-item', 'Admin\LanguagesController@languageItem');
