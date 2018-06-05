@@ -8,12 +8,12 @@ $(document).ready(function () {
             optionTexts.push(parseInt($(this).text()))
         });
 
-        var counter ={"index": Math.max.apply(null, optionTexts)};
-
+        var counter ={"counter": Math.max.apply(null, optionTexts)};
+        console.log(optionTexts);
 
         if ($('.counter').length == 0) {
 
-            counter = {"index": 0};
+            counter = {"counter": 0};
         }
 
 
@@ -38,7 +38,7 @@ $(document).ready(function () {
 });
 
 function deleteDescriptionEvent() {
-    $('.deleteDescription').on('click', function () {
+    $('.deleteComponent').on('click', function () {
         $(this).closest('tr').remove();
     });
 }

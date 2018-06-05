@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 
 class RewardsController extends Controller
 {
+    protected $validationArray = [
+        'name' => 'required|string',
+        'chest' => 'required|integer',
+        'components' => 'required|array',
+        'components.*.itemID' => 'required|integer',
+        'components.*.count' => 'required|integer',
+        'components.*.rarity' => 'required|integer'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -56,10 +64,19 @@ class RewardsController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $this->validate($request, $this->validationArray);
+
         $requestData = $request->all();
+        $components = $requestData['components'];
+        unset($requestData['components']);
         
-        Reward::create($requestData);
+        $reward = Reward::create($requestData);
+
+        foreach ($components as $component) {
+
+            $item = new RewardItem($component);
+            $reward->rewardList()->save($item);
+        }
 
         return redirect('rewards')->with('flash_message', 'Reward added!');
     }
@@ -106,11 +123,22 @@ class RewardsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, $this->validationArray);
         
         $requestData = $request->all();
+        $components = $requestData['components'];
+        unset($requestData['components']);
         
         $reward = Reward::findOrFail($id);
         $reward->update($requestData);
+
+        RewardItem::where('rewardID', $id)->delete();
+
+        foreach ($components as $component) {
+
+            $item = new RewardItem($component);
+            $reward->rewardList()->save($item);
+        }
 
         return redirect('rewards')->with('flash_message', 'Reward updated!');
     }
@@ -124,6 +152,7 @@ class RewardsController extends Controller
      */
     public function destroy($id)
     {
+        RewardItem::where('rewardID', $id)->delete();
         Reward::destroy($id);
 
         return redirect('rewards')->with('flash_message', 'Reward deleted!');

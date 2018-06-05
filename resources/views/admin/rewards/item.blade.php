@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <div class="number" style="display: none;">{{$loop->index or $counter}}</div>
+        <div class="counter" style="display: none;">{{$loop->index or $counter}}</div>
         <div class="form-group">
             <select class="component form-control" name="components[{{$loop->index or $counter}}][itemID]">
                 @foreach ($items as $item):
