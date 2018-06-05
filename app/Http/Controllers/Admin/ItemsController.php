@@ -268,6 +268,7 @@ class ItemsController extends Controller
             ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
             ->select('items.ID')
             ->where('recipes.Level', '!=', 'NULL')
+            ->where('recipes.recipeType', '<', 5)
             ->orderBy('recipes.Level')
             ->orderBy('recipes.CraftTime')
             ->pluck('items.ID');
