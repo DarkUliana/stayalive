@@ -13,4 +13,9 @@ class RewardItem extends Model
     protected $hidden = [
         'created_at', 'updated_at', 'rewardID', 'ID'
     ];
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ID', 'itemID');
+    }
 }

@@ -117,8 +117,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-<script src="{{ asset('js/parts.js') }}"></script>
-<script src="{{ asset('js/select.js') }}"></script>
+@if(!Request::is('rewards*'))
+    <script src="{{ asset('js/parts.js') }}"></script>
+    <script src="{{ asset('js/select.js') }}"></script>
+@endif
 
 @if(Request::is('items'))
     <script src="{{ asset('js/items.js') }}"></script>
@@ -152,6 +154,10 @@
 
 @if(Request::is('descriptions'))
     <script src="{{ asset('js/descriptions.js') }}"></script>
+@endif
+
+@if(Request::is('rewards/*'))
+    <script src="{{ asset('js/reward.js') }}"></script>
 @endif
 
 

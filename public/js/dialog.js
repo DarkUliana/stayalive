@@ -8,9 +8,9 @@ $(document).ready(function () {
             optionTexts.push(parseInt($(this).text()))
         });
 
-        var max = Math.max.apply(null, optionTexts);
+        var index ={"index": Math.max.apply(null, optionTexts)};
 
-        var index = {"index": $('tbody tr:last-child .number').val()};
+        // var index = {"index": $('tbody tr:last-child .number').val()};
 
 
         if ($('.number').length == 0) {
