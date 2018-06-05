@@ -59,6 +59,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('dialogs', 'Admin\DialogsController');
     Route::get('dialog-description', 'Admin\DialogsController@description');
 
+    Route::resource('rewards', 'Admin\RewardsController');
+    Route::get('reward-item', 'Admin\RewardsController@item');
+
 });
 
 
