@@ -267,7 +267,7 @@ class ItemsController extends Controller
         $items = DB::table('items')
             ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
             ->select('items.ID')
-            ->whereBetween('recipes.recipeType', [0, 5])
+            ->whereBetween('recipes.recipeType', [0, 4])
             ->orderBy('recipes.Level')
             ->orderBy('recipes.recipeType')
             ->pluck('items.ID');
