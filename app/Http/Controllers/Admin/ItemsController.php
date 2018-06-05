@@ -267,10 +267,9 @@ class ItemsController extends Controller
         $items = DB::table('items')
             ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
             ->select('items.ID')
-            ->where('recipes.Level', '!=', 'NULL')
-            ->where('recipes.recipeType', '<', 5)
+            ->whereBetween('recipes.recipeType', [0, 5])
             ->orderBy('recipes.Level')
-            ->orderBy('recipes.CraftTime')
+            ->orderBy('recipes.recipeType')
             ->pluck('items.ID');
 
 
