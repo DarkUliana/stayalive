@@ -11,9 +11,11 @@ class ShopArticleController extends Controller
 {
     public function index(Request $request)
     {
+//        $dateTime = ShopArticle::where('shopItemType', 8)->value('dateTime');
+//        var_dump($dateTime < date('Y-m-d H:i:s', time())); die();
         $collection = ShopArticle
             ::where(function ($query) {
-                $query->where('shopItemType', '<>',  8)
+                $query->where('shopItemType', '!=',  '8')
                     ->orWhere('dateTime', '>', date('Y-m-d H:i:s', time()));
             })
             ->where('onSale', 1)
