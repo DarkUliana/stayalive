@@ -268,10 +268,13 @@ class ItemsController extends Controller
             ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
             ->select('items.ID')
             ->whereBetween('recipes.recipeType', [0, 4])
-            ->orderBy('recipes.Level')
-            ->orderBy('recipes.recipeType')
-            ->pluck('items.ID');
 
+
+            ->orderBy('recipes.Level', 'ASC')
+            ->orderBy('recipes.recipeType', 'ASC')
+            ->orderBy('recipes.CraftTime', 'ASC')
+
+            ->pluck('items.ID');
 
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
@@ -289,9 +292,10 @@ class ItemsController extends Controller
         $array = [];
 
         $item = Item::find($id);
-
+        
         if($item->properties) {
             foreach ($item->properties as $property) {
+
 
                 switch ($property->propertyName->name) {
 
