@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class DialogController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $beginQuestDialogs = Dialog::whereHas('quest', function ($q) {
 
@@ -26,5 +26,14 @@ class DialogController extends Controller
         ];
 
         return response($array, 200);
+    }
+
+    public function store(Request $request)
+    {
+        if(!isset($request->beginQuestDialogs) or !isset($request->AdditionalDialogs)) {
+            return response('Invalid data', 400);
+        }
+
+
     }
 }

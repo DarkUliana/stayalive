@@ -24,21 +24,45 @@ class QuestController extends Controller
         return response($quests, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function storePlot(Request $request)
     {
         if (!isset($request->allQuestsData)) {
 
             return response('Invalid data', 400);
         }
 
-        QuestField::truncate();
-        Quest::truncate();
+        $counter = $this->store($request, 0);
+
+        return response("$counter Quests written", 201);
+
+    }
+
+    public function storeDaily(Request $request)
+    {
+        if (!isset($request->allQuestsData)) {
+
+            return response('Invalid data', 400);
+        }
+
+        $counter = $this->store($request, 1);
+
+        return response("$counter Quests written", 201);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param integer $daily
+     * @return \int
+     */
+    public function store(Request $request, $daily = 1)
+    {
+
+
+        $quests = Quest::where('daily', $daily)->pluck('ID');
+        Quest::where('daily', $daily)->delete();
+        QuestField::whereIn('questID', $quests);
 
         $data = $this->getQuestsForWrite($request->allQuestsData);
 
@@ -57,7 +81,8 @@ class QuestController extends Controller
             ++$counter;
         }
 
-        return response("$counter Quests written", 201);
+        return $counter;
+
     }
 
     protected function getQuestsForWrite($array)

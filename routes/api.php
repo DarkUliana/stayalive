@@ -74,7 +74,8 @@ Route::get('unique-id', 'UniqueIdController');
 Route::post('cloud-items', 'CloudItemController@postItems');
 Route::get('cloud-items', 'CloudItemController@getItems');
 
-Route::post('quests', 'QuestController@store');
+Route::post('daily-quests', 'QuestController@storeDaily');
+Route::post('plot-quests', 'QuestController@storePlot');
 Route::get('quests', 'QuestController@index');
 
 Route::post('player-quests', 'PlayerQuestController@store');
@@ -88,6 +89,7 @@ Route::get('version', 'VersionController');
 Route::get('player-rewards', 'PlayerRewardController@index');
 Route::post('player-rewards', 'PlayerRewardController@store');
 
-Route::get('dialogs', 'DialogController');
+Route::get('dialogs', 'DialogController@index');
+Route::post('dialogs', 'DialogController@store');
 
 //});
