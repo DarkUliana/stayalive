@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\AdditionalQuestsField;
+use App\Dialog;
+use App\DialogDescription;
 use App\Http\Resources\QuestCollection;
 use App\Quest;
 use App\QuestField;
@@ -64,14 +66,20 @@ class QuestController extends Controller
         Quest::where('daily', $daily)->delete();
         QuestField::whereIn('questID', $quests);
 
-        $data = $this->getQuestsForWrite($request->allQuestsData);
+        foreach ($quests as $questID) {
+
+            $dialog = Dialog::where('questID', $questID)->first();
+            DialogDescription::where('dialogID', $dialog->ID)->delete();
+            $dialog->delete();
+        }
+
+
+        $data = $this->getQuestsForWrite($request->allQuestsData, $daily);
 
         $counter = 0;
         foreach ($data as $value) {
 
             $quest = Quest::create($value['quest']);
-
-            $counter++;
 
             foreach ($value['fields'] as $name => $field) {
 
@@ -85,7 +93,7 @@ class QuestController extends Controller
 
     }
 
-    protected function getQuestsForWrite($array)
+    protected function getQuestsForWrite($array, $daily)
     {
         $data = [];
         $additionalFields = DB::table('additional_quests_fields')->pluck('name')->toArray();
@@ -110,6 +118,7 @@ class QuestController extends Controller
                     $data[$Json['questID']]['quest'][$key] = $value;
                 }
 
+                $data[$Json['questID']]['quest']['daily'] = $daily;
             }
 
             $data[$Json['questID']]['quest']['typeID'] = QuestType::where('type', $quest['Type'])->value('ID');
