@@ -264,7 +264,7 @@ class ItemsController extends Controller
 
     public function export()
     {
-        $names = ['Name' => 0, 'Damage' => 1, 'Attack Speed' => 2, 'Armor' => 3, 'maxDurability' => 4, 'durabilityDecrement' => 5];
+        $names = ['Name' => 0, 'Damage' => 1, 'Attack Speed' => 2, 'Armor' => 3, 'maxDurability' => 4, 'durabilityDecrement' => 5, 'movementSpeed' => 6];
         $items = DB::table('items')
             ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
             ->select('items.ID')
@@ -299,7 +299,8 @@ class ItemsController extends Controller
         $array[$names['Attack Speed']] =
         $array[$names['Armor']] =
         $array[$names['maxDurability']] =
-        $array[$names['durabilityDecrement']] = "NULL";
+        $array[$names['durabilityDecrement']] =
+        $array[$names['movementSpeed']] = "NULL";
 
         if($item->properties) {
 
@@ -322,6 +323,9 @@ class ItemsController extends Controller
                         break;
                     case 'durabilityDecrement':
                         $array[$names['durabilityDecrement']] = $property->propertyValue;
+                        break;
+                    case 'movementSpeed':
+                        $array[$names['movementSpeed']] = $property->propertyValue;
                         break;
                 }
             }
