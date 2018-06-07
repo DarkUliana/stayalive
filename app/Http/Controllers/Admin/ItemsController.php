@@ -264,6 +264,7 @@ class ItemsController extends Controller
 
     public function export()
     {
+        $names = ['Name' => 0, 'Damage' => 1, 'Attack Speed' => 2, 'Armor' => 3, 'maxDurability' => 4, 'durabilityDecrement' => 5];
         $items = DB::table('items')
             ->leftJoin('recipes', 'items.ID', '=', 'recipes.ItemID')
             ->select('items.ID')
@@ -278,42 +279,56 @@ class ItemsController extends Controller
 
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
-        $csv->insertOne(['Damage', 'Attack Speed', 'Armor']);
+        $csv->insertOne(array_keys($names));
 
         foreach ($items as $item) {
-            $csv->insertOne($this->toArrayForExport($item));
+            $csv->insertOne($this->toArrayForExport($item, $names));
         }
 
         $csv->output('items.csv');
     }
 
-    protected function toArrayForExport($id)
+    protected function toArrayForExport($id, $names)
     {
         $array = [];
 
         $item = Item::find($id);
-        
+
+        $array[$names['Name']] = $item->Name;
+        $array[$names['Damage']] =
+        $array[$names['Attack Speed']] =
+        $array[$names['Armor']] =
+        $array[$names['maxDurability']] =
+        $array[$names['durabilityDecrement']] = "NULL";
+
         if($item->properties) {
+
             foreach ($item->properties as $property) {
 
 
                 switch ($property->propertyName->name) {
 
                     case 'damage':
-                        $array['Damage'] = $property->propertyValue;
+                        $array[$names['Damage']] = $property->propertyValue;
                         break;
                     case 'attackSpeed':
-                        $array['Attack Speed'] = $property->propertyValue;
+                        $array[$names['Attack Speed']] = $property->propertyValue;
                         break;
                     case 'armor':
-                        $array['Armor'] = $property->propertyValue;
+                        $array[$names['Armor']] = $property->propertyValue;
+                        break;
+                    case 'maxDurability':
+                        $array[$names['maxDurability']] = $property->propertyValue;
+                        break;
+                    case 'durabilityDecrement':
+                        $array[$names['durabilityDecrement']] = $property->propertyValue;
                         break;
                 }
             }
-        } else {
-            $array['Damage'] = $array['Attack Speed'] = $array['Armor'] = 'NULL';
+
         }
 
+        ksort($array);
 
         return $array;
     }
