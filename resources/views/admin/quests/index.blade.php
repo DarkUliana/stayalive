@@ -39,7 +39,7 @@
                                         <td>{{ $loop->iteration or $item->ID }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->level }}</td>
-                                        <td>{{ $item->reward->name }}</td>
+                                        <td>{{ (isset($item->reward)) ? $item->reward->name : '' }}</td>
                                         <td>
                                             <a href="{{ url('/quests/' . $item->ID) }}" title="View quest"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             <a href="{{ url('/quests/' . $item->ID . '/edit') }}" title="Edit quest"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>

@@ -35,7 +35,7 @@ class RewardController extends Controller
              foreach ($reward['rewardList'] as $item) {
 
                  $itemObj = new RewardItem($item);
-                 $rewardObj->items()->save($itemObj);
+                 $rewardObj->rewardList()->save($itemObj);
 
              }
              ++$counter;

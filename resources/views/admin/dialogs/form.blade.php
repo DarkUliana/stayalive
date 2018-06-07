@@ -9,6 +9,7 @@
     <label for="questID" class="col-md-4 control-label">{{ 'Quest' }}</label>
     <div class="col-md-6">
         <select name="questID" class="form-control" id="questID">
+            <option value="{{ -1 }}" {{ (isset($dialog->questID) && $dialog->questID == -1) ? 'selected' : ''}}>{{ -1 }}</option>
             @foreach ($quests as $quest)
                 <option value="{{ $quest->ID }}" {{ (isset($dialog->questID) && $dialog->questID == $quest->ID) ? 'selected' : ''}}>{{ $quest->name }}</option>
             @endforeach
