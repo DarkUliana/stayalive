@@ -12,6 +12,13 @@
         {!! $errors->first('googleID', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+<div class="form-group {{ $errors->has('CurrentLevel') ? 'has-error' : ''}}">
+    <label for="googleID" class="col-md-4 control-label">{{ 'CurrentLevel' }}</label>
+    <div class="col-md-6">
+        <input class="form-control" name="CurrentLevel" type="text" id="googleID" value="{{ $player->CurrentLevel or 0}}" >
+        {!! $errors->first('CurrentLevel', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
 <div class="form-group {{ $errors->has('goldCoin') ? 'has-error' : ''}}">
     <label for="googleID" class="col-md-4 control-label">{{ 'GoldCoin' }}</label>
     <div class="col-md-6">

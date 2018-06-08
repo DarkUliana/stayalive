@@ -53,6 +53,10 @@
                                     <td> {{ $player->googleID }} </td>
                                 </tr>
                                 <tr>
+                                    <th>Level</th>
+                                    <td>{{ $player->CurrentLevel }}</td>
+                                </tr>
+                                <tr>
                                     <th>GoldCoin</th>
                                     <td>{{ $player->goldCoin }}</td>
                                 </tr>

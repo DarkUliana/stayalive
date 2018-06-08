@@ -46,6 +46,7 @@
                                     <th>Online</th>
                                     <th><i class="fa fa-database" style="color: #e08e0b"></i></th>
                                     <th><i class="fa fa-cog" style="color:#1b4f72; font-size: 20px"></i></th>
+                                    <th>Level</th>
                                     <th>Actions</th>
 
                                 </tr>
@@ -70,6 +71,7 @@
                                             </td>
                                             <td>{{ $item->goldCoin }}</td>
                                             <td>{{ $item->techCoin }}</td>
+                                            <td>{{ $item->CurrentLevel }}</td>
                                             <td>
                                                 <a href="{{ url('/players/' . $item->ID) }}" title="View player">
                                                     <div class="btn btn-info btn-sm"><i class="fa fa-eye"
