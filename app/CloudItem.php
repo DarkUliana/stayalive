@@ -26,4 +26,11 @@ class CloudItem extends Model
     {
         $this->attributes['isTaken'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'Name', 'imageName');
+    }
+
+//    public function currentDurability/
 }

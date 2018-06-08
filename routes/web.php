@@ -50,6 +50,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('players-online', 'Admin\PlayersController@index');
     Route::post('player-items', 'Admin\PlayersController@saveItems');
     Route::get('player/get-item/{id}', 'Admin\PlayersController@getItem');
+    Route::get('player-cloud-item', 'Admin\PlayersController@getCloudItem');
+    Route::get('delete-all-players', 'Admin\PlayersController@deleteAll');
 
     Route::resource('quests', 'Admin\QuestsController');
     Route::get('quest-items', 'Admin\QuestsController@items');

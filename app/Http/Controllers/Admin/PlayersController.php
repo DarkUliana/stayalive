@@ -89,9 +89,10 @@ class PlayersController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
-        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get()->sortBy('Index'), true);
+//        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get()->sortBy('Index'), true);
+        $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
 
-        return view('admin.players.show', compact('player', 'inventory'));
+        return view('admin.players.show', compact('player', 'cloud'));
     }
 
     /**
@@ -104,10 +105,11 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
-        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->where('available', 1)->get()->sortBy('Index'));
+//        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->where('available', 1)->get()->sortBy('Index'));
+        $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
         $items = Item::all();
 
-        return view('admin.players.edit', compact('player', 'items', 'inventory'));
+        return view('admin.players.edit', compact('player', 'items', 'cloud'));
     }
 
     /**
@@ -200,90 +202,96 @@ class PlayersController extends Controller
         Player::where('googleID', $googleID)->delete();
     }
 
-    protected function getInventory($items, $forShow = false)
-    {
-        $array = [];
-
-        foreach ($items as $item) {
-
-
-            $temp = $item->toArray();
-
-            if ($item->itemID == -1) {
-
-                if ($forShow) {
-                    continue;
-                }
-
-                $temp['name'] = '';
-                $temp['maxInStack'] = 0;
-                $temp['maxDurability'] = 0;
-
-            } else {
-                $property = ItemProperty::where('itemID', $item->itemID)->where('propertyID', 1)->first();
-
-                if (!empty($property)) {
-
-                    $temp['maxDurability'] = $property->propertyValue;
-                } else {
-
-                    $temp['maxDurability'] = 0;
-                }
-
-                $temp['name'] = $item->item->Name;
-                $temp['maxInStack'] = $item->item->MaxInStack;
-
-
-                if ($temp['currentDurability'] > $temp['maxDurability']) {
-                    $temp['maxDurability'] = $temp['currentDurability'];
-                }
-
-            }
-            $array[] = $temp;
-
-        }
-
-        if (!$forShow && empty($array)) {
-
-            $array = $this->seedInventory();
-        }
-
-        return $array;
-    }
+//    protected function getInventory($items, $forShow = false)
+//    {
+//        $array = [];
+//
+//        foreach ($items as $item) {
+//
+//
+//            $temp = $item->toArray();
+//
+//            if ($item->itemID == -1) {
+//
+//                if ($forShow) {
+//                    continue;
+//                }
+//
+//                $temp['name'] = '';
+//                $temp['maxInStack'] = 0;
+//                $temp['maxDurability'] = 0;
+//
+//            } else {
+//                $property = ItemProperty::where('itemID', $item->itemID)->where('propertyID', 1)->first();
+//
+//                if (!empty($property)) {
+//
+//                    $temp['maxDurability'] = $property->propertyValue;
+//                } else {
+//
+//                    $temp['maxDurability'] = 0;
+//                }
+//
+//                $temp['name'] = $item->item->Name;
+//                $temp['maxInStack'] = $item->item->MaxInStack;
+//
+//
+//                if ($temp['currentDurability'] > $temp['maxDurability']) {
+//                    $temp['maxDurability'] = $temp['currentDurability'];
+//                }
+//
+//            }
+//            $array[] = $temp;
+//
+//        }
+//
+//        if (!$forShow && empty($array)) {
+//
+//            $array = $this->seedInventory();
+//        }
+//
+//        return $array;
+//    }
 
     public function saveItems(Request $request)
     {
 
+        CloudItem::where('googleID', $request->googleID)
+            ->where('isTaken', 0)
+            ->delete();
+
         foreach ($request->items as $item) {
 
+            $properties = [
+                'googleID' => $request->googleID,
+                'sourceID' => 0, 'isTaken' => 0,
+                'uniqueID' => uniqid('id', true),
+                'inStuck' => (Item::where('Name', $item['imageName'])->value('maxInStack')) == 1 ? 0 : 1
+            ];
 
-            Inventory::where('googleID', $request->googleID)
-                ->where('Index', $item['Index'])
-                ->delete();
-
-            Inventory::create(array_merge($item, ['googleID' => $request->googleID, 'available' => 1, 'SlotType' => 511]));
+            CloudItem::create(array_merge($item, $properties));
         }
         return redirect('players')->with('flash_message', "Player items updated!");
     }
 
-    protected function seedInventory()
-    {
-        $array = [];
-
-        for ($i = 1; $i <= 10; ++$i) {
-            $array[] = [
-                'name' => '',
-                'CurrentCount' => 0,
-                'currentDurability' => 0,
-                'maxInStack' => 0,
-                'itemID' => -1,
-                'maxDurability' => 0,
-                'Index' => $i
-            ];
-        }
-
-        return $array;
-    }
+//    protected function seedInventory()
+//    {
+//        $array = [];
+//
+//        for ($i = 1; $i <= 10; ++$i) {
+//            $array[] = [
+//                'name' => '',
+//                'CurrentCount' => 0,
+//                'currentDurability' => 0,
+//                'maxInStack' => 0,
+//                'itemID' => -1,
+//                'maxDurability' => 0,
+//                'Index' => $i
+//            ];
+//        }
+//
+//        return $array;
+//    }
 
     public function getItem(Request $request, $id)
     {
@@ -292,6 +300,7 @@ class PlayersController extends Controller
 
             $item = [
                 'ID' => $id,
+                'Name' => '',
                 'MaxInStack' => 0,
                 'maxDurability' => 0
             ];
@@ -299,23 +308,41 @@ class PlayersController extends Controller
             return response($item, 200);
         }
 
-        $item = Item::find($id)->toArray();
-
-        $maxDurability = DB::table('item_properties')
-            ->leftJoin('properties', 'item_properties.propertyID', '=', 'properties.ID')
-            ->where('item_properties.itemID', $id)
-            ->where('properties.name', '=', 'maxDurability')
-            ->value('item_properties.propertyValue');
-
-
-        if ($maxDurability != null) {
-
-            $item['maxDurability'] = $maxDurability;
-        } else {
-
-            $item['maxDurability'] = 0;
-        }
+        $item = Item::where('Name', $id)->first()->toArray();
 
         return response($item, 200);
+    }
+
+    public function getCloudItem(Request $request)
+    {
+        if (!isset($request->counter)) {
+
+            return response('Invalid data!', 400);
+        }
+
+        $counter = $request->counter + 1;
+        $items = Item::all();
+
+        return view('admin.players.slot', compact('counter', 'items'));
+    }
+
+    public function deleteAll()
+    {
+        AfterCraftItems::truncate();
+        CloudItem::truncate();
+        Equipment::truncate();
+        Inventory::truncate();
+        ItemsInCraft::truncate();
+        PlayerBuildingTechnology::truncate();
+        PlayerChestItems::truncate();
+        PlayerQuest::truncate();
+        PlayerTechnologiesStates::truncate();
+        Timer::truncate();
+        Online::truncate();
+        PlayerReward::truncate();
+
+        Player::truncate();
+
+        return response('ok', 200);
     }
 }

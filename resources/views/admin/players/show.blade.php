@@ -53,27 +53,29 @@
                                     <td> {{ $player->googleID }} </td>
                                 </tr>
                                 <tr>
-                                    <th></th>
-                                    <td></td>
+                                    <th>GoldCoin</th>
+                                    <td>{{ $player->goldCoin }}</td>
+                                </tr>
+                                <tr>
+                                    <th>TechCoin</th>
+                                    <td>{{ $player->techCoin }}</td>
                                 </tr>
                                 </tbody>
                             </table>
 
                             <table class="table table-bordered">
                                 <tr>
-                                    <th colspan="3" class="text-center">Inventory</th>
+                                    <th colspan="3" class="text-center">Cloud items</th>
                                 </tr>
 
                                 <tr>
                                     <th>Name</th>
                                     <th>Count</th>
-                                    <th>Durability</th>
                                 </tr>
-                                @foreach($inventory as $item)
+                                @foreach($cloud as $item)
                                     <tr>
-                                        <th>{{ $item['name'] }}</th>
-                                        <th>{{ $item['CurrentCount'] }}</th>
-                                        <th>{{ $item['currentDurability'] }}</th>
+                                        <th>{{ $item->imageName }}</th>
+                                        <th>{{ $item->count }}</th>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -5,7 +5,7 @@
         <div class="row">
             @include('admin.sidebar')
 
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Players</div>
                     <div class="card-body">
@@ -14,6 +14,9 @@
                         </a>
                         <div class="btn btn-danger btn-sm" id="deletePlayersButton" title="Delete Selected">
                             <i class="fa fa-trash-o" aria-hidden="true"></i> Delete Selected
+                        </div>
+                        <div class="btn btn-danger btn-sm" id="deleteAllPlayers" title="Delete All">
+                            &#128128; Delete All
                         </div>
 
                         <form method="GET" action="{{ url('/players') }}" accept-charset="UTF-8"
@@ -40,7 +43,10 @@
                                     <th>Name</th>
                                     <th>GoogleID</th>
                                     <th>Online</th>
+                                    <th><i class="fa fa-database" style="color: #e08e0b"></i></th>
+                                    <th><i class="fa fa-cog" style="color:#1b4f72; font-size: 20px"></i></th>
                                     <th>Actions</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -61,6 +67,8 @@
                                             <td>{{ $item->googleID }}</td>
                                             <td>
                                             </td>
+                                            <td>{{ $item->goldCoin }}</td>
+                                            <td>{{ $item->techCoin }}</td>
                                             <td>
                                                 <a href="{{ url('/players/' . $item->ID) }}" title="View player">
                                                     <div class="btn btn-info btn-sm"><i class="fa fa-eye"

@@ -1,14 +1,11 @@
 <tr>
     <td>
-        <input type="hidden" name="items[{{ $loop->index }}][Index]" value="{{ $slot['Index'] }}">
-        {{ $slot['Index'] }}
-    </td>
-    <td>
-        <select class="form-control itemSelect" name="items[{{ $loop->index }}][itemID]">
+        <div class="d-none counter">{{ $counter or $loop->index }}</div>
+        <select class="form-control itemSelect" name="items[{{ $counter or $loop->index }}][imageName]">
             <option value="-1"></option>
             @foreach($items as $item)
-                <option value="{{ $item->ID }}"
-                        @if($item->ID == $slot['itemID'])
+                <option value="{{ $item->Name }}"
+                        @if(isset($slot) && $item->Name == $slot->imageName)
                         selected
                         @endif
                 >{{ $item->Name }}</option>
@@ -16,11 +13,10 @@
         </select>
     </td>
     <td>
-        <input name="items[{{ $loop->index }}][CurrentCount]" type="number" class="form-control count"
-               value="{{ $slot['CurrentCount']}}" min="-1" max="{{ $slot['maxInStack'] }}">
+        <input name="items[{{ $counter or $loop->index }}][count]" type="number" class="form-control count"
+               value="{{ isset($slot) ? $slot->count : '' }}" min="-1" max="{{ isset($slot) ? $slot->item->MaxInStack : '' }}">
     </td>
     <td>
-        <input name="items[{{ $loop->index }}][currentDurability]" type="number" class="form-control durability"
-               value="{{ $slot['currentDurability']}}" min="0" max="{{ $slot['maxDurability'] }}">
+        <button type="button" class="btn btn-danger deleteItem">Delete</button>
     </td>
 </tr>

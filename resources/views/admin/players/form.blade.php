@@ -4,11 +4,26 @@
         <input class="form-control" name="Name" type="text" id="Name" value="{{ $player->Name or ''}}" >
         {!! $errors->first('Name', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('googleID') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('googleID') ? 'has-error' : ''}}">
     <label for="googleID" class="col-md-4 control-label">{{ 'Googleid' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="googleID" type="text" id="googleID" value="{{ $player->googleID or ''}}" >
         {!! $errors->first('googleID', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+<div class="form-group {{ $errors->has('goldCoin') ? 'has-error' : ''}}">
+    <label for="googleID" class="col-md-4 control-label">{{ 'GoldCoin' }}</label>
+    <div class="col-md-6">
+        <input class="form-control" name="goldCoin" type="text" id="googleID" value="{{ $player->goldCoin or 0}}" >
+        {!! $errors->first('goldCoin', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+<div class="form-group {{ $errors->has('techCoin') ? 'has-error' : ''}}">
+    <label for="googleID" class="col-md-4 control-label">{{ 'TechCoin' }}</label>
+    <div class="col-md-6">
+        <input class="form-control" name="techCoin" type="text" id="googleID" value="{{ $player->techCoin or 0}}" >
+        {!! $errors->first('techCoin', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 

@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     online();
-    $('#sidebar').addClass('col-md-2').addClass('offset-md-2').removeClass('col-md-3');
+    $('#sidebar').addClass('col-md-2').addClass('offset-md-1').removeClass('col-md-3');
 
 
     setInterval(online, 5000);
@@ -41,6 +41,28 @@ $(document).ready(function () {
                     btn.closest('tr').remove();
                 },
             });
+        }
+
+    });
+
+    $('#deleteAllPlayers').on('click', function () {
+
+        var result = confirm('Are you sure?');
+
+        if (result) {
+
+            result = confirm('Are you completely sure?');
+
+            if(result) {
+
+                $.ajax({
+                    url: '/delete-all-players',
+                    method: 'GET',
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            }
         }
 
     });
