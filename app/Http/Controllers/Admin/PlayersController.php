@@ -250,8 +250,9 @@ class PlayersController extends Controller
 
         $counter = $request->counter + 1;
         $items = Item::all();
+        $firstItem = Item::where([])->first();
 
-        return view('admin.players.slot', compact('counter', 'items'));
+        return view('admin.players.slot', compact('counter', 'items', 'firstItem'));
     }
 
     public function deleteAll()

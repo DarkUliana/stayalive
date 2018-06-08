@@ -31,8 +31,6 @@ class PlayerController extends Controller
             unset($playerNamed['ID']);
         }
 
-//        $playerNamed['password'] = Hash::make($playerNamed['password']);
-
         $id = $playerNamed['googleID'];
         unset($playerNamed['googleID']);
         $player = Player::updateOrCreate(['googleID' => $id], $playerNamed);
@@ -86,9 +84,8 @@ class PlayerController extends Controller
             }
 
         }
-//        var_dump($renamed); die();
+
         return $renamed;
     }
-
 
 }
