@@ -89,7 +89,6 @@ class PlayersController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
-//        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->get()->sortBy('Index'), true);
         $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
 
         return view('admin.players.show', compact('player', 'cloud'));
@@ -105,7 +104,6 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
-//        $inventory = $this->getInventory(Inventory::where('googleID', $player->googleID)->where('available', 1)->get()->sortBy('Index'));
         $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
         $items = Item::all();
 
@@ -202,57 +200,6 @@ class PlayersController extends Controller
         Player::where('googleID', $googleID)->delete();
     }
 
-//    protected function getInventory($items, $forShow = false)
-//    {
-//        $array = [];
-//
-//        foreach ($items as $item) {
-//
-//
-//            $temp = $item->toArray();
-//
-//            if ($item->itemID == -1) {
-//
-//                if ($forShow) {
-//                    continue;
-//                }
-//
-//                $temp['name'] = '';
-//                $temp['maxInStack'] = 0;
-//                $temp['maxDurability'] = 0;
-//
-//            } else {
-//                $property = ItemProperty::where('itemID', $item->itemID)->where('propertyID', 1)->first();
-//
-//                if (!empty($property)) {
-//
-//                    $temp['maxDurability'] = $property->propertyValue;
-//                } else {
-//
-//                    $temp['maxDurability'] = 0;
-//                }
-//
-//                $temp['name'] = $item->item->Name;
-//                $temp['maxInStack'] = $item->item->MaxInStack;
-//
-//
-//                if ($temp['currentDurability'] > $temp['maxDurability']) {
-//                    $temp['maxDurability'] = $temp['currentDurability'];
-//                }
-//
-//            }
-//            $array[] = $temp;
-//
-//        }
-//
-//        if (!$forShow && empty($array)) {
-//
-//            $array = $this->seedInventory();
-//        }
-//
-//        return $array;
-//    }
-
     public function saveItems(Request $request)
     {
 
@@ -273,25 +220,6 @@ class PlayersController extends Controller
         }
         return redirect('players')->with('flash_message', "Player items updated!");
     }
-
-//    protected function seedInventory()
-//    {
-//        $array = [];
-//
-//        for ($i = 1; $i <= 10; ++$i) {
-//            $array[] = [
-//                'name' => '',
-//                'CurrentCount' => 0,
-//                'currentDurability' => 0,
-//                'maxInStack' => 0,
-//                'itemID' => -1,
-//                'maxDurability' => 0,
-//                'Index' => $i
-//            ];
-//        }
-//
-//        return $array;
-//    }
 
     public function getItem(Request $request, $id)
     {
