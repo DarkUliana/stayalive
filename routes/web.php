@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'connection']], function () {
     Route::get('/tests', function () {
         return view('welcome');
     });

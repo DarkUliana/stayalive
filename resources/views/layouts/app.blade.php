@@ -68,6 +68,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
@@ -80,6 +82,14 @@
                     @guest
                         <li><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                     @else
+                        @if(session('connection'))
+                            <li class="font-weight-bold">It`s production version!</li>
+                            <li><a class="nav-link btn btn-success font-weight-bold" href="{{ url('/reconnect') }}">Go
+                                    to test</a></li>
+                        @else
+                            <li><a class="nav-link btn btn-danger font-weight-bold" href="{{ url('/reconnect') }}">Go to
+                                    production</a></li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
