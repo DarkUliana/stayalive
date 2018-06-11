@@ -49,7 +49,9 @@ class PlayersController extends Controller
             return response($response, 200);
         }
 
-        return view('admin.players.index', compact('players'));
+        $count = Player::count();
+
+        return view('admin.players.index', compact('players', 'count'));
     }
 
     /**

@@ -34,7 +34,7 @@
 
                         <br/>
                         <br/>
-                        <h5>Number of players: {{ $players->count() }}</h5>
+                        <h5>Number of players: {{ $count }}</h5>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
