@@ -64,7 +64,6 @@
             <div class="col-md-2">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Admin') }}
-                    {{ Request::root() }}
                 </a>
             </div>
             @if(!Request::is('login'))
