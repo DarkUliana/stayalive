@@ -94,13 +94,17 @@
                         @guest
                             <li><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                         @else
-                            @if(session('connection'))
-                                <li><a class="nav-link btn btn-success font-weight-bold" href="{{ url('/reconnect') }}">Go
-                                        to test</a></li>
-                            @else
-                                <li><a class="nav-link btn btn-danger font-weight-bold" href="{{ url('/reconnect') }}">Go
-                                        to
-                                        production</a></li>
+                            @if(Auth::user()->role)
+                                @if(session('connection'))
+                                    <li><a class="nav-link btn btn-success font-weight-bold"
+                                           href="{{ url('/reconnect') }}">Go
+                                            to test</a></li>
+                                @else
+                                    <li><a class="nav-link btn btn-danger font-weight-bold"
+                                           href="{{ url('/reconnect') }}">Go
+                                            to
+                                            production</a></li>
+                                @endif
                             @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
