@@ -27,6 +27,9 @@ Route::post('player', 'PlayerController@store');
 //    Route::post('player', 'PlayerController@update');
 Route::delete('player', 'PlayerController@delete');
 
+Route::get('base-player', 'BasePlayerController@index');
+Route::post('base-player', 'BasePlayerController@store');
+
 
 Route::get('{slot}', 'SlotsController@show')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items');
 Route::post('{slot}', 'SlotsController@updateOrCreate')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items');
