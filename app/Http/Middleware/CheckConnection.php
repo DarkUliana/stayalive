@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Config;
 
 class CheckConnection
 {
@@ -18,6 +19,11 @@ class CheckConnection
         if (!session()->has('connection')) {
 
             session(['connection' => 1]);
+        }
+
+        if(!session('connection')) {
+
+            Config::set("database.default", 'alive_test');
         }
         return $next($request);
     }
