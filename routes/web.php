@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['connection', 'auth']], function () {
     Route::get('/tests', function () {
         return view('welcome');
     });
@@ -63,6 +63,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('rewards', 'Admin\RewardsController');
     Route::get('reward-item', 'Admin\RewardsController@item');
+
+    Route::get('reconnect', 'Admin\ReconnectController');
 
 });
 
