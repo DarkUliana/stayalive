@@ -26,11 +26,19 @@ class PlayerQuestCollection extends ResourceCollection
         foreach ($this->collection as $quest) {
 
             if ($quest->type == 'simple') {
+
                 $questsArray['questsData'][] = [
                     'questControllerData' => json_encode(['progress' => $quest->progress]),
                     'questID' => $quest->questID
                 ];
+            } elseif ($quest->type == 'plot') {
+
+                $questsArray['plotQuest'] = [
+                    'questControllerData' => json_encode(['progress' => $quest->progress]),
+                    'questID' => $quest->questID
+                ];
             } else {
+
                 $questsArray['starQuest'] = [
                     'questControllerData' => json_encode(['progress' => $quest->progress]),
                     'questID' => $quest->questID

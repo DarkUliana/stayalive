@@ -14,7 +14,7 @@ class PlayerQuestController extends Controller
             return response('Invalid data', 400);
         }
 
-        $quests = PlayerQuest::where('googleID', $request->googleID)->where('type', '!=', 'plot')->get();
+        $quests = PlayerQuest::where('googleID', $request->googleID)->get();
 
         if($quests->isEmpty()) {
             return response('', 404);
@@ -35,7 +35,7 @@ class PlayerQuestController extends Controller
 
         $quests = $this->prepareForWrite($request->input());
 
-        PlayerQuest::where('googleID', $request->googleID)->where('type', '!=', 'plot')->delete();
+        PlayerQuest::where('googleID', $request->googleID)->delete();
 
         $counter = 0;
         foreach ($quests as $quest) {
@@ -72,8 +72,14 @@ class PlayerQuestController extends Controller
             'questID' => $data['starQuest']['questID']
         ], $json);
 
-        return $array;
+        $json = (array)json_decode($data['plotQuest']['questControllerData']);
+        $array[] = array_merge([
+            'googleID' => $data['googleID'],
+            'type' => 'plot',
+            'questID' => $data['plotQuest']['questID']
+        ], $json);
 
+        return $array;
     }
 
 }
