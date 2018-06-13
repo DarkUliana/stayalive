@@ -85,6 +85,8 @@ Route::post('base-player', 'BasePlayerController@store');
 
     Route::post('player-quests', 'PlayerQuestController@store');
     Route::get('player-quests', 'PlayerQuestController@index');
+    Route::get('player-plot-quests', 'PlayerPlotQuestController@index');
+    Route::post('player-plot-quests', 'PlayerPlotQuestController@store');
 
     Route::post('rewards', 'RewardController@store');
     Route::get('rewards', 'RewardController@index');
