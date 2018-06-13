@@ -13,15 +13,9 @@ class DialogController extends Controller
 {
     public function index()
     {
-        $beginQuestDialogs = Dialog::whereHas('quest', function ($q) {
+        $beginQuestDialogs = Dialog::where('type', 'begin')->get();
 
-            $q->where('daily', 0)->where('typeID', '<>', 8);
-        })->get();
-
-        $additionalDialogs = Dialog::whereHas('quest', function ($q) {
-
-            $q->where('daily', 0)->where('typeID', 8);
-        })->get();
+        $additionalDialogs = Dialog::where('type', 'additional')->get();
 
         $array = [
             'beginQuestDialogs' => new DialogCollection($beginQuestDialogs),
@@ -34,7 +28,7 @@ class DialogController extends Controller
     public function store(Request $request)
     {
         if(!isset($request->beginQuestDialogs) or !isset($request->AdditionalDialogs)) {
-            var_dump($request->all()); die();
+
             return response('Invalid data', 400);
         }
 

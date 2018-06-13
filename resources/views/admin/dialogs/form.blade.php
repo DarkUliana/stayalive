@@ -5,6 +5,17 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+<div class="form-group {{ $errors->has('type') ? 'has-error' : ''}}">
+    <label for="type" class="col-md-4 control-label">{{ 'Type' }}</label>
+    <div class="col-md-6">
+        <select name="type" class="form-control" id="type">
+            @foreach (['begin', 'additional'] as $type)
+                <option value="{{ $type }}" {{ (isset($dialog->type) && $dialog->type == $type) ? 'selected' : ''}}>{{ $type }}</option>
+            @endforeach
+        </select>
+        {!! $errors->first('type', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
 <div class="form-group {{ $errors->has('questID') ? 'has-error' : ''}}">
     <label for="questID" class="col-md-4 control-label">{{ 'Quest' }}</label>
     <div class="col-md-6">

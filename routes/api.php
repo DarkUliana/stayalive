@@ -81,7 +81,9 @@ Route::post('base-player', 'BasePlayerController@store');
 
     Route::post('daily-quests', 'QuestController@storeDaily');
     Route::post('plot-quests', 'QuestController@storePlot');
-    Route::get('quests', 'QuestController@index');
+    Route::get('daily-quests', 'QuestController@getDaily');
+    Route::get('plot-quests', 'QuestController@getPlot');
+//    Route::get('quests', 'QuestController@index');
 
     Route::post('player-quests', 'PlayerQuestController@store');
     Route::get('player-quests', 'PlayerQuestController@index');

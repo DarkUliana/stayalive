@@ -14,14 +14,17 @@ use Illuminate\Support\Facades\DB;
 
 class QuestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function getPlot()
     {
-        $quests = new QuestCollection(Quest::get());
+        $quests = new QuestCollection(Quest::where('daily', 0)->get());
+
+        return response($quests, 200);
+    }
+
+    public function getDaily()
+    {
+        $quests = new QuestCollection(Quest::where('daily', 1)->get());
 
         return response($quests, 200);
     }
