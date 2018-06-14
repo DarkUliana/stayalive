@@ -1,35 +1,49 @@
 $(document).ready(function () {
 
-    $('#addDescription').on('click', function () {
+    $('.addDescription').on('click', function () {
 
+        var type;
+        if ($(this).closest('#dialogCard1').length) {
+
+            type = 'beginDescriptions';
+        } else {
+
+            type = 'additionalDescriptions';
+        }
+
+        console.log(type);
         var optionTexts = [];
 
-        $('tr .counter').each(function () {
+        var table = $(this).closest('table');
+
+        table.find('tr .counter').each(function () {
             optionTexts.push(parseInt($(this).text()))
         });
 
-        var index = {"index": Math.max.apply(null, optionTexts)};
+        var index = Math.max.apply(null, optionTexts);
 
-        // var index = {"index": $('tbody tr:last-child .number').val()};
+        if (table.find('.number').length == 0) {
 
-
-        if ($('.number').length == 0) {
-
-            index = {"index": 0};
+            index = 0;
         }
 
+        var data = {
+            "index" : index,
+            "type" : type
+        };
 
         $.ajax({
             url: '/dialog-description',
             method: 'GET',
-            data: index,
+            data: data,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (data) {
 
-                $('table').append(data);
+                table.append(data);
                 deleteDescription();
+                sortDescriptions();
             },
         });
     });
@@ -38,11 +52,11 @@ $(document).ready(function () {
     $('input[type=radio][name=daily]').change(function () {
         if (this.value === '1') {
 
-            $('#dialogCard').removeClass('d-block').addClass('d-none');
+            $('#dialogCard1, #dialogCard2').removeClass('d-block').addClass('d-none');
         }
         else if (this.value === '0') {
 
-            $('#dialogCard').removeClass('d-none').addClass('d-block');
+            $('#dialogCard1, #dialogCard2').removeClass('d-none').addClass('d-block');
         }
     });
 
@@ -53,7 +67,11 @@ $(document).ready(function () {
 
     function sortDescriptions() {
 
-        $('input.number').each(function (index) {
+        $('#dialogCard1').find('input.number').each(function (index) {
+
+            $(this).attr('value', index);
+        });
+        $('#dialogCard2').find('input.number').each(function (index) {
 
             $(this).attr('value', index);
         });

@@ -68,7 +68,7 @@ class DialogsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -82,7 +82,7 @@ class DialogsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -99,7 +99,7 @@ class DialogsController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -118,7 +118,7 @@ class DialogsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -133,9 +133,16 @@ class DialogsController extends Controller
     public function description(Request $request)
     {
         $descriptions = Description::all();
-        $index = $request->index+1;
+        $index = $request->index + 1;
+        $name = 'descriptions';
 
-        return view('admin.dialogs.description', compact('descriptions', 'index'));
+        if (isset($request->type)) {
+
+            $name = $request->type;
+        }
+
+
+        return view('admin.dialogs.description', compact('descriptions', 'index', 'name'));
     }
 
     public function updateDialog($id, $dialogData, $descriptions)

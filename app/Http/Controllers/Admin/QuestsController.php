@@ -31,9 +31,9 @@ class QuestsController extends Controller
         'level' => 'required|integer',
         'starPoints' => 'required|integer',
         'rewardID' => 'required|integer',
-        'descriptions.*.number' => 'required|integer',
-        'descriptions.*.descriptionID' => 'required|integer',
-        'descriptions.*.speaker' => 'required|integer'
+//        'descriptions.*.number' => 'required|integer',
+//        'descriptions.*.descriptionID' => 'required|integer',
+//        'descriptions.*.speaker' => 'required|integer'
 
     ];
 
@@ -81,12 +81,12 @@ class QuestsController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate($request, $this->validateArray);
 
         $requestData = $request->all();
         unset($requestData['field']);
-        unset($requestData['descriptions']);
+        unset($requestData['beginDescriptions']);
+        unset($requestData['additionalDescriptions']);
 
         $quest = Quest::create($requestData);
 
@@ -98,7 +98,7 @@ class QuestsController extends Controller
             $quest->field()->save($fieldObj);
         }
 
-        if ($request->daily == '0' && isset($request->descriptions)) {
+        if ($request->daily == '0' && isset($request->beginDescriptions)) {
 
             $dialogData = [
                 'name' => $request->name,
@@ -107,7 +107,13 @@ class QuestsController extends Controller
 
             $dialogsController = new DialogsController();
 
-            $dialogsController->createDialog($dialogData, $request->descriptions);
+            $dialogsController->createDialog($dialogData, $request->beginDescriptions);
+
+            if (isset($request->additionalDescriptions)) {
+
+                $dialogData['type'] = 'additional';
+                $dialogsController->createDialog($dialogData, $request->additionalDescriptions);
+            }
         }
 
         return redirect('quests')->with('flash_message', 'Quest added!');
@@ -162,14 +168,16 @@ class QuestsController extends Controller
         $quest = Quest::findOrFail($id);
         $rewards = Reward::all();
         $types = QuestType::all();
-        $dialog = Dialog::where('questID', $id)->first();
+        $beginDialog = Dialog::where('questID', $id)->where('type', 'begin')->first();
+        $additionalDialog = Dialog::where('questID', $id)->where('type', 'additional')->first();
         $descriptions = Description::all();
 
         if (isset($quest->field)) {
             $items = $this->getItems($quest->field->fieldName->name);
         }
 
-        return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'dialog', 'descriptions'));
+        return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
+            'additionalDialog', 'descriptions'));
     }
 
     /**
@@ -182,11 +190,13 @@ class QuestsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, $this->validateArray);
 
         $requestData = $request->all();
         unset($requestData['field']);
-        unset($requestData['descriptions']);
+        unset($requestData['beginDescriptions']);
+        unset($requestData['additionalDescriptions']);
 
         $quest = Quest::findOrFail($id);
         $quest->update($requestData);
@@ -201,31 +211,35 @@ class QuestsController extends Controller
             $quest->field()->save($fieldObj);
         }
 
-        if ($request->daily == '0' && isset($request->descriptions)) {
+        if ($request->daily == '0' && isset($request->beginDescriptions)) {
 
             $dialogData = [
                 'name' => $request->name,
                 'questID' => $id,
             ];
 
-            $dialog = Dialog::where($dialogData)->first();
+            $dialog = Dialog::where($dialogData)->where('type', 'begin')->first();
 
-            $dialogsController = new DialogsController();
+            $this->updateOrCreateDialog($dialog, $dialogData, $request->beginDescriptions);
 
-            if ($dialog) {
+            if (isset($request->additionalDescriptions)) {
 
-                $dialogsController->updateDialog($dialog->ID, $dialogData, $request->descriptions);
+                $dialog = Dialog::where($dialogData)->where('type', 'additional')->first();
+                $dialogData['type'] = 'additional';
+                $this->updateOrCreateDialog($dialog, $dialogData, $request->additionalDescriptions);
 
             } else {
 
-                $dialogsController->createDialog($dialogData, $request->descriptions);
+                $dialog = Dialog::where('questID', $id)->where('type', 'additional')->first();
+                DialogDescription::where('dialogID', $dialog->ID)->delete();
+                $dialog->delete();
             }
 
         } else {
 
-            $dialog = Dialog::where('questID', $id)->first();
-            DialogDescription::where('dialogID', $dialog->ID)->delete();
-            $dialog->delete();
+            $dialogs = Dialog::where('questID', $id)->pluck('ID');
+            DialogDescription::whereIn('dialogID', $dialogs)->delete();
+            Dialog::whereIn('ID', $dialogs)->delete();
         }
 
         return redirect('quests')->with('flash_message', 'Quest updated!');
@@ -289,4 +303,20 @@ class QuestsController extends Controller
 
         return $items;
     }
+
+    protected function updateOrCreateDialog($dialog, $dialogData, $descriptions)
+    {
+        $dialogsController = new DialogsController();
+
+        if ($dialog) {
+
+            $dialogsController->updateDialog($dialog->ID, $dialogData, $descriptions);
+
+        } else {
+
+            $dialogsController->createDialog($dialogData, $descriptions);
+        }
+    }
+
+
 }

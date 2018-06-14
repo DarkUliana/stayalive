@@ -78,7 +78,7 @@
 </div>
 
 <div id="dialogCard1" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
-    <div class="card-header"><h5>Dialog</h5></div>
+    <div class="card-header"><h5>Begin Dialog</h5></div>
     <div class="card-body">
         <table class="table table-bordered">
             <tr>
@@ -86,15 +86,15 @@
                 <th>Speaker</th>
 
                 <th>
-                    <button id="addDescription" type="button" class="btn btn-success">Add</button>
+                    <button type="button" class="addDescription btn btn-success">Add</button>
                 </th>
             </tr>
 
             <tbody>
-            @isset($dialog)
-                @foreach($dialog->descriptions->sortBy('number') as $value)
+            @isset($beginDialog)
+                @foreach($beginDialog->descriptions->sortBy('number') as $value)
 
-                    @include('admin.dialogs.description', ['index' => $loop->index])
+                    @include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'beginDescriptions'])
 
                 @endforeach
             @endisset
@@ -105,7 +105,7 @@
 </div>
 
 <div id="dialogCard2" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
-    <div class="card-header"><h5>Dialog</h5></div>
+    <div class="card-header"><h5>Additional Dialog</h5></div>
     <div class="card-body">
         <table class="table table-bordered">
             <tr>
@@ -113,15 +113,15 @@
                 <th>Speaker</th>
 
                 <th>
-                    <button id="addDescription" type="button" class="btn btn-success">Add</button>
+                    <button type="button" class="addDescription btn btn-success">Add</button>
                 </th>
             </tr>
 
             <tbody>
-            @isset($dialog)
-                @foreach($dialog->descriptions->sortBy('number') as $value)
+            @isset($additionalDialog)
+                @foreach($additionalDialog->descriptions->sortBy('number') as $value)
 
-                    @include('admin.dialogs.description', ['index' => $loop->index])
+                    @include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'additionalDescriptions'])
 
                 @endforeach
             @endisset
