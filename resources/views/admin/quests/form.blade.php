@@ -77,7 +77,34 @@
     </div>
 </div>
 
-<div id="dialogCard" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
+<div id="dialogCard1" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
+    <div class="card-header"><h5>Dialog</h5></div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Description</th>
+                <th>Speaker</th>
+
+                <th>
+                    <button id="addDescription" type="button" class="btn btn-success">Add</button>
+                </th>
+            </tr>
+
+            <tbody>
+            @isset($dialog)
+                @foreach($dialog->descriptions->sortBy('number') as $value)
+
+                    @include('admin.dialogs.description', ['index' => $loop->index])
+
+                @endforeach
+            @endisset
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<div id="dialogCard2" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
     <div class="card-header"><h5>Dialog</h5></div>
     <div class="card-body">
         <table class="table table-bordered">
