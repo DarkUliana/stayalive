@@ -16,7 +16,7 @@ class PlayerQuestController extends Controller
 
         $quests = PlayerQuest::where('googleID', $request->googleID)->get();
 
-        if($quests->isEmpty()) {
+        if ($quests->isEmpty()) {
             return response('', 404);
         }
 
@@ -65,20 +65,27 @@ class PlayerQuestController extends Controller
 
         }
 
-        $json = (array)json_decode($data['starQuest']['questControllerData']);
-        $array[] = array_merge([
-            'googleID' => $data['googleID'],
-            'type' => 'star',
-            'questID' => $data['starQuest']['questID']
-        ], $json);
+        if (isset($data['starQuest'])) {
 
-        $json = (array)json_decode($data['plotQuest']['questControllerData']);
-        $array[] = array_merge([
-            'googleID' => $data['googleID'],
-            'type' => 'plot',
-            'questID' => $data['plotQuest']['questID']
-        ], $json);
+            $json = (array)json_decode($data['starQuest']['questControllerData']);
+            $array[] = array_merge([
+                'googleID' => $data['googleID'],
+                'type' => 'star',
+                'questID' => $data['starQuest']['questID']
+            ], $json);
+        }
 
+
+        if (isset($data['plotQuest'])) {
+
+            $json = (array)json_decode($data['plotQuest']['questControllerData']);
+            $array[] = array_merge([
+                'googleID' => $data['googleID'],
+                'type' => 'plot',
+                'questID' => $data['plotQuest']['questID']
+            ], $json);
+        }
+        
         return $array;
     }
 
