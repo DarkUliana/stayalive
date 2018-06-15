@@ -13,7 +13,7 @@ class DeleteSomeFieldsFromPlayers extends Migration
      */
     public function up()
     {
-        Schema::connection('alive_test')->table('players', function (Blueprint $table) {
+        Schema::table('players', function (Blueprint $table) {
             $table->dropColumn('MaximumHP');
             $table->dropColumn('MaximumPower');
             $table->dropColumn('MaximumSatiety');
