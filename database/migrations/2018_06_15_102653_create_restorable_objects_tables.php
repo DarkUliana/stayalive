@@ -13,13 +13,15 @@ class CreateRestorableObjectsTables extends Migration
      */
     public function up()
     {
-        Schema::create('restorable_objects', function (Blueprint $table) {
+        Schema::create('player_restorable_objects', function (Blueprint $table) {
             $table->bigIncrements('ID');
             $table->string('objectKey');
             $table->string('googleID');
+            $table->boolean('isBuilded');
+            $table->string('SaveKey');
             $table->timestamps();
         });
-        Schema::create('restorable_object_slots', function (Blueprint $table) {
+        Schema::create('player_restorable_object_slots', function (Blueprint $table) {
             $table->increments('ID');
             $table->bigInteger('restorableObjectID');
             $table->string('itemID');
@@ -39,7 +41,7 @@ class CreateRestorableObjectsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('restorable_objects');
-        Schema::dropIfExists('restorable_object_slots');
+        Schema::dropIfExists('player_restorable_objects');
+        Schema::dropIfExists('player_restorable_object_slots');
     }
 }

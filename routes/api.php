@@ -99,8 +99,8 @@ Route::post('base-player', 'BasePlayerController@store');
     Route::get('dialogs', 'DialogController@index');
     Route::post('dialogs', 'DialogController@store');
 
-    Route::get('restorable-objects', 'RestorableObjectController@index');
-    Route::post('restorable-objects', 'RestorableObjectController@store');
+    Route::get('restorable-objects', 'PlayerRestorableObjectController@index');
+    Route::post('restorable-objects', 'PlayerRestorableObjectController@store');
 });
 
 

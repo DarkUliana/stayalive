@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RestorableObjectSlot extends Model
+class PlayerRestorableObjectSlot extends Model
 {
     protected $primaryKey = 'ID';
 

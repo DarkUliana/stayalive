@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RestorableObject extends Model
+class PlayerRestorableObject extends Model
 {
     protected $primaryKey = 'ID';
 
@@ -14,6 +14,6 @@ class RestorableObject extends Model
 
     public function slots()
     {
-        return $this->hasMany('App\RestorableObjectSlot', 'restorableObjectID', 'ID');
+        return $this->hasMany('App\PlayerRestorableObjectSlot', 'restorableObjectID', 'ID');
     }
 }

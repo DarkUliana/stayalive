@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\RestorableObject;
-use App\RestorableObjectSlot;
+use App\PlayerRestorableObject;
+use App\PlayerRestorableObjectSlot;
 use Illuminate\Http\Request;
 
-class RestorableObjectController extends Controller
+class PlayerRestorableObjectController extends Controller
 {
     public function index(Request $request)
     {
@@ -14,7 +14,7 @@ class RestorableObjectController extends Controller
             return response('Invalid data', 400);
         }
 
-        $objects = RestorableObject::where('googleID', $request->googleID)->get();
+        $objects = PlayerRestorableObject::where('googleID', $request->googleID)->get();
 
         $restorableObjects = [];
 
@@ -35,6 +35,8 @@ class RestorableObjectController extends Controller
                     'itemID' => $slot->itemID
 
                 ];
+                $temp['objectData']['isBuilded'] = $object->isBuilded;
+                $temp['objectData']['SaveKey'] = $object->SaveKey;
 
             }
             $temp['objectData'] = json_encode($temp['objectData']);
@@ -57,18 +59,20 @@ class RestorableObjectController extends Controller
             $json = json_decode($object['objectData']);
             $objectData = [
                 'objectKey' => $object['objectKey'],
-                'googleID' => $json->googleID
+                'googleID' => $json->googleID,
+                'isBuilded' => $json->isBuilded,
+                'SaveKey' => $json->SaveKey
             ];
 
-            $newObject = RestorableObject::firstOrCreate($objectData);
-            RestorableObjectSlot::where('restorableObjectID', $newObject->ID)->delete();
+            $newObject = PlayerRestorableObject::firstOrCreate($objectData);
+            PlayerRestorableObjectSlot::where('restorableObjectID', $newObject->ID)->delete();
 
             foreach ($json->slotsData as $slot) {
 
                 $slotData = (array)json_decode($slot->slotInfo);
                 $slotData['itemID'] = $slot->itemID;
 
-                $newSlot = new RestorableObjectSlot($slotData);
+                $newSlot = new PlayerRestorableObjectSlot($slotData);
 
                 $newObject->slots()->save($newSlot);
             }
