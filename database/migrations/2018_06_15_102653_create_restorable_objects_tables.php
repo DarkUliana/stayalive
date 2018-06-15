@@ -22,7 +22,7 @@ class CreateRestorableObjectsTables extends Migration
         Schema::create('restorable_object_slots', function (Blueprint $table) {
             $table->increments('ID');
             $table->bigInteger('restorableObjectID');
-            $table->string('ItemID');
+            $table->string('itemID');
             $table->integer('Index');
             $table->integer('CurrentCount');
             $table->integer('currentDurability');
