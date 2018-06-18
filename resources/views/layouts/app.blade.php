@@ -187,6 +187,12 @@
     <script src="{{ asset('js/reward.js') }}"></script>
 @endif
 
+@if(Request::is('/'))
+    <script src="{{ asset('js/merge.js') }}"></script>
+@endif
+
+
+
 
 </body>
 </html>

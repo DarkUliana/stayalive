@@ -66,6 +66,9 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
 
     Route::get('reconnect', 'Admin\ReconnectController');
 
+    Route::get('test-to-production', 'Admin\MergingController@testToProduction');
+    Route::get('production-to-test', 'Admin\MergingController@productionToTest');
+
 });
 
 
