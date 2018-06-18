@@ -22,7 +22,7 @@ class PlayerRestorableObjectController extends Controller
 
             $temp['objectKey'] = $object->objectKey;
             $temp['objectData'] = [];
-            $temp['objectData']['googleID'] = $object->googleID;
+//            $temp['objectData']['googleID'] = $object->googleID;
 
             foreach ($object->slots as $slot) {
 
@@ -43,13 +43,18 @@ class PlayerRestorableObjectController extends Controller
             $restorableObjects[] = $temp;
         }
 
-        return response(['restorableObjects' => $restorableObjects], 200);
+        $return = [
+            'googleID' => $request->googleID,
+            'restorableObjects' => $restorableObjects
+        ];
+
+        return response($return, 200);
     }
 
     public function store(Request $request)
     {
 
-        if (!isset($request->restorableObjects)) {
+        if (!isset($request->restorableObjects) || !isset($request->googleID)) {
 
             return response('Invalid data', 400);
         }
@@ -59,7 +64,7 @@ class PlayerRestorableObjectController extends Controller
             $json = json_decode($object['objectData']);
             $objectData = [
                 'objectKey' => $object['objectKey'],
-                'googleID' => $json->googleID,
+                'googleID' => $request->googleID,
                 'isBuilded' => $json->isBuilded,
                 'SaveKey' => $json->SaveKey
             ];
