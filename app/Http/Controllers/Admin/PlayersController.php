@@ -187,7 +187,7 @@ class PlayersController extends Controller
     {
 
         AfterCraftItems::where('googleID', $googleID)->delete();
-        CloudItem::where('googleID', $googleID)->delete();
+//        CloudItem::where('googleID', $googleID)->delete();
         Equipment::where('googleID', $googleID)->delete();
         Inventory::where('googleID', $googleID)->delete();
         ItemsInCraft::where('googleID', $googleID)->delete();
