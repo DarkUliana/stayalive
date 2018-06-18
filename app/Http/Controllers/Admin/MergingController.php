@@ -20,7 +20,7 @@ class MergingController extends Controller
         'recipe_technologies',
         'recipe_components',
         'rewards',
-        'reward_chest_types',
+//        'reward_chest_types',
         'reward_items',
         'shop_articles',
         'shop_article_items',
