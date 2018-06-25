@@ -231,8 +231,12 @@ class QuestsController extends Controller
             } else {
 
                 $dialog = Dialog::where('questID', $id)->where('type', 'additional')->first();
-                DialogDescription::where('dialogID', $dialog->ID)->delete();
-                $dialog->delete();
+
+                if ($dialog) {
+
+                    DialogDescription::where('dialogID', $dialog->ID)->delete();
+                    $dialog->delete();
+                }
             }
 
         } else {
