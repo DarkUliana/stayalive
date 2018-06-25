@@ -12,7 +12,13 @@
         </div>
     </td>
     <td>
-        <input class="form-control"  type="number" name="{{ $name or 'descriptions' }}[{{ $index }}][speaker]" value="{{ $value->speaker or 0 }}">
+        <div class="form-group">
+            <select class="form-control"  name="{{ $name or 'descriptions' }}[{{ $index }}][speaker]">
+                @foreach(['player', 'parrot'] as $key => $speaker)
+                    <option value="{{ $key }}" {{ (isset($value) && $value->speaker == $key) ? 'selected' : ''}}>{{ $speaker }}</option>
+                @endforeach
+            </select>
+        </div>
     </td>
     <td>
         <button type="button" class="btn btn-danger deleteDescription">Delete</button>
