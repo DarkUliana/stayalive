@@ -14,7 +14,7 @@
     <td>
         <div class="form-group">
             <select class="form-control"  name="{{ $name or 'descriptions' }}[{{ $index }}][speaker]">
-                @foreach(['player', 'parrot'] as $key => $speaker)
+                @foreach(['player', 'parrot', 'journal', 'jack'] as $key => $speaker)
                     <option value="{{ $key }}" {{ (isset($value) && $value->speaker == $key) ? 'selected' : ''}}>{{ $speaker }}</option>
                 @endforeach
             </select>
