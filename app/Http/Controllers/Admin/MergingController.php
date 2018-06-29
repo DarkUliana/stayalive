@@ -40,11 +40,17 @@ class MergingController extends Controller
     public function testToProduction()
     {
 
+        set_time_limit(300);
         foreach ($this->tables as $table) {
 
             DB::connection('mysql')->table($table)->truncate();
             $data = $this->toArray(DB::connection('alive_test')->table($table)->get());
-            DB::connection('mysql')->table($table)->insert($data);
+
+            foreach (array_chunk($data, 1000) as $part) {
+
+                DB::connection('mysql')->table($table)->insert($part);
+            }
+
 
         }
         return back()->with('status', 'Merged!');
@@ -55,6 +61,7 @@ class MergingController extends Controller
         $tables = (array)DB::connection('mysql')->select('SHOW TABLES');
         $name = 'Tables_in_stay-alive';
 
+        set_time_limit(300);
         foreach ($tables as $table) {
 
             if (in_array($table->{$name}, $this->notCopy)) {
@@ -63,7 +70,12 @@ class MergingController extends Controller
             }
             DB::connection('alive_test')->table($table->{$name})->truncate();
             $data = $this->toArray(DB::connection('mysql')->table($table->{$name})->get());
-            DB::connection('alive_test')->table($table->{$name})->insert($data);
+
+            foreach (array_chunk($data, 1000) as $part) {
+
+                DB::connection('alive_test')->table($table->{$name})->insert($part);
+            }
+
 
         }
         return back()->with('status', 'Merged!');
