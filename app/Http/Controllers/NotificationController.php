@@ -11,7 +11,7 @@ class NotificationController extends Controller
         $notifications = Notification::where('expiration_date', '>', date('Y-m-d H:i:s', time()))
             ->orWhere('isSimple', 1)
             ->orderBy('isSimple', 'desc')
-            ->orderBy('updated_at')
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         $array = [];
