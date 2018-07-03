@@ -191,7 +191,9 @@
     <script src="{{ asset('js/merge.js') }}"></script>
 @endif
 
-
+@if(Request::is('restorable-objects/*'))
+    <script src="{{ asset('js/restorable-object.js') }}"></script>
+@endif
 
 
 </body>

@@ -69,6 +69,9 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
     Route::get('test-to-production', 'Admin\MergingController@testToProduction');
     Route::get('production-to-test', 'Admin\MergingController@productionToTest');
 
+    Route::resource('restorable-objects', 'Admin\RestorableObjectsController');
+    Route::get('restorable-item', 'Admin\RestorableObjectsController@getItem');
+
 });
 
 
