@@ -17,7 +17,7 @@ class NotificationController extends Controller
         $array = [];
 
         foreach ($notifications as $notification) {
-            
+
             $array[] = [
 
                 'id' => 'nt' . $notification->ID,

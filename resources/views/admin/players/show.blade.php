@@ -69,20 +69,26 @@
 
                             <table class="table table-bordered">
                                 <tr>
-                                    <th colspan="3" class="text-center">Cloud items</th>
+                                    <th colspan="4" class="text-center">Cloud items</th>
                                 </tr>
 
                                 <tr>
                                     <th>Name</th>
+                                    <th>Source</th>
+                                    <th>isTaken</th>
                                     <th>Count</th>
                                 </tr>
                                 @foreach($cloud as $item)
-                                    <tr>
+                                    <tr class="{{ $item->sourceID < 2 ? 'bg-warning' : ''}}">
                                         <th>{{ $item->imageName }}</th>
+                                        <th>{{ $types[$item->sourceID] }}</th>
+                                        <th>
+                                            <i class="fa {{ $item->isTaken?'fa-check text-success':'fa-times text-danger' }}"></i>
+                                        </th>
                                         <th>{{ $item->count }}</th>
                                     </tr>
                                 @endforeach
-                                </tbody>
+
                             </table>
                         </div>
 
