@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\BasePlayer;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\Version;
+use App\Http\Requests;
 use Illuminate\Http\Request;
 
 class BasePlayerController extends Controller
@@ -35,8 +33,21 @@ class BasePlayerController extends Controller
      */
     public function update(Request $request)
     {
-        var_dump($request->input()); die();
+        $data = $request->all();
+        unset($data['_token']);
 
-        return redirect('base-player')->with('flash_message', 'Version updated!');
+        foreach ($data as $key => $value) {
+
+            $property = BasePlayer::where('property', $key)->first();
+
+            if ($property) {
+
+                $property->value = $value;
+                $property->save();
+            }
+
+        }
+
+        return redirect('base-player')->with('status', 'Base Player Updated!');
     }
 }

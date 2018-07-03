@@ -6,23 +6,41 @@
             @include('admin.sidebar')
 
             <div class="col-md-9">
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">Base player</div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ url('/players/' . $player->ID) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('/base-player/') }}" accept-charset="UTF-8"
+                              class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                        @foreach($properties as $property)
+                            <table class="table table-bordered table-light table-hover">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                </tr>
+                                @foreach($properties as $property)
+                                    <tr>
+                                        <td style="font-weight: 600">{{ $property->property }}</td>
+                                        <td>
+                                            <input class="form-control" name="{{ $property->property }}"
+                                                   type="{{ $property->type=='string'?'text':'number' }}"
+                                                   id="{{ $property->property }}"
+                                                   value="{{ $property->value or ''}}"
+                                            {{ $property->type=='double'?'step=0.01':'' }}>
+                                            {!! $errors->first($property->property, '<p class="help-block">:message</p>') !!}
 
-                                <div class="form-group {{ $errors->has($property->property) ? 'has-error' : ''}}">
-                                    <label for="{{ $property->property }}" class="col-md-4 control-label">{{ $property->property }}</label>
-                                    <div class="col-md-6">
-                                        <input class="form-control" name="{{ $property->property }}" type="{{ $property->type=='string'?'text':'number' }}" id="{{ $property->property }}" value="{{ $property->value or ''}}" >
-                                        {!! $errors->first($property->property, '<p class="help-block">:message</p>') !!}
-                                    </div>
-                                </div>
-                        @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                            <button type="submit" class="btn btn-success">Update</button>
                         </form>
+
                     </div>
                 </div>
             </div>

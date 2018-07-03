@@ -8,6 +8,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/players') }}">
                     Players
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/base-player') }}">
+                    Base Player
+                </a></li>
             <li class="list-group-item"><a class="card-link" href="{{ url('/technologies') }}">
                     Technologies
                 </a></li>
