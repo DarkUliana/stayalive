@@ -14,6 +14,17 @@ class NotificationController extends Controller
             ->orderBy('updated_at')
             ->get();
 
-        return response($notifications->toArray(), 200);
+        $array = [];
+
+        foreach ($notifications as $notification) {
+
+            $array[] = [
+
+                'id' => $notification->ID,
+                'description' => $notification->descriptionID
+            ];
+        }
+
+        return response(['startingNotifications' => $array], 200);
     }
 }
