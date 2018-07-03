@@ -17,11 +17,11 @@ class NotificationController extends Controller
         $array = [];
 
         foreach ($notifications as $notification) {
-
+            
             $array[] = [
 
                 'id' => $notification->ID,
-                'description' => $notification->descriptionID
+                'description' => $notification->description->key
             ];
         }
 
