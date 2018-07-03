@@ -72,6 +72,9 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
     Route::resource('restorable-objects', 'Admin\RestorableObjectsController');
     Route::get('restorable-item', 'Admin\RestorableObjectsController@getItem');
 
+    Route::get('base-player', 'Admin\BasePlayerController@show');
+    Route::post('base-player', 'Admin\BasePlayerController@update');
+
 });
 
 
