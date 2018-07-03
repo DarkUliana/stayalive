@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\AfterCraftItems;
 use App\CloudItem;
 use App\Equipment;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests;
 use App\Inventory;
 use App\Item;
-use App\ItemProperty;
 use App\ItemsInCraft;
 use App\Online;
 use App\Player;
@@ -19,11 +17,8 @@ use App\PlayerChestItems;
 use App\PlayerQuest;
 use App\PlayerReward;
 use App\PlayerTechnologiesStates;
-use App\ShopArticle;
 use App\Timer;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client as HttpClient;
-use Illuminate\Support\Facades\DB;
 
 class PlayersController extends Controller
 {
@@ -91,9 +86,16 @@ class PlayersController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
+        $types = [
+            'GoldPurchase',
+            'MoneyPurchase',
+            'BoxOpen',
+            'CraftItem',
+            'Reward'
+        ];
         $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->orderBy('sourceID')->get();
 
-        return view('admin.players.show', compact('player', 'cloud'));
+        return view('admin.players.show', compact('player', 'cloud', 'types'));
     }
 
     /**
