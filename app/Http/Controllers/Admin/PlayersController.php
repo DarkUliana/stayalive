@@ -91,7 +91,7 @@ class PlayersController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
-        $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
+        $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->orderBy('sourceID')->get();
 
         return view('admin.players.show', compact('player', 'cloud'));
     }
@@ -213,7 +213,7 @@ class PlayersController extends Controller
 
             $properties = [
                 'googleID' => $request->googleID,
-                'sourceID' => 0, 'isTaken' => 0,
+                'sourceID' => 4, 'isTaken' => 0,
                 'uniqueID' => uniqid('id', true),
                 'inStuck' => (Item::where('Name', $item['imageName'])->value('maxInStack')) == 1 ? 0 : 1
             ];

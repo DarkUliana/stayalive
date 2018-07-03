@@ -74,11 +74,14 @@
 
                                 <tr>
                                     <th>Name</th>
+                                    <th>Source</th>
+                                    <th>isTaken</th>
                                     <th>Count</th>
                                 </tr>
                                 @foreach($cloud as $item)
                                     <tr>
                                         <th>{{ $item->imageName }}</th>
+                                        <th>{{ $item->source->name }}</th>
                                         <th>{{ $item->count }}</th>
                                     </tr>
                                 @endforeach
