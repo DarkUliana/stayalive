@@ -103,6 +103,8 @@ Route::post('base-player', 'BasePlayerController@store');
     Route::post('restorable-objects', 'PlayerRestorableObjectController@store');
     Route::get('restorable-store', 'RestorableObjectController@index');
     Route::post('restorable-store', 'RestorableObjectController@store');
+
+    Route::get('notifications', 'NotificationController@index');
 });
 
 
