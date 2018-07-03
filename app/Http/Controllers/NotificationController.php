@@ -20,7 +20,7 @@ class NotificationController extends Controller
             
             $array[] = [
 
-                'id' => $notification->ID,
+                'id' => 'nt' . $notification->ID,
                 'description' => $notification->description->key
             ];
         }
