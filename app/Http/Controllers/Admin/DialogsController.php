@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Dialog;
 use App\Quest;
+use App\Speaker;
 use Illuminate\Http\Request;
 
 class DialogsController extends Controller
@@ -41,8 +42,9 @@ class DialogsController extends Controller
     {
         $quests = Quest::all();
         $descriptions = Description::all();
+        $speakers = Speaker::pluck('name');
 
-        return view('admin.dialogs.create', compact('quests', 'descriptions'));
+        return view('admin.dialogs.create', compact('quests', 'descriptions', 'speakers'));
     }
 
     /**
@@ -91,8 +93,9 @@ class DialogsController extends Controller
         $dialog = Dialog::findOrFail($id);
         $quests = Quest::all();
         $descriptions = Description::all();
+        $speakers = Speaker::pluck('name');
 
-        return view('admin.dialogs.edit', compact('dialog', 'quests', 'descriptions'));
+        return view('admin.dialogs.edit', compact('dialog', 'quests', 'descriptions', 'speakers'));
     }
 
     /**

@@ -68,8 +68,9 @@ class QuestsController extends Controller
         $items = Item::all();
         $field = AdditionalQuestsField::where('name', 'itemID')->first();
         $descriptions = Description::all();
+        $speakers = Speaker::pluck('name');
 
-        return view('admin.quests.create', compact('rewards', 'types', 'items', 'field', 'descriptions'));
+        return view('admin.quests.create', compact('rewards', 'types', 'items', 'field', 'descriptions', 'speakers'));
     }
 
     /**
@@ -171,13 +172,14 @@ class QuestsController extends Controller
         $beginDialog = Dialog::where('questID', $id)->where('type', 'begin')->first();
         $additionalDialog = Dialog::where('questID', $id)->where('type', 'additional')->first();
         $descriptions = Description::all();
+        $speakers = Speaker::pluck('name');
 
         if (isset($quest->field)) {
             $items = $this->getItems($quest->field->fieldName->name);
         }
 
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
-            'additionalDialog', 'descriptions'));
+            'additionalDialog', 'descriptions', 'speakers'));
     }
 
     /**
