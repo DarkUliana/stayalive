@@ -75,6 +75,8 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
     Route::get('base-player', 'Admin\BasePlayerController@show');
     Route::post('base-player', 'Admin\BasePlayerController@update');
 
+    Route::resource('mobs', 'Admin\MobsController');
+
 });
 
 

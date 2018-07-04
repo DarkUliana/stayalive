@@ -44,6 +44,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/restorable-objects') }}">
                     Restorable Objects
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/mobs') }}">
+                    Mobs
+                </a></li>
         </ul>
 
     </div>
