@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enemy;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests;
 use App\Mob;
 use Illuminate\Http\Request;
 
@@ -18,12 +17,29 @@ class MobsController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
+//        $keyword = $request->get('search');
+        $sort = $request->get('sort');
         $perPage = 25;
 
-        if (!empty($keyword)) {
-            $mobs = Mob::latest()->paginate($perPage);
-        } else {
+        $type = 'asc';
+        if (!empty ($request->get('type'))) {
+            $type = $request->get('type');
+        }
+
+//        if (!empty($keyword)) {
+//            $mobs = Mob::latest()->paginate($perPage);
+//        } else {
+
+
+//        $mobs = Mob::latest()->paginate($perPage);
+//        }
+
+        if (!empty($sort)) {
+
+            $mobs = Mob::orderBy($sort, $type)->paginate($perPage);
+        }
+        else {
+
             $mobs = Mob::latest()->paginate($perPage);
         }
 
@@ -50,9 +66,9 @@ class MobsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
+
         Mob::create($requestData);
 
         return redirect('mobs')->with('flash_message', 'Mob added!');
@@ -61,7 +77,7 @@ class MobsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -75,7 +91,7 @@ class MobsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -91,15 +107,15 @@ class MobsController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $mob = Mob::findOrFail($id);
         $mob->update($requestData);
 
@@ -109,7 +125,7 @@ class MobsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

@@ -198,5 +198,9 @@
 @if(Request::is('notifications/*'))
     <script src="{{ asset('js/notification.js') }}"></script>
 @endif
+
+@if(Request::is('mobs'))
+    <script src="{{ asset('js/mobs.js') }}"></script>
+@endif
 </body>
 </html>

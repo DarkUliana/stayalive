@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             @include('admin.sidebar')
 
-            <div class="col-md-9">
+            <div class="col-md-7">
                 <div class="card">
                     <div class="card-header">Mobs</div>
                     <div class="card-body">
@@ -33,9 +33,45 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>EnemyType</th>
-                                    <th>EnemyLevel</th>
-                                    <th>MaximumHP</th>
+                                    <th>
+                                        <div class="row">
+                                            <div class="col-md-8">EnemyType</div>
+                                            <div class="col-md-2">
+                                                <div class="sort">
+                                                    <a href="{{ url('/mobs?sort=enemyType&type=asc') }}"><span
+                                                                class="octicon octicon-chevron-up up"></span></a><a
+                                                            href="{{ url('/mobs?sort=enemyType&type=desc') }}"><span
+                                                                class="octicon octicon-chevron-down down"></span></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div></th>
+                                    <th>
+                                        <div class="row">
+                                            <div class="col-md-8">EnemyLevel</div>
+                                            <div class="col-md-2">
+                                                <div class="sort">
+                                                    <a href="{{ url('/mobs?sort=enemyLevel&type=asc') }}"><span
+                                                                class="octicon octicon-chevron-up up"></span></a><a
+                                                            href="{{ url('/mobs?sort=enemyLevel&type=desc') }}"><span
+                                                                class="octicon octicon-chevron-down down"></span></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div></th>
+                                    <th>
+                                        <div class="row">
+                                            <div class="col-md-8">MaximumHP</div>
+                                            <div class="col-md-2">
+                                                <div class="sort">
+                                                    <a href="{{ url('/mobs?sort=maximumHP&type=asc') }}"><span
+                                                                class="octicon octicon-chevron-up up"></span></a><a
+                                                            href="{{ url('/mobs?sort=maximumHP&type=desc') }}"><span
+                                                                class="octicon octicon-chevron-down down"></span></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div></th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
