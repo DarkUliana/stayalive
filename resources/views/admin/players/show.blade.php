@@ -79,7 +79,7 @@
                                     <th>Count</th>
                                 </tr>
                                 @foreach($cloud as $item)
-                                    <tr class="{{ $item->sourceID < 2 ? 'bg-warning' : ''}}">
+                                    <tr class="{{ $item->sourceID == 0 ? 'bg-warning' : ($item->sourceID == 1 ? 'bg-success' : '')}}">
                                         <th>{{ $item->imageName }}</th>
                                         <th>{{ $types[$item->sourceID] }}</th>
                                         <th>
