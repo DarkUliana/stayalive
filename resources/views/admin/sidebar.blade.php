@@ -47,6 +47,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/mobs') }}">
                     Mobs
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/notifications') }}">
+                    Notifications
+                </a></li>
         </ul>
 
     </div>

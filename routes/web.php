@@ -77,6 +77,8 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
 
     Route::resource('mobs', 'Admin\MobsController');
 
+    Route::resource('notifications', 'Admin\NotificationsController');
+
 });
 
 

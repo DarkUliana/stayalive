@@ -8,7 +8,7 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        $notifications = Notification::where('expiration_date', '>', date('Y-m-d H:i:s', time()))
+        $notifications = Notification::where('expirationDate', '>', date('Y-m-d H:i:s', time()))
             ->orWhere('isSimple', 1)
             ->orderBy('isSimple', 'desc')
             ->orderBy('updated_at', 'desc')

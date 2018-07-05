@@ -195,6 +195,8 @@
     <script src="{{ asset('js/restorable-object.js') }}"></script>
 @endif
 
-
+@if(Request::is('notifications/*'))
+    <script src="{{ asset('js/notification.js') }}"></script>
+@endif
 </body>
 </html>

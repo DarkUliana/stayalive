@@ -16,4 +16,13 @@ class Notification extends Model
     {
         return $this->hasOne('App\Description', 'ID', 'descriptionID');
     }
+
+    public function getExpirationDateAttribute()
+    {
+        if ($this->attributes['expirationDate'] == null) {
+
+            return null;
+        }
+        return date('Y-m-d', strtotime($this->attributes['expirationDate']));
+    }
 }
