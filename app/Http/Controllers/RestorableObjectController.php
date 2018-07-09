@@ -30,23 +30,19 @@ class RestorableObjectController extends Controller
 
             $newObject = RestorableObject::create(['name' => $object['name']]);
 
-            if (isset($object['TopResotorableList'])) {
 
-                foreach ($object['TopResotorableList'] as $item) {
+            foreach ($object['TopRestorableList'] as $item) {
 
-                    $itemObj = new RestorableObjectItem(array_merge($item, ['isTopList' => 1]));
-                    $newObject->items()->save($itemObj);
-                }
+                $itemObj = new RestorableObjectItem(array_merge($item, ['isTopList' => 1]));
+                $newObject->items()->save($itemObj);
             }
 
-            if (isset($object['BottomResotorableList'])) {
+            foreach ($object['BottomRestorableList'] as $item) {
 
-                foreach ($object['BottomResotorableList'] as $item) {
-
-                    $itemObj = new RestorableObjectItem(array_merge($item, ['isTopList' => 0]));
-                    $newObject->items()->save($itemObj);
-                }
+                $itemObj = new RestorableObjectItem(array_merge($item, ['isTopList' => 0]));
+                $newObject->items()->save($itemObj);
             }
+
 
         }
 
