@@ -20,8 +20,8 @@ class RestorableObjectCollection extends ResourceCollection
 
             $temp = $object->toArray();
 
-            $temp['TopResotorableList'] = $object->items()->where('isTopList', 1)->get()->toArray();
-            $temp['BottomResotorableList'] = $object->items()->where('isTopList', 0)->get()->toArray();
+            $temp['TopRestorableList'] = $object->items()->where('isTopList', 1)->get()->toArray();
+            $temp['BottomRestorableList'] = $object->items()->where('isTopList', 0)->get()->toArray();
 
             $array[] = $temp;
         }
