@@ -107,6 +107,9 @@ Route::post('base-player', 'BasePlayerController@store');
     Route::get('notifications', 'NotificationController@index');
 
     Route::get('mobs', 'MobController@index');
+
+    Route::get('mobs-loot', 'MobLootController@index');
+    Route::post('mobs-loot', 'MobLootController@store');
 });
 
 
