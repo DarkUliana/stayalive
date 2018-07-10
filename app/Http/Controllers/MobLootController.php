@@ -22,6 +22,9 @@ class MobLootController extends Controller
             return response('Invalid data', 400);
         }
 
+        MobLoot::truncate();
+        MobLootItem::truncate();
+
         foreach ($request->itemsLists as $value) {
 
             $data = $value;
@@ -32,7 +35,7 @@ class MobLootController extends Controller
             foreach ($value['loot'] as $item) {
 
                 $newItem = new MobLootItem($item);
-                $loot->items()->save($newItem);
+                $loot->loot()->save($newItem);
             }
         }
 
