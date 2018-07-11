@@ -13,4 +13,9 @@ class MobLootItem extends Model
     protected $guarded = [];
 
     protected $hidden = ['ID', 'mobLootID', 'created_at', 'updated_at'];
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ID', 'itemID');
+    }
 }

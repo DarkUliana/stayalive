@@ -202,5 +202,9 @@
 @if(Request::is('mobs'))
     <script src="{{ asset('js/mobs.js') }}"></script>
 @endif
+
+@if(Request::is('mobs-loot/*'))
+    <script src="{{ asset('js/mobs-loot.js') }}"></script>
+@endif
 </body>
 </html>

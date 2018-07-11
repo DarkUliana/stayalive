@@ -136,6 +136,7 @@ class DialogsController extends Controller
     public function description(Request $request)
     {
         $descriptions = Description::all();
+        $speakers = Speaker::pluck('name');
         $index = $request->index + 1;
         $name = 'descriptions';
 
@@ -145,7 +146,7 @@ class DialogsController extends Controller
         }
 
 
-        return view('admin.dialogs.description', compact('descriptions', 'index', 'name'));
+        return view('admin.dialogs.description', compact('descriptions', 'index', 'name', 'speakers'));
     }
 
     public function updateDialog($id, $dialogData, $descriptions)
