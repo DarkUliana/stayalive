@@ -62,14 +62,20 @@ class PlayerRestorableObjectController extends Controller
         foreach ($request->restorableObjects as $object) {
 
             $json = json_decode($object['objectData']);
+
             $objectData = [
                 'objectKey' => $object['objectKey'],
-                'googleID' => $request->googleID,
+                'googleID' => $request->googleID
+
+            ];
+
+            $newData = [
                 'isBuilded' => $json->isBuilded,
                 'SaveKey' => $json->SaveKey
             ];
 
-            $newObject = PlayerRestorableObject::firstOrCreate($objectData);
+
+            $newObject = PlayerRestorableObject::updateOrCreate($objectData, $newData);
             PlayerRestorableObjectSlot::where('restorableObjectID', $newObject->ID)->delete();
 
             foreach ($json->slotsData as $slot) {
