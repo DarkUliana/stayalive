@@ -51,7 +51,9 @@ class RestorableObjectsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
+        $this->validate($request, ['name' => 'required']);
+
         $requestData = $request->all();
         $newObj = RestorableObject::create(['name' => $requestData['name']]);
 
@@ -121,6 +123,7 @@ class RestorableObjectsController extends Controller
     public function update(Request $request, $id)
     {
 
+        $this->validate($request, ['name' => 'required']);
         $requestData = $request->all();
 
         $obj = RestorableObject::find($id);
@@ -159,7 +162,7 @@ class RestorableObjectsController extends Controller
     public function destroy($id)
     {
         RestorableObject::destroy($id);
-        RestorableObjectItem::where('restrableObjectID', $id)->delete();
+        RestorableObjectItem::where('restorableObjectID', $id)->delete();
 
         return redirect('restorable-objects')->with('flash_message', 'Restorable Object deleted!');
     }
