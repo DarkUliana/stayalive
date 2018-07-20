@@ -54,6 +54,7 @@ class MobsController extends Controller
     {
         $enemies = Enemy::all();
         $currentEnemy = Enemy::first();
+
         return view('admin.mobs.create', compact('enemies', 'currentEnemy'));
     }
 
@@ -99,7 +100,7 @@ class MobsController extends Controller
     {
         $mob = Mob::findOrFail($id);
         $enemies = Enemy::all();
-        $currentEnemy = Enemy::first();
+        $currentEnemy = $mob->enemy;
 
         return view('admin.mobs.edit', compact('mob', 'enemies', 'currentEnemy'));
     }
@@ -147,7 +148,7 @@ class MobsController extends Controller
         $currentEnemy = Enemy::find($request->enemy);
         $enemies = Enemy::all();
 
-        return view('admin.mobs.form', compact('currentEnemy', 'enemies'));
+        return view('admin.mobs.fields', compact('currentEnemy', 'enemies'));
 
     }
 }
