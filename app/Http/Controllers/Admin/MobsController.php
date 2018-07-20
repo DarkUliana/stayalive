@@ -37,8 +37,7 @@ class MobsController extends Controller
         if (!empty($sort)) {
 
             $mobs = Mob::orderBy($sort, $type)->paginate($perPage);
-        }
-        else {
+        } else {
 
             $mobs = Mob::latest()->paginate($perPage);
         }
@@ -54,7 +53,9 @@ class MobsController extends Controller
     public function create()
     {
         $enemies = Enemy::all();
-        return view('admin.mobs.create', compact('enemies'));
+        $currentEnemy = Enemy::first();
+
+        return view('admin.mobs.create', compact('enemies', 'currentEnemy'));
     }
 
     /**
@@ -99,8 +100,9 @@ class MobsController extends Controller
     {
         $mob = Mob::findOrFail($id);
         $enemies = Enemy::all();
+        $currentEnemy = $mob->enemy;
 
-        return view('admin.mobs.edit', compact('mob', 'enemies'));
+        return view('admin.mobs.edit', compact('mob', 'enemies', 'currentEnemy'));
     }
 
     /**
@@ -134,5 +136,19 @@ class MobsController extends Controller
         Mob::destroy($id);
 
         return redirect('mobs')->with('flash_message', 'Mob deleted!');
+    }
+
+    public function getFields(Request $request)
+    {
+        if (!isset($request->enemy)) {
+
+            return response('Invalid data', 400);
+        }
+
+        $currentEnemy = Enemy::find($request->enemy);
+        $enemies = Enemy::all();
+
+        return view('admin.mobs.fields', compact('currentEnemy', 'enemies'));
+
     }
 }
