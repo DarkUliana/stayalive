@@ -41,16 +41,7 @@ class DeleteDailyQuests extends Command
         $playerQuests = new PlayerQuest();
         $playerQuests->setConnection('alive_test');
 
-        $array = [
 
-            'googleID' => '123123',
-            'type' => 'simple',
-            'progress' => 11,
-            'questID' => 11,
-        ];
-
-        $playerQuests->create($array)->save();
-
-//        $playerQuests->where('type', 'simple')->delete();
+        $playerQuests->where('type', 'simple')->delete();
     }
 }
