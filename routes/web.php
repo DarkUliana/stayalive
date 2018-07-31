@@ -83,6 +83,10 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
     Route::resource('mobs-loot', 'Admin\MobLootController');
     Route::get('mobs-loot-item', 'Admin\MobLootController@getItem');
 
+    Route::resource('banlist', 'Admin\BanListController', ['only' => [
+        'index', 'delete'
+    ]]);
+
 });
 
 
