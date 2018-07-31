@@ -12,6 +12,7 @@ use App\Item;
 use App\ItemsInCraft;
 use App\Online;
 use App\Player;
+use App\PlayerBody;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerQuest;
@@ -200,6 +201,7 @@ class PlayersController extends Controller
         Timer::where('googleID', $googleID)->delete();
         Online::where('googleID', $googleID)->delete();
         PlayerReward::where('googleID', $googleID)->delete();
+        PlayerBody::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
@@ -273,6 +275,7 @@ class PlayersController extends Controller
         Timer::truncate();
         Online::truncate();
         PlayerReward::truncate();
+        PlayerBody::truncate();
 
         Player::truncate();
 
