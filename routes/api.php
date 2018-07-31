@@ -33,8 +33,8 @@ Route::get('base-player', 'BasePlayerController@index');
 Route::post('base-player', 'BasePlayerController@store');
 
 
-    Route::get('{slot}', 'SlotsController@show')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items');
-    Route::post('{slot}', 'SlotsController@updateOrCreate')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items');
+    Route::get('{slot}', 'SlotsController@show')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items|player-body');
+    Route::post('{slot}', 'SlotsController@updateOrCreate')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items|player-body');
 
     Route::get('time', 'TimeController@index');
 

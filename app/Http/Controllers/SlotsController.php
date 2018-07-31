@@ -26,6 +26,8 @@ class SlotsController extends Controller
             case 'player-chest-items':
                 $this->model = 'App\PlayerChestItems';
                 break;
+            case 'player-body':
+                $this->model = 'App\PlayerBody';
         }
     }
 
