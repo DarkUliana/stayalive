@@ -18,9 +18,9 @@
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addPlayerModalCenter">
                             Add
                         </button>
-                        <div class="btn btn-danger btn-sm" id="deletePlayersButton" title="Delete Selected">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i> Delete Selected
-                        </div>
+                        {{--<div class="btn btn-danger btn-sm" id="deletePlayersButton" title="Delete Selected">--}}
+                            {{--<i class="fa fa-trash-o" aria-hidden="true"></i> Delete Selected--}}
+                        {{--</div>--}}
                         {{--<div class="btn btn-danger btn-sm" id="deleteAllPlayers" title="Delete All">--}}
                         {{--&#128128; Delete All--}}
                         {{--</div>--}}
@@ -28,9 +28,6 @@
                         <br/>
                         <br/>
 
-                        <form method="POST" action="{{ url('/base-player/') }}" accept-charset="UTF-8"
-                              class="form-horizontal" enctype="multipart/form-data">
-                            {{ csrf_field() }}
                             <table class="table table-bordered table-light table-hover">
                                 <tr>
                                     <th>ID</th>
@@ -41,17 +38,16 @@
                                 @foreach($banlist as $item)
                                     <tr>
                                         <td>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input class="forDelete" name="googleIDs[{{ $item->googleID }}]"
-                                                           type="checkbox">
-                                                </label>
-                                            </div>
+                                            {{--<div class="checkbox">--}}
+                                                {{--<label>--}}
+                                                    {{--<input class="forDelete" name="IDs[{{ $item->ID }}]"--}}
+                                                           {{--type="checkbox">--}}
+                                                {{--</label>--}}
+                                            {{--</div>--}}
+                                            {{ $item->ID }}
                                         </td>
-                                        </td>
-                                        <td>{{ $item->googleID }}</td>
                                         <td>{{ $item->player->Name }}</td>
+                                        <td>{{ $item->googleID }}</td>
                                         <td>
                                             <form method="POST" action="{{ url('/banlist' . '/' . $item->ID) }}"
                                                   accept-charset="UTF-8" style="display:inline">
@@ -67,7 +63,6 @@
                                     </tr>
                                 @endforeach
                             </table>
-                        </form>
 
                     </div>
                 </div>

@@ -56,7 +56,7 @@ class BanListController extends Controller
         
         BanList::create($requestData);
 
-        return redirect('banlist')->with('flash_message', 'BanList added!');
+        return redirect('banlist')->with('flash_message', 'Player added!');
     }
 
     /**
@@ -117,6 +117,6 @@ class BanListController extends Controller
     {
         BanList::destroy($id);
 
-        return redirect('banlist')->with('flash_message', 'BanList deleted!');
+        return redirect('banlist')->with('flash_message', 'Player deleted!');
     }
 }
