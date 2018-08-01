@@ -16,8 +16,11 @@ use App\PlayerBody;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerQuest;
+use App\PlayerRestorableObject;
+use App\PlayerRestorableObjectSlot;
 use App\PlayerReward;
 use App\PlayerTechnologiesStates;
+use App\RestorableObject;
 use App\Timer;
 use Illuminate\Http\Request;
 
@@ -202,6 +205,7 @@ class PlayersController extends Controller
         Online::where('googleID', $googleID)->delete();
         PlayerReward::where('googleID', $googleID)->delete();
         PlayerBody::where('googleID', $googleID)->delete();
+        PlayerRestorableObject::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
@@ -276,6 +280,8 @@ class PlayersController extends Controller
         Online::truncate();
         PlayerReward::truncate();
         PlayerBody::truncate();
+        PlayerRestorableObject::truncate();
+        PlayerRestorableObjectSlot::truncate();
 
         Player::truncate();
 
