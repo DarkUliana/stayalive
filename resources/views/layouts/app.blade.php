@@ -209,5 +209,9 @@
 @if(Request::is('mobs-loot/*'))
     <script src="{{ asset('js/mobs-loot.js') }}"></script>
 @endif
+
+@if(Request::is('banlist'))
+    <script src="{{ asset('js/select.js') }}"></script>
+@endif
 </body>
 </html>
