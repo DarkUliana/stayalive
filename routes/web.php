@@ -87,6 +87,8 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
         'index', 'store', 'destroy'
     ]]);
 
+    Route::resource('event-islands', 'Admin\EventIslandsController');
+
 });
 
 

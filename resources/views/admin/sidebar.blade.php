@@ -56,6 +56,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/banlist') }}">
                     BanList
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/event-islands') }}">
+                    Event Islands
+                </a></li>
         </ul>
 
     </div>

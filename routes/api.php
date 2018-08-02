@@ -113,6 +113,10 @@ Route::post('base-player', 'BasePlayerController@store');
 
     Route::get('logs', 'LogController@index');
     Route::post('logs', 'LogController@store');
+
+    Route::get('ban', 'BanListController');
+
+    Route::get('event-islands', 'EventIslandController');
 });
 
 
