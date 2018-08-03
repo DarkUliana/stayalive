@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PlayerQuestCollection;
 use App\Player;
 use App\PlayerQuest;
+use App\PlayerQuestReplacement;
 use App\Quest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PlayerQuestController extends Controller
 {
+    public $time = [
+        '00:00',
+        '4:00',
+        '8:00',
+        '11:42'
+//        '12:00',
+//        '16:00',
+//        '20:00'
+    ];
+
     public function index(Request $request)
     {
         if (!isset($request->googleID)) {
@@ -25,21 +36,32 @@ class PlayerQuestController extends Controller
         }
 
         $daily = $quests->where('type', 'simple');
-        foreach ($daily as $item) {
 
-            $created_at = Carbon::createFromFormat('Y-m-d H:i:s', $item->created_at);
+        $questsTime = $daily->pluck('created_at')->toArray();
+
+        $oldestQuest = min($questsTime);
+
+
+        for ($i = 0; $i < count($this->time); ++$i) {
+
+            $hours = explode(':', $this->time[$i])[0];
+            $minutes = explode(':', $this->time[$i])[1];
+
+            $point = Carbon::today()->addHours($hours)->addMinutes($minutes);
             $now = Carbon::now();
 
-            if ($created_at < $now->subDay()) {
+            if ($point > $oldestQuest && $point < $now) {
 
                 $this->generateNewQuests($request->googleID, $daily->pluck('questID')->toArray());
                 $quests = PlayerQuest::where('googleID', $request->googleID)->get();
+                break;
             }
 
         }
 
-        $questsArr = new PlayerQuestCollection($quests);
 
+
+        $questsArr = new PlayerQuestCollection($quests);
 
         return response($questsArr, 200);
 
@@ -122,6 +144,7 @@ class PlayerQuestController extends Controller
 
         $this->deleteOldQuests($googleID);
         $this->storeNewQuests($newQuests, $googleID);
+        $this->resetQuestReplacement($googleID);
 
     }
 
@@ -184,5 +207,11 @@ class PlayerQuestController extends Controller
         PlayerQuest::where('googleID', $googleID)
             ->where('type', 'simple')
             ->delete();
+    }
+
+    protected function resetQuestReplacement($googleID)
+    {
+        PlayerQuestReplacement::where('googleID', $googleID)->delete();
+        PlayerQuestReplacement::create(['googleID' => $googleID, 'replaced' => 0]);
     }
 }

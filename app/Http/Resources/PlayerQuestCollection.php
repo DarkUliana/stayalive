@@ -8,6 +8,7 @@
 
 namespace App\Http\Resources;
 
+use App\PlayerQuestReplacement;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 
@@ -48,6 +49,16 @@ class PlayerQuestCollection extends ResourceCollection
         }
 
         $questsArray['googleID'] = $request->googleID;
+
+        $replacement = PlayerQuestReplacement::where('googleID', $request->googleID)->first();
+
+        if(!$replacement) {
+
+            $replacement = PlayerQuestReplacement::create(['googleID' => $request->googleID, 'replaced' => 0]);
+        }
+
+        $questsArray['questReplacement'] = $replacement->replaced;
+
 
         return $questsArray;
     }
