@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['connection', 'auth']], function () {
+//Route::group(['middleware' => ['connection', 'auth']], function () {
     Route::get('/tests', function () {
         return view('welcome');
     });
@@ -89,7 +89,7 @@ Route::group(['middleware' => ['connection', 'auth']], function () {
 
     Route::resource('event-islands', 'Admin\EventIslandsController');
 
-});
+//});
 
 
 Auth::routes();
