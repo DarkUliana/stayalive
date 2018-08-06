@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 
 //Route::group(['middleware' => ['jwt.auth']], function () {
 
-Route::group(['middleware' => 'api-connection'], function () {
+//Route::group(['middleware' => 'api-connection'], function () {
 
     Route::get('player', 'PlayerController@show');
     Route::post('player', 'PlayerController@store');
@@ -117,7 +117,7 @@ Route::post('base-player', 'BasePlayerController@store');
     Route::get('ban', 'BanListController');
 
     Route::get('event-islands', 'EventIslandController');
-});
+//});
 
 
 

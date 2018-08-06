@@ -66,14 +66,17 @@
                     {{ config('app.name', 'Admin') }}
                 </a>
             </div>
-            @if(!Request::is('login'))
-                @if(session('connection'))
+
+            @guest
+            @else
+                @if(env('PRODUCTION'))
                     <div class="col-md-7 text-center border border-danger rounded"><h4>It`s a production version!</h4>
                     </div>
                 @else
                     <div class="col-md-7 text-center border border-success rounded"><h4>It`s a test version!</h4></div>
                 @endif
-            @endif
+            @endguest
+
             {{--<button class="navbar-toggler" type="button" data-toggle="collapse"--}}
             {{--data-target="#navbarSupportedContent"--}}
             {{--aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">--}}
@@ -93,18 +96,19 @@
                         @guest
                             <li><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                         @else
-                            @if(Auth::user()->role)
-                                @if(session('connection'))
-                                    <li><a class="nav-link btn btn-success font-weight-bold"
-                                           href="{{ url('/reconnect') }}">Go
-                                            to test</a></li>
-                                @else
-                                    <li><a class="nav-link btn btn-danger font-weight-bold"
-                                           href="{{ url('/reconnect') }}">Go
-                                            to
-                                            production</a></li>
-                                @endif
+
+                            @if(env('PRODUCTION'))
+                            <li><a class="nav-link btn btn-success font-weight-bold"
+                                   href="{{ env('SECOND_URL').'/'.Request::path() }}">Go
+                                    to
+                                    test</a></li>
+                            @else
+                            <li><a class="nav-link btn btn-danger font-weight-bold"
+                                   href="{{ env('SECOND_URL').'/'.Request::path() }}">Go
+                                    to
+                                    production</a></li>
                             @endif
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
