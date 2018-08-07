@@ -8,6 +8,7 @@
 
 namespace App\Http\Resources;
 
+use App\PlayerQuestReplacement;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 
@@ -25,29 +26,38 @@ class PlayerQuestCollection extends ResourceCollection
 
         foreach ($this->collection as $quest) {
 
+            $temp = [
+                'questControllerData' => json_encode([
+                    'progress' => $quest->progress,
+                    'ID' => $quest->ID
+                ]),
+                'questID' => $quest->questID,
+            ];
+
             if ($quest->type == 'simple') {
 
-                $questsArray['questsData'][] = [
-                    'questControllerData' => json_encode(['progress' => $quest->progress]),
-                    'questID' => $quest->questID
-                ];
+                $questsArray['questsData'][] = $temp;
             } elseif ($quest->type == 'plot') {
 
-                $questsArray['plotQuest'] = [
-                    'questControllerData' => json_encode(['progress' => $quest->progress]),
-                    'questID' => $quest->questID
-                ];
+                $questsArray['plotQuest'] = $temp;
             } else {
 
-                $questsArray['starQuest'] = [
-                    'questControllerData' => json_encode(['progress' => $quest->progress]),
-                    'questID' => $quest->questID
-                ];
+                $questsArray['starQuest'] = $temp;
             }
 
         }
 
         $questsArray['googleID'] = $request->googleID;
+
+        $replacement = PlayerQuestReplacement::where('googleID', $request->googleID)->first();
+
+        if(!$replacement) {
+
+            $replacement = PlayerQuestReplacement::create(['googleID' => $request->googleID, 'replaced' => 0]);
+        }
+
+        $questsArray['replaced'] = $replacement->replaced;
+
 
         return $questsArray;
     }

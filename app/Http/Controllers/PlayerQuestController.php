@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PlayerQuestCollection;
 use App\Player;
 use App\PlayerQuest;
+use App\PlayerQuestReplacement;
 use App\Quest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PlayerQuestController extends Controller
 {
+    public $time = [
+        '00:00',
+        '4:00',
+        '8:00',
+        '11:42'
+//        '12:00',
+//        '16:00',
+//        '20:00'
+    ];
+
     public function index(Request $request)
     {
         if (!isset($request->googleID)) {
+
             return response('Invalid data', 400);
         }
 
@@ -21,25 +33,36 @@ class PlayerQuestController extends Controller
         $quests = PlayerQuest::where('googleID', $request->googleID)->get();
 
         if ($quests->isEmpty()) {
-            return response('', 404);
-        }
 
-        $daily = $quests->where('type', 'simple');
-        foreach ($daily as $item) {
+            $quests = $this->generateFirstQuests($request->googleID);
 
-            $created_at = Carbon::createFromFormat('Y-m-d H:i:s', $item->created_at);
-            $now = Carbon::now();
+        } else {
 
-            if ($created_at < $now->subDay()) {
+            $daily = $quests->where('type', 'simple');
 
-                $this->generateNewQuests($request->googleID, $daily->pluck('questID')->toArray());
-                $quests = PlayerQuest::where('googleID', $request->googleID)->get();
+            $questsTime = $daily->pluck('created_at')->toArray();
+
+            $oldestQuest = min($questsTime);
+
+
+            for ($i = 0; $i < count($this->time); ++$i) {
+
+                $hours = explode(':', $this->time[$i])[0];
+                $minutes = explode(':', $this->time[$i])[1];
+
+                $point = Carbon::today()->addHours($hours)->addMinutes($minutes);
+                $now = Carbon::now();
+
+                if ($point > $oldestQuest && $point < $now) {
+
+                    $quests = $this->generateNewQuests($request->googleID, $daily->pluck('questID')->toArray());
+                    break;
+                }
+
             }
-
         }
 
         $questsArr = new PlayerQuestCollection($quests);
-
 
         return response($questsArr, 200);
 
@@ -51,15 +74,14 @@ class PlayerQuestController extends Controller
             return response('Invalid data', 400);
         }
 
+        PlayerQuestReplacement::updateOrCreate(['googleID' => $request->googleID], ['replaced' => $request->replaced]);
         $quests = $this->prepareForWrite($request->input());
 
         $counter = 0;
 
-        $diff = array_diff(PlayerQuest::where('googleID', $request->googleID)->pluck('questID')->toArray(), array_column($quests, 'questID'));
-        PlayerQuest::where('googleID', $request->googleID)->whereIn('questID', $diff)->delete();
         foreach ($quests as $quest) {
 
-            PlayerQuest::updateOrCreate(['googleID' => $request->googleID, 'questID' => $quest['questID']], $quest);
+            PlayerQuest::updateOrCreate(['ID' => $quest['ID']], $quest);
 
             ++$counter;
         }
@@ -122,6 +144,9 @@ class PlayerQuestController extends Controller
 
         $this->deleteOldQuests($googleID);
         $this->storeNewQuests($newQuests, $googleID);
+        $this->resetQuestReplacement($googleID);
+
+        return PlayerQuest::where('googleID', $googleID)->get();
 
     }
 
@@ -184,5 +209,45 @@ class PlayerQuestController extends Controller
         PlayerQuest::where('googleID', $googleID)
             ->where('type', 'simple')
             ->delete();
+    }
+
+    protected function resetQuestReplacement($googleID)
+    {
+        PlayerQuestReplacement::where('googleID', $googleID)->delete();
+        PlayerQuestReplacement::create(['googleID' => $googleID, 'replaced' => 0]);
+    }
+
+    protected function generateFirstQuests($googleID)
+    {
+        $plot = Quest::where('daily', 0)->orderBy('ID')->first();
+        $star = Quest::where('typeID', 2)->orderBy('ID')->first();
+        $daily = Quest::where('daily', 1)->orderBy('ID')->limit(3)->get();
+
+        $daily->push($plot)->push($star);
+
+        foreach ($daily as $quest) {
+            $array = [
+                'googleID' => $googleID,
+                'questID' => $quest->ID,
+                'progress' => 0
+            ];
+
+
+            $array['type'] = 'simple';
+
+            if ($quest->typeID == 2) {
+
+                $array['type'] = 'star';
+            }
+
+            if ($quest->daily == 0) {
+
+                $array['type'] = 'plot';
+            }
+
+            PlayerQuest::create($array);
+        }
+
+        return PlayerQuest::where('googleID', $googleID)->get();
     }
 }
