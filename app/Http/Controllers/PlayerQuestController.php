@@ -7,20 +7,12 @@ use App\Player;
 use App\PlayerQuest;
 use App\PlayerQuestReplacement;
 use App\Quest;
+use App\QuestReplacementTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PlayerQuestController extends Controller
 {
-    public $time = [
-        '00:00',
-        '4:00',
-        '8:00',
-        '11:42'
-//        '12:00',
-//        '16:00',
-//        '20:00'
-    ];
 
     public function index(Request $request)
     {
@@ -44,11 +36,13 @@ class PlayerQuestController extends Controller
 
             $oldestQuest = min($questsTime);
 
+            $time = QuestReplacementTime::pluck('time');
 
-            for ($i = 0; $i < count($this->time); ++$i) {
 
-                $hours = explode(':', $this->time[$i])[0];
-                $minutes = explode(':', $this->time[$i])[1];
+            for ($i = 0; $i < count($time); ++$i) {
+
+                $hours = explode(':', $time[$i])[0];
+                $minutes = explode(':', $time[$i])[1];
 
                 $point = Carbon::today()->addHours($hours)->addMinutes($minutes);
                 $now = Carbon::now();
