@@ -26,24 +26,23 @@ class PlayerQuestCollection extends ResourceCollection
 
         foreach ($this->collection as $quest) {
 
+            $temp = [
+                'questControllerData' => json_encode([
+                    'progress' => $quest->progress,
+                    'ID' => $quest->ID
+                ]),
+                'questID' => $quest->questID,
+            ];
+
             if ($quest->type == 'simple') {
 
-                $questsArray['questsData'][] = [
-                    'questControllerData' => json_encode(['progress' => $quest->progress]),
-                    'questID' => $quest->questID
-                ];
+                $questsArray['questsData'][] = $temp;
             } elseif ($quest->type == 'plot') {
 
-                $questsArray['plotQuest'] = [
-                    'questControllerData' => json_encode(['progress' => $quest->progress]),
-                    'questID' => $quest->questID
-                ];
+                $questsArray['plotQuest'] = $temp;
             } else {
 
-                $questsArray['starQuest'] = [
-                    'questControllerData' => json_encode(['progress' => $quest->progress]),
-                    'questID' => $quest->questID
-                ];
+                $questsArray['starQuest'] = $temp;
             }
 
         }
@@ -57,7 +56,7 @@ class PlayerQuestCollection extends ResourceCollection
             $replacement = PlayerQuestReplacement::create(['googleID' => $request->googleID, 'replaced' => 0]);
         }
 
-        $questsArray['questReplacement'] = $replacement->replaced;
+        $questsArray['replaced'] = $replacement->replaced;
 
 
         return $questsArray;

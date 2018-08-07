@@ -11,11 +11,11 @@ class PlayerQuestReplacement extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'replacement' => 'boolean'
+        'replaced' => 'boolean'
     ];
 
     public function setReplacementAttribute($value)
     {
-        $this->attributes['replacement'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        $this->attributes['replaced'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 }
