@@ -16,6 +16,7 @@ use App\PlayerBody;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerQuest;
+use App\PlayerQuestReplacement;
 use App\PlayerRestorableObject;
 use App\PlayerRestorableObjectSlot;
 use App\PlayerReward;
@@ -37,7 +38,7 @@ class PlayersController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $players = Player::where('Name', $keyword)->paginate($perPage);
+            $players = Player::where('Name', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $players = Player::latest()->paginate($perPage);
         }
@@ -206,6 +207,7 @@ class PlayersController extends Controller
         PlayerReward::where('googleID', $googleID)->delete();
         PlayerBody::where('googleID', $googleID)->delete();
         PlayerRestorableObject::where('googleID', $googleID)->delete();
+        PlayerQuestReplacement::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
@@ -282,6 +284,7 @@ class PlayersController extends Controller
         PlayerBody::truncate();
         PlayerRestorableObject::truncate();
         PlayerRestorableObjectSlot::truncate();
+        PlayerQuestReplacement::truncate();
 
         Player::truncate();
 
