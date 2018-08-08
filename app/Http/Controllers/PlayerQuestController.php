@@ -37,23 +37,33 @@ class PlayerQuestController extends Controller
             $oldestQuest = min($questsTime);
 
             $time = QuestReplacementTime::pluck('time');
+            $points = [];
 
+            foreach ($time as $t) {
 
-            for ($i = 0; $i < count($time); ++$i) {
-
-                $hours = explode(':', $time[$i])[0];
-                $minutes = explode(':', $time[$i])[1];
+                $hours = explode(':', $t)[0];
+                $minutes = explode(':', $t)[1];
 
                 $point = Carbon::today()->addHours($hours)->addMinutes($minutes);
-                $now = Carbon::now();
+                if ($point < $oldestQuest) {
 
-                if ($point > $oldestQuest && $point < $now) {
+                    $point->addDay();
+                }
+                $points[] = $point;
+            }
+
+            foreach ($points as $point) {
+
+
+                if ($point->between($oldestQuest, Carbon::now())) {
 
                     $quests = $this->generateNewQuests($request->googleID, $daily->pluck('questID')->toArray());
                     break;
                 }
 
+
             }
+
         }
 
         $questsArr = new PlayerQuestCollection($quests);
