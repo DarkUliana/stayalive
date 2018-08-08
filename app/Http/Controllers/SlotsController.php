@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PlayerBodyPosition;
 use Illuminate\Http\Request;
 use App\Http\Resources\SlotCollection;
 use Illuminate\Support\Facades\Storage;
@@ -10,10 +11,13 @@ use Illuminate\Support\Facades\Storage;
 class SlotsController extends Controller
 {
     protected $model;
+    protected $type;
 
-    public  function __construct(Request $request)
+    public function __construct(Request $request)
     {
-        switch ($request->segment(2)) {
+        $this->type = $request->segment(2);
+
+        switch ($this->type) {
             case 'equipment':
                 $this->model = 'App\Equipment';
                 break;
@@ -27,18 +31,23 @@ class SlotsController extends Controller
                 $this->model = 'App\PlayerChestItems';
                 break;
             case 'player-body':
-                $this->model = 'App\PlayerBody';
+                $this->model = 'App\PlayerBodySlot';
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
+
+        if (!isset($request->googleID)) {
+
+            return response('Invalid data!', 400);
+        }
 
         $slots = new SlotCollection($this->model::where('googleID', $request->googleID)->get()->sortBy('Index'));
 
@@ -49,7 +58,7 @@ class SlotsController extends Controller
     /**
      * Create or update slots.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function updateOrCreate(Request $request)
@@ -63,8 +72,13 @@ class SlotsController extends Controller
 
         $this->model::where('googleID', $request->googleID)->delete();
 
+        if ($this->type == 'player-body') {
+
+            $this->updatePlayerBodyPosition($request);
+        }
+
         $counter = 0;
-        foreach ($request->slotsData as  $value) {
+        foreach ($request->slotsData as $value) {
 
             $slot = json_decode($value['slotInfo'], true);
             $slot['itemID'] = $value['itemID'];
@@ -79,11 +93,21 @@ class SlotsController extends Controller
         return response("$counter items written", 200);
     }
 
+    protected function updatePlayerBodyPosition($request)
+    {
+
+        $position = $request->position;
+        $position['sceneName'] = $request->sceneName;
+
+        PlayerBodyPosition::updateOrCreate(['googleID' => $request->googleID], $position);
+    }
+
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -94,7 +118,7 @@ class SlotsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy()

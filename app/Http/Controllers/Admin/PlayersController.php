@@ -12,7 +12,8 @@ use App\Item;
 use App\ItemsInCraft;
 use App\Online;
 use App\Player;
-use App\PlayerBody;
+use App\PlayerBodyPosition;
+use App\PlayerBodySlot;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerQuest;
@@ -205,7 +206,8 @@ class PlayersController extends Controller
         Timer::where('googleID', $googleID)->delete();
         Online::where('googleID', $googleID)->delete();
         PlayerReward::where('googleID', $googleID)->delete();
-        PlayerBody::where('googleID', $googleID)->delete();
+        PlayerBodySlot::where('googleID', $googleID)->delete();
+        PlayerBodyPosition::where('googleID', $googleID)->delete();
         PlayerRestorableObject::where('googleID', $googleID)->delete();
         PlayerQuestReplacement::where('googleID', $googleID)->delete();
 
@@ -281,7 +283,8 @@ class PlayersController extends Controller
         Timer::truncate();
         Online::truncate();
         PlayerReward::truncate();
-        PlayerBody::truncate();
+        PlayerBodySlot::truncate();
+        PlayerBodyPosition::truncate();
         PlayerRestorableObject::truncate();
         PlayerRestorableObjectSlot::truncate();
         PlayerQuestReplacement::truncate();

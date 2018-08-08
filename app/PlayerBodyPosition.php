@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlayerBody extends Model
+class PlayerBodyPosition extends Model
 {
-    protected $table = 'players_bodies';
-
     protected $primaryKey = 'ID';
 
     protected $guarded = [];
+
+    protected $hidden = ['ID', 'googleID', 'sceneName', 'created_at', 'updated_at'];
 }

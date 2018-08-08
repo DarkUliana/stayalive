@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\PlayerBodyPosition;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class SlotCollection extends ResourceCollection
@@ -9,7 +10,7 @@ class SlotCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -24,6 +25,15 @@ class SlotCollection extends ResourceCollection
                 'slotInfo' => json_encode($newValue),
                 'itemID' => $itemID
             ];
+        }
+
+        if ($request->segment(2) == 'player-body') {
+
+            $position = PlayerBodyPosition::where('googleID', $request->googleID)->first();
+
+            $array['sceneName'] = $position->sceneName;
+            $array['position'] = $position->toArray();
+
         }
 
         return $array;
