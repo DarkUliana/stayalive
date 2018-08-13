@@ -16,18 +16,20 @@ class ItemInCraftCollection extends ResourceCollection
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
+     *
      * @return array
      */
-    public function toArray()
+    public function toArray($request)
     {
+//        var_dump($this->collection); die();
         $workbenches = [];
 
         foreach ($this->collection as $item) {
 
-            $temp['index'] = $item['index'];
-            $temp['techType'] = $item['techType'];
-            $temp['itemInCraft'] = $item;
+            $temp['index'] = $item->index;
+            $temp['techType'] = $item->techType;
+            $temp['itemInCraft'] = $item->toArray();
+            $temp['itemInCraft']['timeToCraft'] = $item->timeToCraft;
 
             unset($temp['itemInCraft']['index']);
             unset($temp['itemInCraft']['techType']);

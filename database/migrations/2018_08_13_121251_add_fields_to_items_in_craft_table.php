@@ -14,8 +14,8 @@ class AddFieldsToItemsInCraftTable extends Migration
     public function up()
     {
         Schema::table('items_in_craft', function (Blueprint $table) {
-            $table->integer('index')->before('countToCraft');
-            $table->integer('techType')->before('countToCraft');
+            $table->integer('index')->after('googleID');
+            $table->integer('techType')->after('googleID');
         });
     }
 

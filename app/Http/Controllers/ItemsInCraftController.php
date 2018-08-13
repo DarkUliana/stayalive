@@ -22,15 +22,16 @@ class ItemsInCraftController extends Controller
 
     public function store(Request $request)
     {
-        if (!isset($request->itemsInCraft) || !isset($request->googleID)) {
+        if (!isset($request->workbenches) || !isset($request->googleID)) {
             return response('Invalid data', 400);
         }
 
         ItemsInCraft::where('googleID', $request->googleID)->delete();
 
-        foreach ($request->itemsInCraft as $item) {
+        foreach ($request->workbenches as $item) {
 
-            $data = $item;
+            $data = array_merge($item, $item['itemInCraft']);
+            unset($data['itemInCraft']);
             $data['googleID'] = $request->googleID;
             ItemsInCraft::create($data);
         }

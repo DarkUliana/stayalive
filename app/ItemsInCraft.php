@@ -12,19 +12,13 @@ class ItemsInCraft extends Model
     protected $primaryKey = 'ID';
 
     protected $hidden = [
-        'created_at', 'ID', 'googleID'
+        'created_at', 'updated_at', 'ID', 'googleID'
     ];
 
     protected $guarded = [];
 
-
-    public function getUpdatedAtAttribute($value)
+    public function getTimeToCraftAttribute($value)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i:s A');
-    }
-
-    public function getTimeToCraft($value)
-    {
-        return  $value - Carbon::createFromFormat('Y-m-d H:i:s', $value)->diffInSeconds(Carbon::now());
+        return  $value - Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->diffInSeconds(Carbon::now());
     }
 }
