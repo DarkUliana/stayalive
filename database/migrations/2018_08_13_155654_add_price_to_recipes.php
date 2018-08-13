@@ -15,7 +15,7 @@ class AddPriceToRecipes extends Migration
     {
         Schema::table('recipes', function (Blueprint $table) {
 
-            $table->float('price')->after('Level')->default(0);
+            $table->integer('price')->after('Level')->default(0);
         });
     }
 
