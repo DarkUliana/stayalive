@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemInCraftCollection;
 use Illuminate\Http\Request;
 use App\ItemsInCraft;
 
@@ -13,9 +14,10 @@ class ItemsInCraftController extends Controller
             return response('Invalid data', 400);
         }
 
-        $items['itemsInCraft'] = ItemsInCraft::where('googleID', $request->googleID)->get()->toArray();
+        $workbenches['workbenches'] = new ItemInCraftCollection(ItemsInCraft::where('googleID', $request->googleID)->get());
+        $workbenches['googleID'] = $request->googleID;
 
-        return response($items, 200);
+        return response($workbenches, 200);
     }
 
     public function store(Request $request)
