@@ -16,6 +16,7 @@ use App\PlayerBodyPosition;
 use App\PlayerBodySlot;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
+use App\PlayerLearnedRecipe;
 use App\PlayerQuest;
 use App\PlayerQuestReplacement;
 use App\PlayerRestorableObject;
@@ -210,6 +211,7 @@ class PlayersController extends Controller
         PlayerBodyPosition::where('googleID', $googleID)->delete();
         PlayerRestorableObject::where('googleID', $googleID)->delete();
         PlayerQuestReplacement::where('googleID', $googleID)->delete();
+        PlayerLearnedRecipe::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
@@ -288,6 +290,7 @@ class PlayersController extends Controller
         PlayerRestorableObject::truncate();
         PlayerRestorableObjectSlot::truncate();
         PlayerQuestReplacement::truncate();
+        PlayerLearnedRecipe::truncate();
 
         Player::truncate();
 
