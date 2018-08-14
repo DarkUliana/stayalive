@@ -119,6 +119,9 @@ Route::post('base-player', 'BasePlayerController@store');
     Route::get('event-islands', 'EventIslandController');
 
     Route::get('quest-timer', 'QuestTimerController');
+
+    Route::get('learned-recipes', 'PlayerLearnedRecipeController@get');
+    Route::post('learned-recipes', 'PlayerLearnedRecipeController@post');
 //});
 
 
