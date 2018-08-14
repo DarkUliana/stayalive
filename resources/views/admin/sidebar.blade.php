@@ -59,6 +59,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/event-islands') }}">
                     Event Islands
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/quest-replacement-times') }}">
+                    Quest replacements times
+                </a></li>
         </ul>
 
     </div>
