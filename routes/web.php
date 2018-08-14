@@ -89,6 +89,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('event-islands', 'Admin\EventIslandsController');
 
+    Route::resource('quest-replacement-times', 'Admin\QuestReplacementTimesController', ['only' => [
+        'index', 'store', 'destroy'
+    ]]);
+
 });
 
 
