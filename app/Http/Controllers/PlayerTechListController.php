@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PlayerRestorableObject;
 use Illuminate\Http\Request;
 use App\PlayerBuildingTechnology as Build;
 use App\PlayerTechnologiesStates as States;
@@ -133,12 +134,13 @@ class PlayerTechListController extends Controller
             return response('Invalid data', 400);
         }
 
-        $state = States::where('googleID', $request->googleID)->where('technologyID', 14)->first();
+        $state = PlayerRestorableObject::where('googleID', $request->googleID)->where('objectKey', 'Restorable_Raft')->first();
+
         if(!$state) {
 
             return response('Not found', 404);
         }
 
-        return response($state->technologyState, 200);
+        return response($state->isBuilded, 200);
     }
 }
