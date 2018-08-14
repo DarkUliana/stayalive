@@ -58,6 +58,10 @@
                                     <td> {{ $recipe->Level }} </td>
                                 </tr>
                                 <tr>
+                                    <th> Price</th>
+                                    <td> {{ $recipe->price }} </td>
+                                </tr>
+                                <tr>
                                     <th> tmpComponentsSize</th>
                                     <td> {{ $recipe->tmpComponentsSize }} </td>
                                 </tr>
