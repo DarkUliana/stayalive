@@ -122,15 +122,15 @@ class PlayerQuestController extends Controller
         }
 
 
-        if (isset($data['plotQuest'])) {
-
-            $json = (array)json_decode($data['plotQuest']['questControllerData']);
-            $array[] = array_merge([
-                'googleID' => $data['googleID'],
-                'type' => 'plot',
-                'questID' => $data['plotQuest']['questID']
-            ], $json);
-        }
+//        if (isset($data['plotQuest'])) {
+//
+//            $json = (array)json_decode($data['plotQuest']['questControllerData']);
+//            $array[] = array_merge([
+//                'googleID' => $data['googleID'],
+//                'type' => 'plot',
+//                'questID' => $data['plotQuest']['questID']
+//            ], $json);
+//        }
 
         return $array;
     }
