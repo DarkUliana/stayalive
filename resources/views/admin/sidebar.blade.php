@@ -62,6 +62,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/quest-replacement-times') }}">
                     Quest replacements times
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/diary-storage-notes') }}">
+                    Diary storage notes
+                </a></li>
         </ul>
 
     </div>
