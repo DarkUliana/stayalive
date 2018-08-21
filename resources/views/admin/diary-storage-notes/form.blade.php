@@ -1,7 +1,7 @@
 <div class="form-group {{ $errors->has('noteID') ? 'has-error' : ''}}">
     <label for="noteID" class="col-md-4 control-label">{{ 'Noteid' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="noteID" type="number" id="noteID" value="{{ $diaryStorageNote->noteID or ''}}" >
+        <input class="form-control" name="noteID" type="number" id="noteID" value="{{ $diaryStorageNote->noteID or ''}}" {{isset($diaryStorageNote) ? 'disabled' : ''}}>
         {!! $errors->first('noteID', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('noteSubject') ? 'has-error' : ''}}">

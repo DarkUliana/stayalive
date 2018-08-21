@@ -48,7 +48,10 @@ class DiaryStorageNotesController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $this->validate($request, [
+            'noteID' => 'required|unique:diary_storage_notes'
+        ]);
+
         $requestData = $request->all();
         
         DiaryStorageNote::create($requestData);
