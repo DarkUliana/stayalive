@@ -93,6 +93,8 @@ Route::group(['middleware' => 'auth'], function () {
         'index', 'store', 'destroy'
     ]]);
 
+    Route::resource('diary-storage-notes', 'Admin\DiaryStorageNotesController');
+
 });
 
 
