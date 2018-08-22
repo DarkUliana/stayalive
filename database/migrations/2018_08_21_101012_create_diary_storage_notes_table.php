@@ -17,6 +17,7 @@ class CreateDiaryStorageNotesTable extends Migration
             $table->increments('ID');
             $table->integer('noteID')->unique();
             $table->string('noteSubject');
+            $table->string('noteImage');
             $table->timestamps();
         });
     }
