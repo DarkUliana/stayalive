@@ -143,9 +143,23 @@ function editOrAddOnClick() {
 
                             $('#properties').empty();
                             $('#properties').append(d);
+
+                            $('#Name').val($('#noteID>option').first().text());
+                            $('#noteImage').val($('#noteID>option').first().attr('data-image'));
+
+
+                            $('#noteID').select2({width: '100%', minimumResultsForSearch: Infinity});
+                            $('#noteID').on('select2:select', function () {
+
+                                $('#Name').val($(this).find(':selected').text());
+                                $('#noteImage').val($(this).find(':selected').attr('data-image'));
+
+                            });
                         },
                     });
+
                 });
+
                 createOrUpdate();
             },
 

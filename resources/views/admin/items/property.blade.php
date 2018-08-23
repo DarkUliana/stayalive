@@ -8,14 +8,33 @@
                 <div class="col-md-12">
                     <input type="hidden" name="Properties[{{ $counter }}][propertyID]"
                            value="{{ $property->ID }}">
-                    <input class="form-control" name="Properties[{{ $counter }}][propertyValue]"
-                           type="number" id="Type" value="{{ $property->value or 0 }}" step="0.01">
-                </div>
 
+                    @if($property->name == 'noteID')
+                        <select class="form-control" name="Properties[{{ $counter }}][propertyValue]"
+                                id="noteID">
+                            @foreach($notes as $note)
+                                <option value="{{ $note->noteID }}" {{ isset($property->value) && $property->value == $note->noteID ? 'selected' : '' }}
+                                data-image="{{ $note->noteImage }}">{{ $note->noteSubject }}</option>
+                            @endforeach
+                        </select>
+                </div>
             </div>
-            <?php ++$counter ?>
-        @endforeach
-    @endif
+            <div class="form-group">
+                <label for="noteImage" class="col-md-12 control-label">noteImage</label>
+                <div class="col-md-12">
+                    <input class="form-control" name="noteImage" type="text" id="noteImage" value="{{ isset($property->value) ? $notes->where('noteID', $property->value)->first()->noteImage : '' }}">
+
+            @else
+                <input class="form-control" name="Properties[{{ $counter }}][propertyValue]"
+                       type="number" id="Type" value="{{ $property->value or 0 }}" step="0.01">
+
+@endif
+                </div>
+            </div>
+
+<?php ++$counter ?>
+@endforeach
+@endif
 
 </div>
 

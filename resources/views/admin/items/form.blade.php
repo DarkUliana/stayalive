@@ -9,7 +9,7 @@
     <label for="MaxInStack" class="col-md-12 control-label">{{ 'Maxinstack' }}</label>
     <div class="col-md-12">
         <input class="form-control" name="MaxInStack" type="number" id="MaxInStack"
-               value="{{ $item->MaxInStack or ''}}">
+               value="{{ $item->MaxInStack or 1}}">
         {!! $errors->first('MaxInStack', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Description;
+use App\DiaryStorageNote;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -103,8 +104,10 @@ class ItemsController extends Controller
         $itemData = $request->all();
 
         unset($itemData['Properties']);
+        unset($itemData['noteImage']);
 
         $item = Item::create($itemData);
+        $properties = [];
 
         if (isset($request->Properties)) {
 
@@ -116,6 +119,8 @@ class ItemsController extends Controller
                 $item->properties()->save($itemProperty);
             }
         }
+
+        $this->updateNote($request, $properties);
 
         if ($request->ajax()) {
 
@@ -166,8 +171,15 @@ class ItemsController extends Controller
             ->get();
 
         $types = ItemType::get();
+        $notes = [];
 
-        return view('admin.items.edit', compact('item', 'types', 'properties'));
+        if ($types->where('type', $item->InventorySlotType)->first()->typeName == 'Story') {
+
+            $notes = DiaryStorageNote::all();
+
+        }
+
+        return view('admin.items.edit', compact('item', 'types', 'properties', 'notes'));
     }
 
     /**
@@ -188,12 +200,14 @@ class ItemsController extends Controller
 
         $itemData = $request->all();
         unset($itemData['Properties']);
+        unset($itemData['noteImage']);
 
         $item = Item::findOrFail($id);
         $item->update($itemData);
 
         ItemProperty::where('itemID', $id)->delete();
 
+        $properties = [];
         if (isset($request->Properties)) {
 
             $properties = $request->Properties;
@@ -204,6 +218,7 @@ class ItemsController extends Controller
                 $item->properties()->save($itemProperty);
             }
         }
+        $this->updateNote($request, $properties);
 
         if ($request->ajax()) {
 
@@ -239,14 +254,21 @@ class ItemsController extends Controller
         if (!isset($request->type) || $request->type == 1) {
             return '';
         }
+        $notes = [];
 
         $properties = DB::table('item_type_properties')
             ->leftJoin('properties', 'item_type_properties.propertyID', '=', 'properties.ID')
             ->where('item_type_properties.InventorySlotType', $request->type)
             ->select('properties.name', 'properties.ID')
             ->get();
+        if (ItemType::where('type', $request->type)->value('typeName') == 'Story') {
 
-        return view('admin.items.property', compact('properties'));
+            $notes = DiaryStorageNote::all();
+
+        }
+
+
+        return view('admin.items.property', compact('properties', 'notes'));
     }
 
     protected function getTypes()
@@ -335,5 +357,16 @@ class ItemsController extends Controller
         ksort($array);
 
         return $array;
+    }
+
+    protected function updateNote(Request $request, $properties)
+    {
+
+        if (isset($request->noteImage) && !empty($properties)) {
+
+            $noteID = $properties[0]['propertyValue'];
+
+            DiaryStorageNote::where('noteID', $noteID)->update(['noteImage' => $request->noteImage]);
+        }
     }
 }
