@@ -22,13 +22,33 @@ class RecipesController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
+        $filter = $request->get('filter');
+        $sort = $request->get('sort');
+
+        $type = 'asc';
+        if (!empty ($request->get('type'))) {
+            $type = $request->get('type');
+        }
+        
         $perPage = 25;
 
+        $recipes = Recipe::where([]);
+
         if (!empty($keyword)) {
-            $recipes = Recipe::where('Name', 'LIKE', "%$keyword%")->latest()->paginate($perPage);
-        } else {
-            $recipes = Recipe::latest()->paginate($perPage);
+            $recipes = $recipes->where('name', 'like', "%$keyword%");
         }
+        if (!empty($filter)) {
+            $recipes = $recipes->where('InventorySlotType', $filter);
+        }
+        if (!empty($sort)) {
+            $recipes = $recipes->orderBy($sort, $type);
+        }
+
+        if (empty($keyword) && empty($filter) && empty($sort)) {
+            $recipes = $recipes->latest();
+        }
+
+        $recipes = $recipes->paginate($perPage);
 
         return view('admin.recipes.index', compact('recipes'));
     }

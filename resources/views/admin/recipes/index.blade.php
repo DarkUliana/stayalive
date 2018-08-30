@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             @include('admin.sidebar')
 
-            <div class="col-md-9">
+            <div class="col-md-7">
                 <div class="card">
                     <div class="card-header"><h3>Recipes</h3></div>
                     <div class="card-body">
@@ -32,10 +32,60 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>RecipeType</th>
-                                    <th>CraftTime</th>
+                                    <th>
+                                        <div class="row">
+                                        <div class="col-md-6">#</div>
+                                        <div class="col-md-2">
+                                            <div class="sort">
+                                                <a href="{{ url('/recipes?sort=ID&type=asc') }}"><span
+                                                            class="octicon octicon-chevron-up up"></span></a><a
+                                                        href="{{ url('/recipes?sort=ID&type=desc') }}"><span
+                                                            class="octicon octicon-chevron-down down"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="row">
+                                        <div class="col-md-5">Name</div>
+                                        <div class="col-md-5">
+                                            <div class="sort">
+                                                <a href="{{ url('/recipes?sort=Name&type=asc') }}"><span
+                                                            class="octicon octicon-chevron-up up"></span></a><a
+                                                        href="{{ url('/recipes?sort=Name&type=desc') }}"><span
+                                                            class="octicon octicon-chevron-down down"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"></div></div>
+                                    </th>
+                                    <th>
+                                        <div class="row">
+                                        <div class="col-md-8">RecipeType</div>
+                                        <div class="col-md-2">
+                                            <div class="sort">
+                                                <a href="{{ url('/recipes?sort=recipeType&type=asc') }}"><span
+                                                            class="octicon octicon-chevron-up up"></span></a><a
+                                                        href="{{ url('/recipes?sort=recipeType&type=desc') }}"><span
+                                                            class="octicon octicon-chevron-down down"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"></div></div>
+                                    </th>
+                                    <th>
+                                        <div class="row">
+                                        <div class="col-md-8">CraftTime</div>
+                                        <div class="col-md-2">
+                                            <div class="sort">
+                                                <a href="{{ url('/recipes?sort=CraftTime&type=asc') }}"><span
+                                                            class="octicon octicon-chevron-up up"></span></a><a
+                                                        href="{{ url('/recipes?sort=CraftTime&type=desc') }}"><span
+                                                            class="octicon octicon-chevron-down down"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        </div>
+                                    </th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -73,7 +123,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $recipes->appends(['search' => Request::get('search')])->render() !!} </div>
+                            <div class="pagination-wrapper"> {!! $recipes->appends(['search' => Request::get('search'), 'filter' => Request::get('filter'), 'sort' => Request::get('sort')])->render() !!} </div>
                         </div>
 
                     </div>

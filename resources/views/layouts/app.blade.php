@@ -217,5 +217,9 @@
 @if(Request::is('banlist'))
     <script src="{{ asset('js/select.js') }}"></script>
 @endif
+
+@if(Request::is('recipes'))
+    <script src="{{ asset('js/recipes.js') }}"></script>
+@endif
 </body>
 </html>
