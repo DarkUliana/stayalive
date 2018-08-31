@@ -40,7 +40,7 @@ class PlayersController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $players = Player::where('Name', 'LIKE', "%$keyword%")->paginate($perPage);
+            $players = Player::where('Name', 'LIKE', "%$keyword%")->orWhere('googleID', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $players = Player::latest()->paginate($perPage);
         }
