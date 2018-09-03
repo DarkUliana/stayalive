@@ -52,8 +52,8 @@ class RecipesController extends Controller
         $recipes = $recipes->paginate($perPage);
         $items = Item::all();
 
-        $hideSidebar = $_COOKIE['table'];
-//        var_dump($_COOKIE['table']); die();
+        $hideSidebar = isset($_COOKIE['table']) ? $_COOKIE['table'] : 0;
+
 
 
         return view('admin.recipes.index', compact('recipes', 'items', 'hideSidebar'));
