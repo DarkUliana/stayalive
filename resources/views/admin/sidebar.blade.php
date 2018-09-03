@@ -1,4 +1,4 @@
-<div class="col-md-3" id="sidebar">
+<div class="{{$sidebarClass or "col-md-3"}} {{ isset($hideSidebar) && $hideSidebar ? 'd-none' : '' }}" id="sidebar">
     <div class="card">
         <div class="card-header">
             Sidebar

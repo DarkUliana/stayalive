@@ -11,6 +11,7 @@ use App\RecipeTechnologies;
 use Illuminate\Http\Request;
 use App\Item;
 use App\Technology;
+use Illuminate\Support\Facades\Cookie;
 
 class RecipesController extends Controller
 {
@@ -29,7 +30,7 @@ class RecipesController extends Controller
         if (!empty ($request->get('type'))) {
             $type = $request->get('type');
         }
-        
+
         $perPage = 25;
 
         $recipes = Recipe::where([]);
@@ -49,8 +50,13 @@ class RecipesController extends Controller
         }
 
         $recipes = $recipes->paginate($perPage);
+        $items = Item::all();
 
-        return view('admin.recipes.index', compact('recipes'));
+        $hideSidebar = $_COOKIE['table'];
+//        var_dump($_COOKIE['table']); die();
+
+
+        return view('admin.recipes.index', compact('recipes', 'items', 'hideSidebar'));
     }
 
     /**
@@ -75,7 +81,6 @@ class RecipesController extends Controller
      */
     public function store(Request $request)
     {
-        
         $requestData = $request->all();
 
         $data = $this->prepareDataForWrite($requestData);
@@ -100,7 +105,7 @@ class RecipesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -114,7 +119,7 @@ class RecipesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -133,16 +138,37 @@ class RecipesController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
     {
+
 //        var_dump($request->input()); die();
-        $requestData = $request->all();
+        if (isset($request->recipes)) {
+
+            foreach ($request->recipes as $recipe) {
+
+                $this->save($recipe, $recipe['ID']);
+            }
+
+        } else {
+
+            $this->save($request->all(), $id);
+        }
+        if ($request->ajax()) {
+
+            return response('OK', 200);
+        }
+
+        return redirect('recipes')->with('flash_message', 'Recipe updated!');
+    }
+
+    protected function save($requestData, $id)
+    {
         $data = $this->prepareDataForWrite($requestData);
-        
+
         $recipe = Recipe::findOrFail($id);
         $recipe->update($data['properties']);
 
@@ -151,8 +177,12 @@ class RecipesController extends Controller
 
         foreach ($data['components'] as $component) {
 
-            $recipeComponent = new RecipeComponents($component);
-            $recipe->components()->save($recipeComponent);
+            if ($component['itemID']) {
+
+                $recipeComponent = new RecipeComponents($component);
+                $recipe->components()->save($recipeComponent);
+            }
+
         }
 
         foreach ($data['technologies'] as $technology) {
@@ -160,16 +190,12 @@ class RecipesController extends Controller
             $recipeTechnology = new RecipeTechnologies($technology);
             $recipe->technologies()->save($recipeTechnology);
         }
-
-
-
-        return redirect('recipes')->with('flash_message', 'Recipe updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -210,7 +236,6 @@ class RecipesController extends Controller
         $counter = $request->counter + 1;
         return view('admin.recipes.component', compact('counter', 'items'));
     }
-
 
 
     public function getValuesFromEloquentArray($items, $key)
