@@ -25,7 +25,7 @@ $(document).ready(function () {
             },
             success: function (data) {
 
-                $('table').append(data);
+                $('table tr').first().after(data);
                 deleteItemEvent();
             },
         });
