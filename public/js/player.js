@@ -66,7 +66,7 @@ function onChangeItem() {
             },
             success: function (data) {
 
-                select.closest('tr').find('.count').attr('max', data.MaxInStack).val(data.MaxInStack);
+                select.closest('tr').find('.count').val(data.MaxInStack);
                 // select.closest('tr').find('.imageName').val(data.Name);
                 // select.closest('tr').find('.durability').attr('max', data.maxDurability).val(data.maxDurability);
             },

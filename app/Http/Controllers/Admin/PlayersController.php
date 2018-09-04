@@ -273,7 +273,7 @@ class PlayersController extends Controller
 
         $counter = $request->counter + 1;
         $items = Item::all();
-        $firstItem = Item::where([])->first();
+        $firstItem = $items->first();
         $rewards = Reward::all();
 
         return view('admin.players.slot', compact('counter', 'items', 'rewards', 'firstItem'));

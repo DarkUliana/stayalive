@@ -20,10 +20,8 @@
     </td>
     <td>
         <input name="items[{{ $counter or $loop->index }}][count]" type="number" class="form-control count"
-               value="{{ isset($slot) ? $slot->count : 0 }}" min="-1"
-               max="{{ (isset($slot) && isset($slot->item->MaxInStack)) ?
-               ($slot->item->MaxInStack==1 ? 1 : '') :
-               ($firstItem->MaxInStack==1 ? 1 : '') }}">
+               value="{{ isset($slot) ? $slot->count : $firstItem->MaxInStack }}" min="-1"
+               max>
     </td>
     <td>
         <button type="button" class="btn btn-danger deleteItem">Delete</button>
