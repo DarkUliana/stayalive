@@ -26,12 +26,14 @@ class ItemInCraftCollection extends ResourceCollection
 
         foreach ($this->collection as $item) {
 
-            $temp['index'] = $item->index;
+            $temp['floorIndex'] = $item->floorIndex;
+            $temp['cellIndex'] = $item->cellIndex;
             $temp['techType'] = $item->techType;
             $temp['itemInCraft'] = $item->toArray();
             $temp['itemInCraft']['timeToCraft'] = $item->timeToCraft;
 
-            unset($temp['itemInCraft']['index']);
+            unset($temp['itemInCraft']['floorIndex']);
+            unset($temp['itemInCraft']['cellIndex']);
             unset($temp['itemInCraft']['techType']);
 
             $workbenches[] = $temp;
