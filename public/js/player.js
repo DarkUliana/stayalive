@@ -30,14 +30,16 @@ $(document).ready(function () {
             },
             success: function (data) {
 
-                $('table').append(data);
+                $('table tr').first().after(data);
+                $('select').select2({width: "100%", height: "100%"});
                 deleteItem();
                 onChangeItem();
+
             },
         });
     });
 
-
+    $('select').select2({width: "100%", height: "100%"});
 
 });
 

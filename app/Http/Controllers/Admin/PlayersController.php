@@ -24,6 +24,7 @@ use App\PlayerRestorableObjectSlot;
 use App\PlayerReward;
 use App\PlayerTechnologiesStates;
 use App\RestorableObject;
+use App\Reward;
 use App\Timer;
 use Illuminate\Http\Request;
 
@@ -117,8 +118,9 @@ class PlayersController extends Controller
         $player = Player::findOrFail($id);
         $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
         $items = Item::all();
+        $rewards = Reward::all();
 
-        return view('admin.players.edit', compact('player', 'items', 'cloud'));
+        return view('admin.players.edit', compact('player', 'items', 'rewards', 'cloud'));
     }
 
     /**
@@ -252,7 +254,12 @@ class PlayersController extends Controller
             return response($item, 200);
         }
 
-        $item = Item::where('Name', $id)->first()->toArray();
+        $item = Item::where('Name', $id)->first();
+
+        if (!$item) {
+
+            $item['MaxInStack'] = 1;
+        }
 
         return response($item, 200);
     }
@@ -267,8 +274,9 @@ class PlayersController extends Controller
         $counter = $request->counter + 1;
         $items = Item::all();
         $firstItem = Item::where([])->first();
+        $rewards = Reward::all();
 
-        return view('admin.players.slot', compact('counter', 'items', 'firstItem'));
+        return view('admin.players.slot', compact('counter', 'items', 'rewards', 'firstItem'));
     }
 
     public function deleteAll()
