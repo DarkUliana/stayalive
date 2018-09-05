@@ -128,6 +128,9 @@ Route::post('diary-storage-notes', 'DiaryStorageNoteController@post');
 
 Route::get('player-diary-notes', 'PlayerDiaryNoteController@get');
 Route::post('player-diary-notes', 'PlayerDiaryNoteController@post');
+
+Route::get('player-ship-stuff', 'PlayerShipStuffController@get');
+Route::post('player-ship-stuff', 'PlayerShipStuffController@post');
 //});
 
 
