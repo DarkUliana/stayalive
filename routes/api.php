@@ -131,6 +131,9 @@ Route::post('player-diary-notes', 'PlayerDiaryNoteController@post');
 
 Route::get('player-ship-stuff', 'PlayerShipStuffController@get');
 Route::post('player-ship-stuff', 'PlayerShipStuffController@post');
+
+Route::get('player-repair-items', 'PlayerRepairItemController@get');
+Route::post('player-repair-items', 'PlayerRepairItemController@post');
 //});
 
 

@@ -19,9 +19,12 @@ use App\PlayerChestItems;
 use App\PlayerLearnedRecipe;
 use App\PlayerQuest;
 use App\PlayerQuestReplacement;
+use App\PlayerRepairItem;
+use App\PlayerRepairItemPart;
 use App\PlayerRestorableObject;
 use App\PlayerRestorableObjectSlot;
 use App\PlayerReward;
+use App\PlayerShipStuff;
 use App\PlayerTechnologiesStates;
 use App\RestorableObject;
 use App\Reward;
@@ -214,6 +217,8 @@ class PlayersController extends Controller
         PlayerRestorableObject::where('googleID', $googleID)->delete();
         PlayerQuestReplacement::where('googleID', $googleID)->delete();
         PlayerLearnedRecipe::where('googleID', $googleID)->delete();
+        PlayerShipStuff::where('googleID', $googleID)->delete();
+        PlayerRepairItem::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
@@ -299,6 +304,9 @@ class PlayersController extends Controller
         PlayerRestorableObjectSlot::truncate();
         PlayerQuestReplacement::truncate();
         PlayerLearnedRecipe::truncate();
+        PlayerShipStuff::truncate();
+        PlayerRepairItem::truncate();
+        PlayerRepairItemPart::truncate();
 
         Player::truncate();
 
