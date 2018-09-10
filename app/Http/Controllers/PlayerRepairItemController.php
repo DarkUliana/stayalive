@@ -28,7 +28,12 @@ class PlayerRepairItemController extends Controller
             return response('Invalid data!', 400);
         }
 
-        PlayerRepairItem::where('playerID', $request->playerID)->delete(); //deleting with relations
+        $oldItems = PlayerRepairItem::where('playerID', $request->playerID)->get();
+
+        foreach ($oldItems as $oldItem) {
+            $oldItem->delete();
+        }
+
         foreach ($request->repairItems as $item) {
 
             $data = $item;
