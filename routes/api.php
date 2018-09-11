@@ -134,6 +134,9 @@ Route::post('player-ship-stuff', 'PlayerShipStuffController@post');
 
 Route::get('player-repair-items', 'PlayerRepairItemController@get');
 Route::post('player-repair-items', 'PlayerRepairItemController@post');
+
+Route::get('techcoin-settings', 'TechcoinSettingController@get');
+//Route::post('techcoin-settings', 'TechcoinSettingController@post');
 //});
 
 

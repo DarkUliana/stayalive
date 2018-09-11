@@ -65,6 +65,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/diary-storage-notes') }}">
                     Diary storage notes
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/techcoin-settings') }}">
+                    Techcoin Settings
+                </a></li>
         </ul>
 
     </div>

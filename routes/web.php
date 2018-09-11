@@ -95,6 +95,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('diary-storage-notes', 'Admin\DiaryStorageNotesController');
 
+    Route::get('techcoin-settings', 'Admin\TechcoinSettingsController@index');
+    Route::post('techcoin-settings', 'Admin\TechcoinSettingsController@update');
+
 });
 
 
