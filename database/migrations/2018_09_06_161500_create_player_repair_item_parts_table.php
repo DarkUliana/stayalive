@@ -14,7 +14,7 @@ class CreatePlayerRepairItemPartsTable extends Migration
     public function up()
     {
         Schema::create('player_repair_item_parts', function (Blueprint $table) {
-            $table->increments('ID');
+            $table->bigIncrements('ID');
             $table->integer('repairItemID');
             $table->integer('itemID');
             $table->integer('count');
