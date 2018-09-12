@@ -217,8 +217,8 @@ class PlayersController extends Controller
         PlayerRestorableObject::where('googleID', $googleID)->delete();
         PlayerQuestReplacement::where('googleID', $googleID)->delete();
         PlayerLearnedRecipe::where('googleID', $googleID)->delete();
-        PlayerShipStuff::where('googleID', $googleID)->delete();
-        PlayerRepairItem::where('googleID', $googleID)->delete();
+        PlayerShipStuff::where('playerID', $googleID)->delete();
+        PlayerRepairItem::where('playerID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
     }
