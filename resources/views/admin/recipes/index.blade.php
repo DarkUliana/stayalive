@@ -160,7 +160,7 @@
                                             <thead>
                                             <tr>
                                                 <th rowspan="2" width="200px">Name</th>
-                                                <th rowspan="2" width="50px">Level</th>
+                                                <th rowspan="2" width="60px">Level</th>
                                                 <th rowspan="2" width="100px">CraftTime</th>
                                                 <th rowspan="2" width="50px">RecipeType</th>
                                                 @for($i = 1; $i <= 6; ++$i)
