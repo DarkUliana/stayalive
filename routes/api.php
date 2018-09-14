@@ -137,8 +137,6 @@ Route::post('player-repair-items', 'PlayerRepairItemController@post');
 
 Route::get('techcoin-settings', 'TechcoinSettingController@get');
 //Route::post('techcoin-settings', 'TechcoinSettingController@post');
-
-Route::get('drop-items', 'DropItemController@get');
 //});
 
 

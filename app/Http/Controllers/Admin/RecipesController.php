@@ -150,7 +150,7 @@ class RecipesController extends Controller
 
             foreach ($request->recipes as $recipe) {
 
-                $this->save($recipe, $recipe['ID']);
+                $this->save($recipe, $recipe['ID'], false);
             }
 
         } else {
@@ -165,7 +165,7 @@ class RecipesController extends Controller
         return redirect('recipes')->with('flash_message', 'Recipe updated!');
     }
 
-    protected function save($requestData, $id)
+    protected function save($requestData, $id, $technology = true)
     {
         $data = $this->prepareDataForWrite($requestData);
 
@@ -173,7 +173,7 @@ class RecipesController extends Controller
         $recipe->update($data['properties']);
 
         RecipeComponents::where('recipeID', $id)->delete();
-        RecipeTechnologies::where('recipeID', $id)->delete();
+
 
         foreach ($data['components'] as $component) {
 
@@ -185,11 +185,17 @@ class RecipesController extends Controller
 
         }
 
-        foreach ($data['technologies'] as $technology) {
+        if ($technology) {
 
-            $recipeTechnology = new RecipeTechnologies($technology);
-            $recipe->technologies()->save($recipeTechnology);
+            RecipeTechnologies::where('recipeID', $id)->delete();
+
+            foreach ($data['technologies'] as $technology) {
+
+                $recipeTechnology = new RecipeTechnologies($technology);
+                $recipe->technologies()->save($recipeTechnology);
+            }
         }
+
     }
 
     /**
