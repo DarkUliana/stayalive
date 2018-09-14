@@ -139,6 +139,8 @@ Route::get('techcoin-settings', 'TechcoinSettingController@get');
 //Route::post('techcoin-settings', 'TechcoinSettingController@post');
 
 Route::get('drop-items', 'DropItemController@get');
+
+Route::get('loot-objects', 'LootObjectController@get');
 //});
 
 
