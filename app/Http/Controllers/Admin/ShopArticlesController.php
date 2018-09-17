@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Item;
 use App\ShopArticle;
 use App\ShopArticleItems;
 use Illuminate\Http\Request;
@@ -74,7 +75,8 @@ class ShopArticlesController extends Controller
      */
     public function create()
     {
-        return view('admin.shop-articles.create');
+        $items = Item::pluck('Name')->toArray();
+        return view('admin.shop-articles.create', compact('items'));
     }
 
     /**
@@ -133,9 +135,15 @@ class ShopArticlesController extends Controller
     {
         $shopArticle = ShopArticle::findOrFail($id);
         $shopArticle->dateTime = date('Y-m-d\TH:i', strtotime($shopArticle->dateTime));
-//        var_dump(date('Y-m-d\TH:i:s', strtotime($shopArticle->dateTime))); die();
+        $items = Item::pluck('Name')->toArray();
 
-        return view('admin.shop-articles.edit', compact('shopArticle'));
+        foreach ($shopArticle->items as $item)
+        if (!in_array($item->imageName, $items)) {
+
+            $items[] = $item->imageName;
+        }
+
+        return view('admin.shop-articles.edit', compact('shopArticle', 'items'));
     }
 
     /**
@@ -207,6 +215,8 @@ class ShopArticlesController extends Controller
     public function item(Request $request)
     {
         $counter = $request->counter + 1;
-        return view('admin.shop-articles.item', compact('counter'));
+        $items = Item::pluck('Name')->toArray();
+
+        return view('admin.shop-articles.item', compact('counter', 'items'));
     }
 }

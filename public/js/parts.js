@@ -59,40 +59,6 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '#addShopItem', function () {
-
-        var quantity = $('tr:last .number').text();
-        $.ajax({
-            url: '/shop-item',
-            method: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {"counter": quantity},
-            success: function (data) {
-                $('tbody').append(data);
-                if ($('tr').length === 7) {
-                    $('#addShopItem').attr('disabled', 'disabled');
-                }
-
-            },
-
-        });
-
-    });
-
-    $(document).on('click', '.deleteShopItem', function () {
-        $(this).closest('tr').remove();
-
-        if ($('tr').length < 7) {
-            $('#addShopItem').removeAttr('disabled');
-        }
-    });
-
-    if ($('tr').length === 7) {
-        $('#addShopItem').attr('disabled', 'disabled');
-    }
-
     $('#typeID').on('change', function () {
 
 

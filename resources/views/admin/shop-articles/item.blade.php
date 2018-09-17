@@ -2,8 +2,12 @@
     <td>
         <div class="number" style="display: none;">{{$counter}}</div>
         <div class="form-group">
-            <input class="form-control" name="items[{{$counter}}][imageName]" type="text"
-                   value="{{ $item->imageName or ''}}">
+            <select name="items[{{$counter}}][imageName]" class="form-control">
+                @foreach($items as $name)
+                    <option value="{{ $name }}" {{ isset($item) && $item->imageName == $name ? 'selected' : '' }}>
+                        {{ $name }}</option>
+                @endforeach
+            </select>
         </div>
     </td>
     <td>
