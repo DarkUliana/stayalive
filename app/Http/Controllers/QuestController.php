@@ -24,7 +24,7 @@ class QuestController extends Controller
 
     public function getDaily()
     {
-        $quests = new QuestCollection(Quest::where('daily', 1)->where('typeID', '!=', 2)->get());
+        $quests = new QuestCollection(Quest::where('daily', 1)->get());
 
         return response($quests, 200);
     }
