@@ -157,6 +157,7 @@ class PlayerQuestController extends Controller
     protected function getAvailableQuests($level, $levelMin, $levelMax)
     {
         $quests = Quest::where('daily', 1)
+            ->where('typeID', '!=', 2)
             ->where('level', '<', $level + $levelMax)
             ->where('level', '>', $level - $levelMin)
             ->pluck('ID')
@@ -165,6 +166,7 @@ class PlayerQuestController extends Controller
         if (empty($quests)) {
 
             $quests = Quest::where('daily', 1)
+                ->where('typeID', '!=', 2)
                 ->where('level', '<', $level + $levelMax)
                 ->pluck('ID')
                 ->toArray();
@@ -223,9 +225,9 @@ class PlayerQuestController extends Controller
 
     protected function generateFirstQuests($googleID)
     {
-        $plot = Quest::where('daily', 0)->orderBy('ID')->first();
+        $plot = Quest::where('daily', 0)->where('typeID', '!=', 2)->orderBy('ID')->first();
         $star = Quest::where('typeID', 2)->orderBy('ID')->first();
-        $daily = Quest::where('daily', 1)->orderBy('ID')->limit(3)->get();
+        $daily = Quest::where('daily', 1)->where('typeID', '!=', 2)->orderBy('ID')->limit(3)->get();
 
         $daily->push($plot)->push($star);
 
