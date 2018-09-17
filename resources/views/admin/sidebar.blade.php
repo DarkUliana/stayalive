@@ -47,8 +47,11 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/mobs') }}">
                     Mobs
                 </a></li>
-            <li class="list-group-item"><a class="card-link" href="{{ url('/mobs-loot') }}">
-                    Loot
+            <li class="list-group-item"><a class="card-link" href="{{ url('/loot-objects') }}">
+                    Loot objects
+                </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('/loot-collections') }}">
+                    Loot collections
                 </a></li>
             <li class="list-group-item"><a class="card-link" href="{{ url('/notifications') }}">
                     Notifications
