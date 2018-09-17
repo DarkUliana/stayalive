@@ -137,9 +137,10 @@ class PlayerQuestController extends Controller
 
     protected function generateNewQuests($googleID, $daily = [])
     {
-        $levelMin = 3;
-        $levelMax = 3;
         $questCount = 3;
+        $levelMin = $levelMax = $questCount * 2;
+
+
         $level = Player::where('googleID', $googleID)->first()->CurrentLevel;
 
         $quests = $this->getAvailableQuests($level, $levelMin, $levelMax);
@@ -156,6 +157,13 @@ class PlayerQuestController extends Controller
 
     protected function getAvailableQuests($level, $levelMin, $levelMax)
     {
+
+        $maxQuestLevel = Quest::max('level');
+
+        if ($level > $maxQuestLevel) {
+            $level = $maxQuestLevel;
+        }
+
         $quests = Quest::where('daily', 1)
             ->where('typeID', '!=', 2)
             ->where('level', '<', $level + $levelMax)
