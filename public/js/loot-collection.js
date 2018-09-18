@@ -30,16 +30,15 @@ $(document).ready(function () {
 
                $('tbody').prepend(data);
                $('select').select2();
-               deleteDescriptionEvent();
+               deleteItemEvent();
            },
        });
    });
 
-
-    deleteDescriptionEvent();
+    deleteItemEvent();
 });
 
-function deleteDescriptionEvent() {
+function deleteItemEvent() {
     $('.deleteItem').on('click', function () {
         $(this).closest('tr').remove();
     });

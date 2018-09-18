@@ -22,23 +22,22 @@ class LootObjectCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $temp = [];
+        $objects = [];
 
-        foreach ($this->collection as $object) {
+        foreach ($this->collection as $item) {
 
-            $temp[$object->key]['key'] = $object->key;
+            $temp['key'] = $item->key;
+            $temp['collections'] = [];
 
+            foreach ($item->collections as $collection) {
 
-            $tempCollection = $object->collection->toArray();
-            $tempCollection['items'] = [];
-
-            foreach ($object->collection->items as $item) {
-
-                $tempCollection['items'][] = $item->toArray();
+                $tempCollection['chance'] = $collection->collection->chance;
+                $tempCollection['items'] = $collection->collection->items->toArray();
+                $temp['collections'][] = $tempCollection;
             }
-            $temp[$object->key]['collections'][] = $tempCollection;
+            $objects[] = $temp;
         }
 
-        return ['itemsCollections' => array_values($temp)];
+        return ['itemsCollections' => $objects];
     }
 }

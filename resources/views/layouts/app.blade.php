@@ -227,5 +227,9 @@
 @if(Request::is('loot-collections/*'))
     <script src="{{ asset('js/loot-collection.js') }}"></script>
 @endif
+
+@if(Request::is('loot-objects/*'))
+    <script src="{{ asset('js/loot-object.js') }}"></script>
+@endif
 </body>
 </html>

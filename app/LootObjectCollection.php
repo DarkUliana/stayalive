@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LootObject extends Model
+class LootObjectCollection extends Model
 {
     protected $primaryKey = 'ID';
 
@@ -12,8 +12,8 @@ class LootObject extends Model
 
     protected $guarded = [];
 
-    public function collections()
+    public function collection()
     {
-        return $this->hasMany('App\LootObjectCollection', 'lootObjectID', 'ID');
+        return $this->hasOne('App\LootCollection', 'ID', 'lootCollectionID');
     }
 }

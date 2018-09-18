@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Resources\LootObjectCollection;
+use App\Item;
+use App\LootCollection;
 use App\LootObject;
 use Illuminate\Http\Request;
 
@@ -36,7 +39,10 @@ class LootObjectsController extends Controller
      */
     public function create()
     {
-        return view('admin.loot-objects.create');
+        $collections = LootCollection::all();
+        $items = Item::all();
+
+        return view('admin.loot-objects.create', compact('collections', 'items'));
     }
 
     /**
@@ -48,10 +54,20 @@ class LootObjectsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
-        LootObject::create($requestData);
+        unset($requestData['collections']);
+
+        $object = LootObject::create($requestData);
+
+        if (isset($request->colections)) {
+
+            foreach ($request->collections as $collection) {
+
+                $newCollection = new LootObjectCollection($collection);
+                $object->collections()->save($newCollection);
+            }
+        }
 
         return redirect('loot-objects')->with('flash_message', 'LootObject added!');
     }
@@ -59,7 +75,7 @@ class LootObjectsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -73,32 +89,48 @@ class LootObjectsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
     public function edit($id)
     {
         $lootobject = LootObject::findOrFail($id);
+        $collections = LootCollection::all();
+        $items = Item::all();
 
-        return view('admin.loot-objects.edit', compact('lootobject'));
+        return view('admin.loot-objects.edit', compact('lootobject', 'collections', 'items'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
-        $lootobject = LootObject::findOrFail($id);
-        $lootobject->update($requestData);
+        unset($requestData['collections']);
+
+        $object = LootObject::findOrFail($id);
+        $object->update($requestData);
+
+        LootObjectCollection::where('lootObjectID', $object->ID)->delete();
+
+        if (isset($request->colections)) {
+
+            foreach ($request->collections as $collection) {
+
+                $newCollection = new LootObjectCollection($collection);
+                $object->collections()->save($newCollection);
+            }
+        }
+
+
 
         return redirect('loot-objects')->with('flash_message', 'LootObject updated!');
     }
@@ -106,7 +138,7 @@ class LootObjectsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
