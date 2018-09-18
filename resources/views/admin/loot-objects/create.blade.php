@@ -21,7 +21,7 @@
                             </ul>
                         @endif
 
-                        <form method="POST" action="{{ url('/loot-objects') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form id="mainForm" method="POST" action="{{ url('/loot-objects') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
                             @include ('admin.loot-objects.form')
@@ -29,11 +29,7 @@
 
                         </form>
                         @include ('admin.loot-objects.collection')
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-4">
-                                <input class="btn btn-primary" type="submit" value="Create">
-                            </div>
-                        </div>
+                        <button id="submit" class="btn btn-primary">Create</button>
                     </div>
                 </div>
             </div>

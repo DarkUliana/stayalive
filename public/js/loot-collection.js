@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 
        $.ajax({
-           url: '/loot-collection.js-item',
+           url: '/loot-collections-item',
            method: 'GET',
            data: index,
            headers: {

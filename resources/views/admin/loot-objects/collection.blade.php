@@ -1,8 +1,8 @@
-<div class="card">
+<div class="card" style="margin-bottom: 20px">
     <div class="card-header">Add one item collection</div>
     <div class="card-body">
-        <form>
-            <table class="table-responsive table-bordered">
+        <form id="collectionForm">
+            <table class="table-responsive table-bordered" style="margin-bottom: 20px">
                 <tr>
                     <th>Name</th>
                     <th>Item</th>
@@ -11,7 +11,7 @@
                     <th>MaxValue</th>
                 </tr>
                 <tr>
-                    <td><input id="collectionName" name="name" type="text" value=""></td>
+                    <td><input id="collectionName" class="form-control" name="name" type="text" value="" required></td>
                     <td>
                         <select id="collectionItem" name="items[0][itemID]">
                             @foreach($items as $item)
@@ -20,17 +20,17 @@
                         </select>
                     </td>
                     <td>
-                        <input name="chance" type="number" value="0" step="0.01">
+                        <input  class="form-control collectionValue" name="chance" type="number" value="0" step="0.01" required>
                     </td>
                     <td>
-                        <input name="items[0][minValue]" type="number" value="0" step="0.01">
+                        <input  class="form-control collectionValue" name="items[0][minValue]" type="number" value="0" step="0.01" required>
                     </td>
                     <td>
-                        <input name="items[0][maxValue]" type="number" value="0" step="0.01">
+                        <input  class="form-control collectionValue" name="items[0][maxValue]" type="number" value="0" step="0.01" required>
                     </td>
                 </tr>
             </table>
-            <button type="submit" class="btn btn-success">Add collection</button>
+            <button id="addCollection" type="submit" class="btn btn-success">Add collection</button>
         </form>
     </div>
 </div>

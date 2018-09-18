@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Resources\LootObjectCollection;
+use App\LootObjectCollection;
 use App\Item;
 use App\LootCollection;
 use App\LootObject;
@@ -56,15 +56,16 @@ class LootObjectsController extends Controller
     {
 
         $requestData = $request->all();
+//        var_dump($requestData); die();
         unset($requestData['collections']);
 
         $object = LootObject::create($requestData);
 
-        if (isset($request->colections)) {
+        if (isset($request->collections)) {
 
             foreach ($request->collections as $collection) {
 
-                $newCollection = new LootObjectCollection($collection);
+                $newCollection = new LootObjectCollection(['lootCollectionID' => $collection]);
                 $object->collections()->save($newCollection);
             }
         }
@@ -114,6 +115,7 @@ class LootObjectsController extends Controller
     {
 
         $requestData = $request->all();
+//        var_dump($requestData); die();
         unset($requestData['collections']);
 
         $object = LootObject::findOrFail($id);
@@ -121,11 +123,11 @@ class LootObjectsController extends Controller
 
         LootObjectCollection::where('lootObjectID', $object->ID)->delete();
 
-        if (isset($request->colections)) {
+        if (isset($request->collections)) {
 
             foreach ($request->collections as $collection) {
 
-                $newCollection = new LootObjectCollection($collection);
+                $newCollection = new LootObjectCollection(['lootCollectionID' => $collection]);
                 $object->collections()->save($newCollection);
             }
         }

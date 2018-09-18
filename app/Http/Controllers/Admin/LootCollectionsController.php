@@ -67,6 +67,15 @@ class LootCollectionsController extends Controller
             }
         }
 
+        if ($request->ajax()) {
+
+            $data = [
+                'value' => $collection->name,
+                'id' => $collection->ID
+            ];
+            return response($data, 200);
+        }
+
         return redirect('loot-collections')->with('flash_message', 'LootCollection added!');
     }
 
