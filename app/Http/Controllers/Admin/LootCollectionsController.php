@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Item;
 use App\LootCollection;
+use App\LootCollectionItem;
 use Illuminate\Http\Request;
 
 class LootCollectionsController extends Controller
@@ -36,7 +38,8 @@ class LootCollectionsController extends Controller
      */
     public function create()
     {
-        return view('admin.loot-collections.create');
+        $items = Item::all();
+        return view('admin.loot-collections.create', compact('items'));
     }
 
     /**
@@ -48,10 +51,21 @@ class LootCollectionsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
+
+        unset($requestData['items']);
         
-        LootCollection::create($requestData);
+        $collection = LootCollection::create($requestData);
+
+        if (isset($request->items)) {
+
+            foreach ($request->items as $item) {
+
+                $newItem = new LootCollectionItem($item);
+                $collection->items()->save($newItem);
+            }
+        }
 
         return redirect('loot-collections')->with('flash_message', 'LootCollection added!');
     }
@@ -80,8 +94,9 @@ class LootCollectionsController extends Controller
     public function edit($id)
     {
         $lootcollection = LootCollection::findOrFail($id);
+        $items = Item::all();
 
-        return view('admin.loot-collections.edit', compact('lootcollection'));
+        return view('admin.loot-collections.edit', compact('lootcollection', 'items'));
     }
 
     /**
@@ -96,9 +111,22 @@ class LootCollectionsController extends Controller
     {
         
         $requestData = $request->all();
-        
-        $lootcollection = LootCollection::findOrFail($id);
-        $lootcollection->update($requestData);
+
+        unset($requestData['items']);
+
+        $collection = LootCollection::findOrFail($id);
+        $collection->update($requestData);
+
+        LootCollectionItem::where('lootCollectionID', $collection->ID)->delete();
+
+        if (isset($request->items)) {
+
+            foreach ($request->items as $item) {
+
+                $newItem = new LootCollectionItem($item);
+                $collection->items()->save($newItem);
+            }
+        }
 
         return redirect('loot-collections')->with('flash_message', 'LootCollection updated!');
     }
@@ -113,7 +141,16 @@ class LootCollectionsController extends Controller
     public function destroy($id)
     {
         LootCollection::destroy($id);
+        LootCollectionItem::where('lootCollectionID', $id)->delete();
 
         return redirect('loot-collections')->with('flash_message', 'LootCollection deleted!');
+    }
+
+    public function getItem(Request $request)
+    {
+        $items = Item::all();
+        $index = $request->index + 1;
+
+        return view('admin.loot-collections.item', compact('items', 'index'));
     }
 }

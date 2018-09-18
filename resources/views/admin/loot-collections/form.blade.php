@@ -13,10 +13,11 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card" style="margin-bottom: 10px">
     <div class="card-header">Items</div>
     <div class="card-body">
         <table class="table table-bordered">
+            <thead>
             <tr>
                 <th>Item</th>
                 <th>minValue</th>
@@ -25,10 +26,14 @@
                     <button id="addItem" type="button" class="btn btn-success">Add</button>
                 </th>
             </tr>
+            </thead>
+            <tbody>
             @isset($lootcollection)
                 @foreach($lootcollection->items as $item)
+                    @include('admin.loot-collections.item', ['index' => $loop->index, 'item' => $item])
                 @endforeach
             @endisset
+            </tbody>
         </table>
     </div>
 </div>

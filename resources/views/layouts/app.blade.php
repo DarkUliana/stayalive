@@ -98,15 +98,15 @@
                         @else
 
                             @if(env('PRODUCTION'))
-                            <li><a class="nav-link btn btn-success font-weight-bold"
-                                   href="{{ env('SECOND_URL').'/'.Request::path() }}">Go
-                                    to
-                                    test</a></li>
+                                <li><a class="nav-link btn btn-success font-weight-bold"
+                                       href="{{ env('SECOND_URL').'/'.Request::path() }}">Go
+                                        to
+                                        test</a></li>
                             @else
-                            <li><a class="nav-link btn btn-danger font-weight-bold"
-                                   href="{{ env('SECOND_URL').'/'.Request::path() }}">Go
-                                    to
-                                    production</a></li>
+                                <li><a class="nav-link btn btn-danger font-weight-bold"
+                                       href="{{ env('SECOND_URL').'/'.Request::path() }}">Go
+                                        to
+                                        production</a></li>
                             @endif
 
                             <li class="nav-item dropdown">
@@ -220,7 +220,12 @@
 
 @if(Request::is('recipes'))
     <script src="{{ asset('js/recipes.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+            integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
+@endif
+
+@if(Request::is('loot-collections/*'))
+    <script src="{{ asset('js/loot-collection.js') }}"></script>
 @endif
 </body>
 </html>

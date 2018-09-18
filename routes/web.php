@@ -99,7 +99,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('techcoin-settings', 'Admin\TechcoinSettingsController@update');
 
     Route::resource('loot-objects', 'Admin\LootObjectsController');
-    Route::resource('loot-collections', 'Admin\LootObjectsController');
+
+    Route::resource('loot-collections', 'Admin\LootCollectionsController');
+    Route::get('loot-collection.js-item', 'Admin\LootCollectionsController@getItem');
 
 });
 

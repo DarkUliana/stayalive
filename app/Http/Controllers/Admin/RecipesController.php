@@ -202,6 +202,8 @@ class RecipesController extends Controller
     public function destroy($id)
     {
         Recipe::destroy($id);
+        RecipeComponents::where('recipeID', $id)->delete();
+        RecipeTechnologies::where('recipeID', $id)->delete();
 
         return redirect('recipes')->with('flash_message', 'Recipe deleted!');
     }

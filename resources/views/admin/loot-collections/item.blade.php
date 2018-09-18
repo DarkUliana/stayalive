@@ -1,24 +1,24 @@
-<tr>
+<tr data-index="{{ $index }}">
     <td>
         <select class="item form-control" name="items[{{$index}}][itemID]">
-            @foreach ($items as $item):
-            <option value="{{$item->ID}}"
-                    {{(isset($item) && $item->ID == $component->itemID) ? "selected" : ''}}>
-                {{$item->Name}}
+            @foreach ($items as $one):
+            <option value="{{$one->ID}}"
+                    {{(isset($item) && $item->itemID == $one->ID) ? "selected" : ''}}>
+                {{$one->Name}}
             </option>
             @endforeach
         </select>
     </td>
     <td>
         <div class="form-group">
-            <input class="form-control" name="items[{{$counter}}][minValue]" type="number"
-                   value="{{ $component->minValue or 0}}">
+            <input class="form-control" name="items[{{$index}}][minValue]" type="number"
+                   value="{{ $item->minValue or 0}}">
         </div>
     </td>
     <td>
         <div class="form-group">
-            <input class="form-control" name="items[{{$counter}}][maxValue]" type="number"
-                   value="{{ $component->maxValue or 0}}">
+            <input class="form-control" name="items[{{$index}}][maxValue]" type="number"
+                   value="{{ $item->maxValue or 0}}">
         </div>
     </td>
     <td>

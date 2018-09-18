@@ -200,6 +200,7 @@ class ShopArticlesController extends Controller
     public function destroy($id)
     {
         ShopArticle::destroy($id);
+        ShopArticleItems::where('articleID', $id)->delete();
 
         return redirect('shop-articles')->with('flash_message', 'ShopArticles deleted!');
     }
