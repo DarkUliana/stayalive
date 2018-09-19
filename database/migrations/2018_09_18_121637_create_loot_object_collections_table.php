@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLootObjectsTable extends Migration
+class CreateLootObjectCollectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateLootObjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('loot_objects', function (Blueprint $table) {
+        Schema::create('loot_object_collections', function (Blueprint $table) {
             $table->increments('ID');
-            $table->string('key');
+            $table->integer('lootObjectID');
+            $table->integer('lootCollectionID');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateLootObjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('loot_objects');
+        Schema::dropIfExists('loot_object_collections');
     }
 }
