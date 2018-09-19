@@ -215,11 +215,25 @@ class PlayersController extends Controller
         PlayerReward::where('googleID', $googleID)->delete();
         PlayerBodySlot::where('googleID', $googleID)->delete();
         PlayerBodyPosition::where('googleID', $googleID)->delete();
+
+        $objects = PlayerRestorableObject::where('googleID', $googleID)->get();
+        foreach ($objects as $object) {
+
+            PlayerRestorableObjectSlot::where('restorableObjectID', $object->ID)->delete();
+        }
         PlayerRestorableObject::where('googleID', $googleID)->delete();
+
         PlayerQuestReplacement::where('googleID', $googleID)->delete();
         PlayerLearnedRecipe::where('googleID', $googleID)->delete();
         PlayerShipStuff::where('playerID', $googleID)->delete();
+
+        $items = PlayerRepairItem::where('playerID', $googleID)->get();
+        foreach ($items as $item) {
+
+            PlayerRepairItemPart::where('repairItemID', $item->ID)->delete();
+        }
         PlayerRepairItem::where('playerID', $googleID)->delete();
+
         PlayerDiaryNote::where('googleID', $googleID)->delete();
 
         Player::where('googleID', $googleID)->delete();
