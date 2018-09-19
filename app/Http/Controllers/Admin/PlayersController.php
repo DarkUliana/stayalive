@@ -228,6 +228,8 @@ class PlayersController extends Controller
     public function saveItems(Request $request)
     {
 
+        $rewards = Reward::pluck('name')->toArray();
+
         CloudItem::where('googleID', $request->googleID)
             ->where('isTaken', 0)
             ->delete();
@@ -240,6 +242,11 @@ class PlayersController extends Controller
                 'uniqueID' => uniqid('id', true),
                 'inStuck' => (Item::where('Name', $item['imageName'])->value('maxInStack')) == 1 ? 0 : 1
             ];
+
+            if (in_array($item['imageName'], $rewards)) {
+
+                $properties['sourceID'] = 5;
+            }
 
             CloudItem::create(array_merge($item, $properties));
         }
