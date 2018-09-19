@@ -15,7 +15,7 @@ class AddKeyCoinToPlayersTable extends Migration
     {
         Schema::table('players', function (Blueprint $table) {
 
-            $table->integer('keyCoin')->after('techCoin')->default(0);
+            $table->integer('keyCoin')->after('techCoin')->default(0)->nullable();
         });
     }
 

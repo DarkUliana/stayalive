@@ -11,7 +11,7 @@
             @endforeach
             @foreach($rewards as $reward)
                 <option value="{{ $reward->name }}"
-                        @if(isset($slot) && $reward->vame == $slot->imageName)
+                        @if(isset($slot) && $reward->name == $slot->imageName)
                         selected
                         @endif
                 >{{ $reward->name }}</option>

@@ -14,7 +14,7 @@ class AddFieldToPlayersTable extends Migration
     public function up()
     {
         Schema::table('players', function (Blueprint $table) {
-            $table->integer('collectedTechCoin')->after('techCoin');
+            $table->integer('collectedTechCoin')->after('techCoin')->nullable();
         });
 
     }
