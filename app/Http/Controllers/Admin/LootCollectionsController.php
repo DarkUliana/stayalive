@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Resources\LootObjectCollection;
 use App\Item;
 use App\LootCollection;
 use App\LootCollectionItem;
@@ -151,6 +152,7 @@ class LootCollectionsController extends Controller
     {
         LootCollection::destroy($id);
         LootCollectionItem::where('lootCollectionID', $id)->delete();
+        LootObjectCollection::where('lootCollectionID', $id)->delete();
 
         return redirect('loot-collections')->with('flash_message', 'LootCollection deleted!');
     }
