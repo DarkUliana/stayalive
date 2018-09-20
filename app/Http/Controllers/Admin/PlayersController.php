@@ -18,6 +18,7 @@ use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerDiaryNote;
 use App\PlayerLearnedRecipe;
+use App\PlayerPrefRecord;
 use App\PlayerQuest;
 use App\PlayerQuestReplacement;
 use App\PlayerRepairItem;
@@ -235,8 +236,8 @@ class PlayersController extends Controller
         PlayerRepairItem::where('playerID', $googleID)->delete();
 
         PlayerDiaryNote::where('googleID', $googleID)->delete();
-
         Player::where('googleID', $googleID)->delete();
+        PlayerPrefRecord::where('playerID', $googleID)->delete();
     }
 
     public function saveItems(Request $request)
@@ -331,6 +332,7 @@ class PlayersController extends Controller
         PlayerRepairItem::truncate();
         PlayerRepairItemPart::truncate();
         PlayerDiaryNote::truncate();
+        PlayerPrefRecord::truncate();
 
         Player::truncate();
 
