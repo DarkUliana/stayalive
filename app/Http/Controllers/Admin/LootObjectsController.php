@@ -147,6 +147,7 @@ class LootObjectsController extends Controller
     public function destroy($id)
     {
         LootObject::destroy($id);
+        LootObjectCollection::where('lootObjectID', $id)->delete();
 
         return redirect('loot-objects')->with('flash_message', 'LootObject deleted!');
     }
