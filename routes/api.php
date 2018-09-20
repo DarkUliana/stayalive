@@ -140,6 +140,9 @@ Route::get('techcoin-settings', 'TechcoinSettingController@get');
 
 Route::get('loot-objects', 'LootObjectController@get');
 
+Route::get('pref-records', 'PlayerPrefRecordController@get');
+Route::post('pref-records', 'PlayerPrefRecordController@post');
+
 
 
 //});
