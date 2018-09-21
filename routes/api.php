@@ -143,6 +143,8 @@ Route::get('loot-objects', 'LootObjectController@get');
 Route::get('pref-records', 'PlayerPrefRecordController@get');
 Route::post('pref-records', 'PlayerPrefRecordController@post');
 
+Route::get('quest-sequences', 'QuestSequenceController@get');
+
 
 
 //});
