@@ -34,7 +34,30 @@ class MergingController extends Controller
         'quest_types',
         'reward_chest_types',
         'speakers',
-        'migrations'
+        'migrations',
+        'players',
+        'equipment',
+        'inventory',
+        'items_in_craft',
+        'online',
+        'player_body_positions',
+        'player_body_slots',
+        'player_building_technologies',
+        'player_chest_items',
+        'player_diary_notes',
+        'player_learned_recipes',
+        'player_pref_records',
+        'player_quests',
+        'player_quest_replacements',
+        'player_repair_items',
+        'player_repair_item_parts',
+        'player_restorable_objects',
+        'player_restorable_object_slots',
+        'player_rewards',
+        'player_ship_stuffs',
+        'player_technologies_states',
+        'timers',
+        'users'
     ];
 
     public function testToProduction()
