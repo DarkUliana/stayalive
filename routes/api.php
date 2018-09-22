@@ -145,6 +145,9 @@ Route::post('pref-records', 'PlayerPrefRecordController@post');
 
 Route::get('quest-sequences', 'QuestSequenceController@get');
 
+Route::get('player-sequences', 'PlayerSequenceController@get');
+Route::post('player-sequences', 'PlayerSequenceController@post');
+
 
 
 //});

@@ -22,7 +22,7 @@ class PlayerQuestController extends Controller
         }
 
 
-        $quests = PlayerQuest::where('googleID', $request->googleID)->get();
+        $quests = PlayerQuest::where('googleID', $request->googleID)->where('type', '!=', 'plot')->get();
 
         if ($quests->isEmpty()) {
 
@@ -121,17 +121,6 @@ class PlayerQuestController extends Controller
             ], $json);
         }
 
-
-//        if (isset($data['plotQuest'])) {
-//
-//            $json = (array)json_decode($data['plotQuest']['questControllerData']);
-//            $array[] = array_merge([
-//                'googleID' => $data['googleID'],
-//                'type' => 'plot',
-//                'questID' => $data['plotQuest']['questID']
-//            ], $json);
-//        }
-
         return $array;
     }
 
@@ -225,13 +214,13 @@ class PlayerQuestController extends Controller
 
     protected function generateFirstQuests($googleID)
     {
-        $plot = Quest::where('daily', 0)->where('typeID', '!=', 2)->orderBy('ID')->first();
+
         $star = Quest::where('typeID', 2)->orderBy('ID')->first();
         $daily = Quest::where('daily', 1)->where('typeID', '!=', 2)->orderBy('ID')->limit(3)->get();
 
-        $daily->push($plot)->push($star);
+        $quests = $daily->push($star);
 
-        foreach ($daily as $quest) {
+        foreach ($quests as $quest) {
             $array = [
                 'googleID' => $googleID,
                 'questID' => $quest->ID,
@@ -254,6 +243,6 @@ class PlayerQuestController extends Controller
             PlayerQuest::create($array);
         }
 
-        return PlayerQuest::where('googleID', $googleID)->get();
+        return PlayerQuest::where('googleID', $googleID)->where('type', '!=', 'plot')->get();
     }
 }

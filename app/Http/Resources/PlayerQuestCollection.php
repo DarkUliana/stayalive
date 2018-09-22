@@ -37,10 +37,7 @@ class PlayerQuestCollection extends ResourceCollection
             if ($quest->type == 'simple') {
 
                 $questsArray['questsData'][] = $temp;
-            } elseif ($quest->type == 'plot') {
-
-                $questsArray['plotQuest'] = $temp;
-            } else {
+            }  else {
 
                 $questsArray['starQuest'] = $temp;
             }
