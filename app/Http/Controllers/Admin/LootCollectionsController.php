@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Resources\LootObjectCollection;
+use App\LootObjectCollection;
 use App\Item;
 use App\LootCollection;
 use App\LootCollectionItem;
