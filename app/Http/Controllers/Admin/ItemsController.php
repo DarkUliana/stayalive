@@ -2,14 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CloudItem;
 use App\Description;
 use App\DiaryStorageNote;
+use App\Equipment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Inventory;
 use App\Item;
+use App\ItemsInCraft;
 use App\ItemType;
+use App\LootCollectionItem;
+use App\PlayerBodySlot;
+use App\PlayerChestItems;
+use App\PlayerRepairItemPart;
+use App\PlayerRestorableObjectSlot;
 use App\Property;
+use App\RecipeComponents;
+use App\RestorableObjectItem;
+use App\RewardItem;
+use App\ShopArticleItems;
+use App\TechnologyItems;
 use Illuminate\Http\Request;
 use App\ItemProperty;
 use Illuminate\Support\Facades\DB;
@@ -238,6 +252,26 @@ class ItemsController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+
+        $item = Item::where('id', $id)->first();
+        CloudItem::where('imageName', $item->Name)->delete();
+        ShopArticleItems::where('imageName', $item->Name)->delete();
+        Equipment::where('itemID', $id)->update(['itemID' => -1]);
+        Inventory::where('itemID', $id)->update(['itemID' => -1]);
+        ItemsInCraft::where('itemID', $id)->update(['itemID' => -1]);
+        PlayerBodySlot::where('itemID', $id)->update(['itemID' => -1]);
+        PlayerChestItems::where('itemID', $id)->update(['itemID' => -1]);
+        PlayerRestorableObjectSlot::where('itemID', $id)->update(['itemID' => -1]);
+        ItemProperty::where('itemID', $id)->delete();
+        LootCollectionItem::where('itemID', $id)->delete();
+        PlayerRepairItemPart::where('itemID', $id)->delete();
+        RecipeComponents::where('itemID', $id)->delete();
+        RewardItem::where('itemID', $id)->delete();
+        TechnologyItems::where('itemID', $id)->delete();
+        RestorableObjectItem::where('ItemID', $id)->delete();
+
+
+
         Item::destroy($id);
 
         if ($request->ajax()) {
@@ -245,7 +279,7 @@ class ItemsController extends Controller
             return response(['status' => 'Item deleted!']);
         }
 
-        return redirect(url()->previous())->with('status', 'Item deleted!');
+        return redirect('items')->with('status', 'Item deleted!');
     }
 
     public function properties(Request $request)
