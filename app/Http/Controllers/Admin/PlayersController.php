@@ -26,6 +26,7 @@ use App\PlayerRepairItemPart;
 use App\PlayerRestorableObject;
 use App\PlayerRestorableObjectSlot;
 use App\PlayerReward;
+use App\PlayerSequence;
 use App\PlayerShipStuff;
 use App\PlayerTechnologiesStates;
 use App\RestorableObject;
@@ -238,6 +239,8 @@ class PlayersController extends Controller
         PlayerDiaryNote::where('googleID', $googleID)->delete();
         Player::where('googleID', $googleID)->delete();
         PlayerPrefRecord::where('playerID', $googleID)->delete();
+        PlayerSequence::where('googleID', $googleID)->delete();
+
     }
 
     public function saveItems(Request $request)
