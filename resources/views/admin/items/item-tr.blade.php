@@ -16,12 +16,17 @@
                 </button>
             </a>
 
-            <a href="{{ url('/items' . '/' . $item->ID) }}" title="Delete item" class="deleteItem">
+            <form method="POST" action="{{ url('/items' . '/' . $item->ID) }}" accept-charset="UTF-8"
+                  style="display:inline">
+                <input type="hidden" name="_method" value="DELETE">
+                {{ csrf_field() }}
+
                 <button class="btn btn-danger btn-sm" title="Delete item"
                         onclick="return confirm('Confirm delete?')"><i
                             class="fa fa-trash-o" aria-hidden="true"></i> Delete
                 </button>
-            </a>
+
+            </form>
         </td>
     </tr>
 @endforeach
