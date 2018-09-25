@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PlayerQuest;
 use App\PlayerSequence;
-use App\QuestSequence;
+use App\DiaryStorageNote;
 use Illuminate\Http\Request;
 
 class PlayerSequenceController extends Controller
@@ -26,7 +26,7 @@ class PlayerSequenceController extends Controller
         $data['googleID'] = $request->googleID;
         $data['openedSequences'] = $sequences->toArray();
 
-        if ($sequences->count() < QuestSequence::count()) {
+        if ($sequences->count() < DiaryStorageNote::count()) {
 
             $missing = $this->getMissingSequences($sequences, $request->googleID);
             $data['openedSequences'] = array_merge($data['openedSequences'], $missing);
@@ -69,7 +69,7 @@ class PlayerSequenceController extends Controller
         $sequencesArr = [];
 
         $IDs = $sequences->pluck('sequenceID');
-        $missing = QuestSequence::whereNotIn('ID', $IDs)->pluck('ID');
+        $missing = DiaryStorageNote::whereNotIn('ID', $IDs)->pluck('ID');
 
         foreach ($missing as $item) {
 

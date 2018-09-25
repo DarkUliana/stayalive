@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DiaryStorageNote;
-use App\QuestSequence;
 use Illuminate\Http\Request;
 
 class QuestSequenceController extends Controller

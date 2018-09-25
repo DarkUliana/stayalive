@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class QuestSequenceQuest extends Model
+class DiaryNoteSequence extends Model
 {
     protected $primaryKey = 'ID';
 

@@ -16,6 +16,6 @@ class QuestSequence extends Model
 
     public function quests()
     {
-        return $this->hasMany('App\QuestSequenceQuest', 'questSequenceID', 'ID');
+        return $this->hasMany('App\DiaryNoteSequence', 'questSequenceID', 'ID');
     }
 }

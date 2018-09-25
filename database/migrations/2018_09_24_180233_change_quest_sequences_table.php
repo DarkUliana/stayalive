@@ -15,7 +15,10 @@ class ChangeQuestSequencesTable extends Migration
     {
         Schema::drop('quest_sequences');
 
-        Schema::rename('quest_sequence_quests', 'quest_sequences');
+        Schema::table('quest_sequence_quests', function (Blueprint $table) {
+            $table->renameColumn('questSequenceID', 'diaryNoteID');
+        });
+        Schema::rename('quest_sequence_quests', 'diary_note_sequences');
     }
 
     /**
@@ -25,7 +28,10 @@ class ChangeQuestSequencesTable extends Migration
      */
     public function down()
     {
-        Schema::rename('quest_sequences', 'quest_sequence_quests');
+        Schema::table('diary_note_sequences', function (Blueprint $table) {
+            $table->renameColumn('diaryNoteID', 'questSequenceID');
+        });
+        Schema::rename('diary_note_sequences', 'quest_sequence_quests');
 
         Schema::create('quest_sequences', function (Blueprint $table) {
             $table->increments('ID');
