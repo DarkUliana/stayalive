@@ -80,9 +80,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('notifications', 'Admin\NotificationsController');
 
-    Route::resource('mobs-loot', 'Admin\MobLootController');
-    Route::get('mobs-loot-item', 'Admin\MobLootController@getItem');
-
     Route::resource('banlist', 'Admin\BanListController', ['only' => [
         'index', 'store', 'destroy'
     ]]);
