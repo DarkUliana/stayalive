@@ -13,4 +13,9 @@ class DiaryStorageNote extends Model
     protected $hidden = [
         'ID', 'created_at', 'updated_at'
     ];
+
+    public function quests()
+    {
+        return $this->hasMany('App\QuestSequenceQuest', 'questSequenceID', 'ID');
+    }
 }

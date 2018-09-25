@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DiaryStorageNote;
 use App\QuestSequence;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class QuestSequenceController extends Controller
 {
     public function get()
     {
-        $sequences = QuestSequence::all();
+        $sequences = DiaryStorageNote::all();
 
         $data = [];
 
