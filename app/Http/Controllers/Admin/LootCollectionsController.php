@@ -24,7 +24,7 @@ class LootCollectionsController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $lootcollections = LootCollection::latest()->paginate($perPage);
+            $lootcollections = LootCollection::where('name', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $lootcollections = LootCollection::latest()->paginate($perPage);
         }
