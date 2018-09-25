@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DiaryNoteSequence;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\DiaryStorageNote;
+use App\Quest;
 use Illuminate\Http\Request;
 
 class DiaryStorageNotesController extends Controller
@@ -36,7 +38,9 @@ class DiaryStorageNotesController extends Controller
      */
     public function create()
     {
-        return view('admin.diary-storage-notes.create');
+        $quests = Quest::all();
+
+        return view('admin.diary-storage-notes.create', compact('quests'));
     }
 
     /**
@@ -53,8 +57,20 @@ class DiaryStorageNotesController extends Controller
         ]);
 
         $requestData = $request->all();
+        unset($requestData['quests']);
         
-        DiaryStorageNote::create($requestData);
+        $note = DiaryStorageNote::create($requestData);
+
+        if (isset($request->quests)) {
+
+            foreach ($request->quests as $quest) {
+
+                $data = ['questID' => $quest];
+                $noteQuest = new DiaryNoteSequence($data);
+                $note->quests()->save($noteQuest);
+            }
+        }
+
 
         return redirect('diary-storage-notes')->with('flash_message', 'DiaryStorageNote added!');
     }
@@ -83,8 +99,10 @@ class DiaryStorageNotesController extends Controller
     public function edit($id)
     {
         $diaryStorageNote = DiaryStorageNote::findOrFail($id);
+        $noteQuests = $diaryStorageNote->quests()->pluck('questID')->toArray();
+        $quests = Quest::all();
 
-        return view('admin.diary-storage-notes.edit', compact('diaryStorageNote'));
+        return view('admin.diary-storage-notes.edit', compact('diaryStorageNote', 'noteQuests', 'quests'));
     }
 
     /**
@@ -99,9 +117,22 @@ class DiaryStorageNotesController extends Controller
     {
         
         $requestData = $request->all();
+        unset($requestData['quests']);
         
         $diaryStorageNote = DiaryStorageNote::findOrFail($id);
         $diaryStorageNote->update($requestData);
+
+        DiaryNoteSequence::where('diaryNoteID', $diaryStorageNote->ID)->delete();
+
+        if (isset($request->quests)) {
+
+            foreach ($request->quests as $quest) {
+
+                $data = ['questID' => $quest];
+                $noteQuest = new DiaryNoteSequence($data);
+                $diaryStorageNote->quests()->save($noteQuest);
+            }
+        }
 
         return redirect('diary-storage-notes')->with('flash_message', 'DiaryStorageNote updated!');
     }

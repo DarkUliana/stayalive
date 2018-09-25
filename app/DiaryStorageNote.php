@@ -11,6 +11,11 @@ class DiaryStorageNote extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'ID', 'created_at', 'updated_at'
+        'noteImage', 'noteSubject', 'created_at', 'updated_at'
     ];
+
+    public function quests()
+    {
+        return $this->hasMany('App\DiaryNoteSequence', 'diaryNoteID', 'ID');
+    }
 }

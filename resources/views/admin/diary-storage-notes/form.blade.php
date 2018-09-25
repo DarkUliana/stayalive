@@ -22,6 +22,16 @@
         {!! $errors->first('noteImage', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+<div class="form-group {{ $errors->has('quests') ? 'has-error' : ''}}">
+    <label for="quests" class="col-md-4 control-label">{{ 'quests' }}</label>
+    <div class="col-md-6">
+        <select name="quests[]" id="quests" multiple>
+            @foreach($quests as $quest)
+                <option value="{{ $quest->ID }}" {{ isset($noteQuests) && in_array($quest->ID, $noteQuests) ? 'selected' : '' }}>{{ $quest->name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
 
 <div class="form-group">
     <div class="col-md-offset-4 col-md-4">
