@@ -203,7 +203,6 @@ class PlayersController extends Controller
     protected function delete($googleID)
     {
 
-        AfterCraftItems::where('googleID', $googleID)->delete();
 //        CloudItem::where('googleID', $googleID)->delete();
         Equipment::where('googleID', $googleID)->delete();
         Inventory::where('googleID', $googleID)->delete();
