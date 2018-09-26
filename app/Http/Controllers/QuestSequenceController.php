@@ -16,7 +16,10 @@ class QuestSequenceController extends Controller
         foreach ($sequences as $sequence) {
 
             $quests = $sequence->quests()->pluck('questID')->toArray();
-            $temp = $sequence->toArray();
+            $temp = [
+                'ID' => $sequence->ID,
+                'noteID' => $sequence->noteID
+            ];
             $temp['questsIDs'] = $quests;
             $data[] = $temp;
         }
