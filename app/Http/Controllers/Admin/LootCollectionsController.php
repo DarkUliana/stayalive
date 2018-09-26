@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\LootObject;
 use App\LootObjectCollection;
 use App\Item;
 use App\LootCollection;
@@ -148,11 +149,16 @@ class LootCollectionsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         LootCollection::destroy($id);
         LootCollectionItem::where('lootCollectionID', $id)->delete();
         LootObjectCollection::where('lootCollectionID', $id)->delete();
+
+        if ($request->ajax()) {
+
+            return response('deleted', 200);
+        }
 
         return redirect('loot-collections')->with('flash_message', 'LootCollection deleted!');
     }
@@ -163,5 +169,19 @@ class LootCollectionsController extends Controller
         $index = $request->index + 1;
 
         return view('admin.loot-collections.item', compact('items', 'index'));
+    }
+
+    public function getLootCollectionObject($id)
+    {
+        $objectID = LootObjectCollection::where('lootCollectionID', $id)->first();
+
+        if ($objectID == null) {
+
+            return response('not found', 404);
+        }
+
+        $object = LootObject::where('ID', $objectID->lootObjectID)->first();
+
+        return response($object, 200);
     }
 }

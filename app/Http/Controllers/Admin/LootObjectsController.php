@@ -144,10 +144,15 @@ class LootObjectsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         LootObject::destroy($id);
         LootObjectCollection::where('lootObjectID', $id)->delete();
+
+        if ($request->ajax()) {
+
+            return response('deleted', 200);
+        }
 
         return redirect('loot-objects')->with('flash_message', 'LootObject deleted!');
     }
