@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\LootObject;
 use App\LootObjectCollection;
 use App\Item;
 use App\LootCollection;
@@ -163,5 +164,13 @@ class LootCollectionsController extends Controller
         $index = $request->index + 1;
 
         return view('admin.loot-collections.item', compact('items', 'index'));
+    }
+
+    public function getLootCollectionObject($id)
+    {
+        $objectIDs = LootObjectCollection::where('lootCollectionID', $id)->distinct()->pluck('lootObjectID')->toArray();
+        $objects = LootObject::whereIn('ID', $objectIDs)->get();
+
+        return response($objects, 200);
     }
 }

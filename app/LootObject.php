@@ -8,7 +8,7 @@ class LootObject extends Model
 {
     protected $primaryKey = 'ID';
 
-    protected $hidden = ['ID', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $guarded = [];
 
