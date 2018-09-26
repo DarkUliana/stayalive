@@ -2,33 +2,68 @@ $(document).ready(function () {
 
     $('.deleteCollection').on('click', function () {
 
+        var delBtn = $(this);
+
         $.ajax({
-            url: '/loot-collection-object/'+$(this).attr('data-id'),
+            url: '/loot-collection-object/'+ delBtn.attr('data-id'),
             method: 'GET',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (data) {
 
-            console.log(data);
-            data.forEach(function (obj, i) {
 
-                $('#object').text(obj.key + ' ')
-            });
 
-                $('#delWithObj, #delCollection').on('click', function () {
+                $('#object').text($('#object').text() + data.key + ' ');
 
-                    var data = {};
 
-                    if ($(this).is('#delWithObj')) {
 
-                        // data.objectID =
-                    }
-                });
+                $('#collection').text($(delBtn.closest('tr').find('td')[1]).text() + ' ');
 
-                $('.modal').modal();
+                onDeleteCollection(delBtn, data);
+
+                $('#choiceModal').modal();
+            },
+            error: function (err) {
+
+                console.log(err);
+                if (err.status === 404) {
+
+                    onDeleteCollection(delBtn, {});
+                    $('#confirmModal').modal();
+                }
             },
 
         });
     });
 });
+
+function onDeleteCollection(delBtn, data) {
+
+    $('#delWithObj, .delCollection').on('click', function () {
+
+        if ($(this).is('#delWithObj')) {
+
+            $.ajax({
+
+                url: '/loot-objects/' + data.ID,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+            });
+
+        }
+
+        $.ajax({
+
+            url: '/loot-collections/' + delBtn.attr('data-id'),
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        });
+
+        location.reload();
+    });
+}

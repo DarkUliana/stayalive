@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <div class="modal" tabindex="-1" role="dialog">
+    <div id="choiceModal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -100,11 +100,28 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><div id="collection" class="text-black-50"><div></div> is linked to <div id="object" class="text-black-50"><div></div>. Do you want to remove both?</p>
+                    <p><span id="collection" class="font-weight-bold"></span> (collection) is linked to <span id="object" class="font-weight-bold"></span> (object). Do you want to remove both?</p>
                 </div>
                 <div class="modal-footer">
                     <button id="delWithObj" type="button" class="btn btn-danger">Delete with object</button>
-                    <button id="delCollection" type="button" class="btn btn-warning">Delete only collection</button>
+                    <button type="button" class="btn btn-warning delCollection">Delete only collection</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger delCollection">Delete collection</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

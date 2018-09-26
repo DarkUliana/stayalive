@@ -149,11 +149,16 @@ class LootCollectionsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         LootCollection::destroy($id);
         LootCollectionItem::where('lootCollectionID', $id)->delete();
         LootObjectCollection::where('lootCollectionID', $id)->delete();
+
+        if ($request->ajax()) {
+
+            return response('deleted', 200);
+        }
 
         return redirect('loot-collections')->with('flash_message', 'LootCollection deleted!');
     }
@@ -168,9 +173,15 @@ class LootCollectionsController extends Controller
 
     public function getLootCollectionObject($id)
     {
-        $objectIDs = LootObjectCollection::where('lootCollectionID', $id)->distinct()->pluck('lootObjectID')->toArray();
-        $objects = LootObject::whereIn('ID', $objectIDs)->get();
+        $objectID = LootObjectCollection::where('lootCollectionID', $id)->first();
 
-        return response($objects, 200);
+        if ($objectID == null) {
+
+            return response('not found', 404);
+        }
+
+        $object = LootObject::where('ID', $objectID->lootObjectID)->first();
+
+        return response($object, 200);
     }
 }
