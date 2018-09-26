@@ -11,7 +11,7 @@ class DiaryStorageNote extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'noteImage', 'noteSubject', 'created_at', 'updated_at'
+        'ID', 'created_at', 'updated_at'
     ];
 
     public function quests()
