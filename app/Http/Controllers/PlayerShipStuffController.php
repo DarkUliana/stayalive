@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PlayerShipStuffCollection;
 use App\PlayerShipStuff;
+use App\PlayerShipStuffItem;
+use App\PlayerTechnologyQuantity;
 use Illuminate\Http\Request;
 
 class PlayerShipStuffController extends Controller
@@ -15,7 +17,10 @@ class PlayerShipStuffController extends Controller
             return response('Invalid data!', 400);
         }
 
-        $data = new PlayerShipStuffCollection(PlayerShipStuff::where('playerID', $request->playerID)->get());
+        $data['shipFloors'] = PlayerShipStuff::where('playerID', $request->playerID)->with('items')->get()->toArray();
+
+        $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get()->toArray();
+
 
         return response($data, 200);
 
@@ -28,34 +33,33 @@ class PlayerShipStuffController extends Controller
             return response('Invalid data!', 400);
         }
 
-        $data = $this->prepareData($request->input());
 
+        $ids = PlayerShipStuff::where('playerID', $request->playerID)->pluck('ID')->toArray();
+        PlayerShipStuffItem::whereIn('stuffID', $ids)->delete();
         PlayerShipStuff::where('playerID', $request->playerID)->delete();
 
-        foreach ($data as $item) {
+        foreach ($request->shipFloors as $item) {
 
-            PlayerShipStuff::create($item);
+            $stuff = $item;
+            $stuff['playerID'] = $request->playerID;
+            unset($stuff['floorCells']);
+            $newItem = PlayerShipStuff::create($stuff);
+
+            foreach ($item['floorCells'] as $cell) {
+
+                $newCell = new PlayerShipStuffItem($cell);
+                $newItem->items()->save($newCell);
+            }
+        }
+
+        PlayerTechnologyQuantity::where('playerID', $request->playerID)->delete();
+        foreach ($request->concreteItemsCounts as $item) {
+
+            $data = $item;
+            $data['playerID'] = $request->playerID;
+            PlayerTechnologyQuantity::create($data);
         }
 
         return response('ok', 200);
-    }
-
-    protected function prepareData($data)
-    {
-        $prepared = [];
-
-        foreach ($data['shipFloors'] as $floor) {
-
-            foreach ($floor['floorCells'] as $cell) {
-
-                $temp['playerID'] = $data['playerID'];
-                $temp['floorIndex'] = $floor['floorIndex'];
-                $temp = array_merge($temp, $cell);
-                $prepared[] = $temp;
-            }
-
-        }
-
-        return $prepared;
     }
 }
