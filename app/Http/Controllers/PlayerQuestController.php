@@ -126,13 +126,11 @@ class PlayerQuestController extends Controller
 
     protected function generateNewQuests($googleID, $daily = [])
     {
+        $levelMin = 1;
         $questCount = 3;
-        $levelMin = $levelMax = $questCount * 2;
-
-
         $level = Player::where('googleID', $googleID)->first()->CurrentLevel;
 
-        $quests = $this->getAvailableQuests($level, $levelMin, $levelMax);
+        $quests = $this->getAvailableQuests($level, $levelMin, $questCount);
 
         $newQuests = $this->getRandomQuests($quests, $questCount, $daily);
 
@@ -144,30 +142,21 @@ class PlayerQuestController extends Controller
 
     }
 
-    protected function getAvailableQuests($level, $levelMin, $levelMax)
+    protected function getAvailableQuests($level, $levelMin, $count)
     {
 
-        $maxQuestLevel = Quest::max('level');
-
-        if ($level > $maxQuestLevel) {
-            $level = $maxQuestLevel;
-        }
-
-        $quests = Quest::where('daily', 1)
-            ->where('typeID', '!=', 2)
-            ->where('level', '<', $level + $levelMax)
-            ->where('level', '>', $level - $levelMin)
-            ->pluck('ID')
-            ->toArray();
-
-        if (empty($quests)) {
+        do {
 
             $quests = Quest::where('daily', 1)
                 ->where('typeID', '!=', 2)
-                ->where('level', '<', $level + $levelMax)
+                ->where('level', '>=', $level - $levelMin)
+                ->where('level', '<=', $level)
                 ->pluck('ID')
                 ->toArray();
-        }
+
+            ++$levelMin;
+
+        } while (count($quests) < $count && ($level - $levelMin) >= 0);
 
         return $quests;
     }
@@ -223,33 +212,19 @@ class PlayerQuestController extends Controller
     protected function generateFirstQuests($googleID)
     {
 
+        $this->generateNewQuests($googleID);
+
         $star = Quest::where('typeID', 2)->orderBy('ID')->first();
-        $daily = Quest::where('daily', 1)->where('typeID', '!=', 2)->orderBy('ID')->limit(3)->get();
 
-        $quests = $daily->push($star);
-
-        foreach ($quests as $quest) {
-            $array = [
+            $quest = [
                 'googleID' => $googleID,
-                'questID' => $quest->ID,
-                'progress' => 0
+                'questID' => $star->ID,
+                'progress' => 0,
+                'type' => 'star'
             ];
 
+            PlayerQuest::create($quest);
 
-            $array['type'] = 'simple';
-
-            if ($quest->typeID == 2) {
-
-                $array['type'] = 'star';
-            }
-
-            if ($quest->daily == 0) {
-
-                $array['type'] = 'plot';
-            }
-
-            PlayerQuest::create($array);
-        }
 
         return PlayerQuest::where('googleID', $googleID)->where('type', '!=', 'plot')->get();
     }
