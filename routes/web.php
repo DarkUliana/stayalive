@@ -101,6 +101,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('loot-collections-item', 'Admin\LootCollectionsController@getItem');
     Route::get('loot-collection-object/{id}', 'Admin\LootCollectionsController@getLootCollectionObject');
 
+    Route::resource('ship-stuff', 'Admin\ShipStuffsController');
+
 });
 
 
