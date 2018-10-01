@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-    $('select').select2();
-
-
     $('#addItem').on('click', function () {
 
         var optionTexts = [];
@@ -29,7 +26,7 @@ $(document).ready(function () {
             success: function (data) {
 
                 $('tbody').prepend(data);
-                $('select').select2();
+                selectEvent();
                 deleteItemEvent();
                 minMaxValuesFocusEvent();
 
@@ -40,7 +37,7 @@ $(document).ready(function () {
         });
     });
 
-
+    selectEvent();
     deleteItemEvent();
     minMaxValuesFocusEvent();
     $.each($('.minValue, .maxValue'), function () {
@@ -57,28 +54,52 @@ function deleteItemEvent() {
 
 function minMaxValuesFocusEvent() {
 
-    console.log('minMaxValuesFocusEvent');
-    $('.minValue, .maxValue').on('keyup', function () {
+    $('.minValue, .maxValue').on('keyup mouseup', function () {
 
         // $.each($('table input'), function () {
 
         var type = $(this).closest('tr').find('select option:selected').attr('data-type');
         var cloth = ['Head', 'Chest', 'Pants', 'Boots'];
-        console.log($.inArray(type, cloth));
         console.log(type);
-        console.log($(this).val() < 10);
-            if (($(this).hasClass('minValue') && $(this).val() == 0) ||
-                ($(this).hasClass('maxValue') && $(this).val() == 0 && type == 'Food') ||
-                ($(this).hasClass('maxValue') && $(this).val() < 10 && $.inArray(type, cloth) != -1)) {
 
-                $(this).addClass('is-invalid');
+        check($(this), type, cloth);
 
-            } else {
+        if ($(this).hasClass('maxValue')) {
 
-                $(this).removeClass('is-invalid');
-            }
+            check($(this).closest('tr').find('.minValue'), type, cloth);
+        } else {
 
-        // });
+            check($(this).closest('tr').find('.maxValue'), type, cloth);
+        }
 
+    });
+}
+
+function check(el, type, cloth) {
+
+    if (el.val() == 0 ||
+        (el.hasClass('minValue') &&
+        parseInt(el.closest('tr').find('.maxValue').val()) < parseInt(el.val())) ||
+
+        (el.hasClass('maxValue') &&
+
+            ((parseInt(el.val()) < 10 && $.inArray(type, cloth) != -1) ||
+            parseInt(el.closest('tr').find('.minValue').val()) > parseInt(el.val())))) {
+
+        el.addClass('is-invalid');
+
+    } else {
+
+        el.removeClass('is-invalid');
+    }
+}
+
+function selectEvent() {
+
+    $('select').select2();
+
+    $('select').on('change', function () {
+
+        $(this).closest('tr').find('.minValue').trigger('keyup');
     });
 }
