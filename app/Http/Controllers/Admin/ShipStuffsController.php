@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\ShipCellType;
 use App\ShipStuff;
+use App\TechnologyType;
 use Illuminate\Http\Request;
 
 class ShipStuffsController extends Controller
@@ -17,16 +19,15 @@ class ShipStuffsController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 25;
 
-        if (!empty($keyword)) {
-            $shipstuffs = ShipStuff::latest()->paginate($perPage);
-        } else {
-            $shipstuffs = ShipStuff::latest()->paginate($perPage);
-        }
+        $collection = ShipStuff::with('items')->get();
 
-        return view('admin.ship-stuffs.index', compact('shipstuffs'));
+        $shipstuffs = $this->sortedItems($collection);
+
+        $technologyTypes = TechnologyType::all();
+        $cellTypes = ShipCellType::all();
+
+        return view('admin.ship-stuffs.index', compact('shipstuffs', 'technologyTypes', 'cellTypes'));
     }
 
     /**
@@ -48,9 +49,9 @@ class ShipStuffsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
+
         ShipStuff::create($requestData);
 
         return redirect('ship-stuffs')->with('flash_message', 'ShipStuff added!');
@@ -59,7 +60,7 @@ class ShipStuffsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -73,7 +74,7 @@ class ShipStuffsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\View\View
      */
@@ -88,15 +89,15 @@ class ShipStuffsController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $shipstuff = ShipStuff::findOrFail($id);
         $shipstuff->update($requestData);
 
@@ -106,7 +107,7 @@ class ShipStuffsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -115,5 +116,33 @@ class ShipStuffsController extends Controller
         ShipStuff::destroy($id);
 
         return redirect('ship-stuffs')->with('flash_message', 'ShipStuff deleted!');
+    }
+
+    public function sortedItems($collections)
+    {
+
+        foreach ($collections as $collection) {
+
+            $array = [];
+            foreach ($collection->items as $key => $item) {
+
+
+                $array[(int) ($item->cellIndex / $collection->deckWidth)][$key] = $item;
+
+            }
+
+            foreach ($array as &$one) {
+
+                sort($one);
+            }
+
+            $array = collect(array_reverse($array));
+
+            $collection->items = $array;
+
+
+        }
+
+        return collect($collections);
     }
 }

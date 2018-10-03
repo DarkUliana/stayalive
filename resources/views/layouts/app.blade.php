@@ -52,6 +52,59 @@
 
     }
 
+    .table-ship td, .table-ship th {
+        border: 0;
+        padding: 5px;
+    }
+
+    .box {
+        position: relative;
+        padding-top: 100%;
+        border: 2px solid #cccccc;
+        border-radius: 5px;
+        background: #f5f5f5;
+    }
+
+    .box-inner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 2px;
+    }
+
+    .box-inner select {
+        margin: 5px 0px;
+    }
+
+    .box-inner .icons {
+        float: right;
+    }
+
+    .box-inner .icons i {
+        margin: 0 6px;
+        font-size: 20px;
+    }
+
+    .box-inner .icons .deleteCell {
+        color: #dc3545;
+    }
+
+    .box-inner .icons:hover {
+        cursor: pointer;
+    }
+
+    .box-inner .icons .saveCell {
+        color: #28a745;
+    }
+
+    .box-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     /*th {*/
     /*font-size: 14px;*/
     /*}*/
