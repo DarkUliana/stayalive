@@ -103,6 +103,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('ship-stuff', 'Admin\ShipStuffsController');
 
+    Route::get('get-ship-modal/{id}', 'Admin\ShipStuffsController@getShipModal');
+
 });
 
 

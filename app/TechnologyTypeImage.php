@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TechnologyType extends Model
+class TechnologyTypeImage extends Model
 {
     protected $primaryKey = 'ID';
 
@@ -13,9 +13,4 @@ class TechnologyType extends Model
     protected $hidden = [
         'ID', 'created_at', 'updated_at'
     ];
-
-    public function image()
-    {
-        return $this->hasOne('App\TechnologyTypeImage', 'technologyTypeID', 'ID');
-    }
 }

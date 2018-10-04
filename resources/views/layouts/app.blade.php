@@ -63,6 +63,7 @@
         border: 2px solid #cccccc;
         border-radius: 5px;
         background: #f5f5f5;
+        cursor: pointer;
     }
 
     .box-inner {
@@ -78,31 +79,31 @@
         margin: 5px 0px;
     }
 
-    .box-inner .icons {
+    #ship-modalTitle i {
+        margin: 5px 20px;
         float: right;
-    }
-
-    .box-inner .icons i {
-        margin: 0 6px;
-        font-size: 20px;
-    }
-
-    .box-inner .icons .deleteCell {
         color: #dc3545;
     }
 
-    .box-inner .icons:hover {
+    #ship-modalTitle i {
         cursor: pointer;
-    }
-
-    .box-inner .icons .saveCell {
-        color: #28a745;
     }
 
     .box-inner img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    .box-inner .img-border {
+        width: 100%;
+        height: 100%;
+        border: 2px solid #4CC552;
+        border-radius: 5px;
+    }
+
+    #ship-modalTitle{
+        width: 100%;
     }
 
     /*th {*/
@@ -287,6 +288,10 @@
 
 @if(Request::is('diary-storage-notes/*'))
     <script src="{{ asset('js/diary-storage-note.js') }}"></script>
+@endif
+
+@if(Request::is('ship-stuff'))
+    <script src="{{ asset('js/ship-stuff.js') }}"></script>
 @endif
 </body>
 </html>

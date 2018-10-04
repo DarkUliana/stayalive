@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\ShipCellType;
 use App\ShipStuff;
+use App\ShipStuffItem;
 use App\TechnologyType;
 use Illuminate\Http\Request;
 
@@ -144,5 +145,15 @@ class ShipStuffsController extends Controller
         }
 
         return collect($collections);
+    }
+
+    public function getShipModal($id)
+    {
+
+        $item = ShipStuffItem::where('ID', $id)->first();
+        $cellTypes = ShipCellType::all();
+        $technologyTypes = TechnologyType::all();
+
+        return view('admin.ship-stuffs.modal', compact('item', 'cellTypes', 'technologyTypes'));
     }
 }

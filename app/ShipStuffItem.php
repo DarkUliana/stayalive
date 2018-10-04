@@ -13,4 +13,14 @@ class ShipStuffItem extends Model
     protected $hidden = [
         'ID', 'stuffID', 'created_at', 'updated_at'
     ];
+
+    public function cell()
+    {
+        return $this->hasOne('App\ShipCellType', 'index', 'cellType');
+    }
+
+    public function technology()
+    {
+        return $this->hasOne('App\TechnologyType', 'index', 'technologyType');
+    }
 }

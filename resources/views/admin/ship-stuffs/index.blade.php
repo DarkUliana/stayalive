@@ -63,38 +63,20 @@
                                     </button>
                                     <br/>
                                     <br/>
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" id="ship-table">
                                         <table class="table table-ship">
                                             @foreach($floor->items as $array)
                                                 <tr>
                                                     @foreach($array as $item)
                                                         <td>
-                                                            <div class="box">
+                                                            <div class="box" data-id="{{ $item->ID }}">
                                                                 <div class="box-inner">
-                                                                    <form>
-                                                                        <span class="font-weight-bold">{{ $item->cellIndex }}</span>
-                                                                        <span class="icons">
-                                                                            <i class="fa fa-trash deleteCell"></i>
-                                                                            <i class="fa fa-save saveCell"></i>
-                                                                        </span>
+                                                                    @if($item->technologyType == 1)
+                                                                        <div class="img-border"></div>
+                                                                    @else
+                                                                        <img src="{{ asset('images/' . $item->technology->image->name) }}">
+                                                                    @endif
 
-                                                                        <select class="form-control form-control-sm"
-                                                                                name="cellType">
-                                                                            @foreach($cellTypes as $type)
-                                                                                <option value="{{ $type->index }}" {{ $type->index == $item->cellType ? 'selected' : '' }}>{{ $type->name }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        <select class="form-control form-control-sm"
-                                                                                name="technologyType">
-                                                                            @foreach($technologyTypes as $type)
-                                                                                <option value="{{ $type->index }}" {{ $type->index == $item->technologyType ? 'selected' : '' }}>{{ $type->name }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        <input type="number" step="1"
-                                                                               class="form-control form-control-sm"
-                                                                               name="techLevel"
-                                                                               value="{{ $item->techLevel }}">
-                                                                    </form>
 
                                                                 </div>
                                                             </div>
@@ -135,5 +117,5 @@
             </div>
         </div>
     </div>
-    </div>
+
 @endsection
