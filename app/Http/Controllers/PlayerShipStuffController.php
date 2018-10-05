@@ -6,6 +6,7 @@ use App\Http\Resources\PlayerShipStuffCollection;
 use App\PlayerShipStuff;
 use App\PlayerShipStuffItem;
 use App\PlayerTechnologyQuantity;
+use App\ShipStuff;
 use Illuminate\Http\Request;
 
 class PlayerShipStuffController extends Controller
@@ -17,7 +18,9 @@ class PlayerShipStuffController extends Controller
             return response('Invalid data!', 400);
         }
 
-        $data['shipFloors'] = PlayerShipStuff::where('playerID', $request->playerID)->with('items')->get()->toArray();
+        $data['shipFloors'] = ShipStuff::with(['items' => function($query) use ($request) {
+            $query->where('playerID', $request->playerID);
+        }])->get()->toArray();
 
         $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get()->toArray();
 
@@ -33,22 +36,18 @@ class PlayerShipStuffController extends Controller
             return response('Invalid data!', 400);
         }
 
-
-        $ids = PlayerShipStuff::where('playerID', $request->playerID)->pluck('ID')->toArray();
-        PlayerShipStuffItem::whereIn('stuffID', $ids)->delete();
-        PlayerShipStuff::where('playerID', $request->playerID)->delete();
+        PlayerShipStuffItem::where('playerID', $request->playerID)->delete();
 
         foreach ($request->shipFloors as $item) {
 
-            $stuff = $item;
-            $stuff['playerID'] = $request->playerID;
-            unset($stuff['floorCells']);
-            $newItem = PlayerShipStuff::create($stuff);
+            $floor = ShipStuff::where('floorIndex', $item['floorIndex'])->first();
 
             foreach ($item['floorCells'] as $cell) {
 
-                $newCell = new PlayerShipStuffItem($cell);
-                $newItem->items()->save($newCell);
+                $temp = $cell;
+                $temp['playerID'] = $request->playerID;
+                $newCell = new PlayerShipStuffItem($temp);
+                $floor->items()->save($newCell);
             }
         }
 

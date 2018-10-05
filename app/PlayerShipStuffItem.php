@@ -11,6 +11,6 @@ class PlayerShipStuffItem extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'ID', 'stuffID', 'created_at', 'updated_at'
+        'ID', 'playerID', 'stuffID', 'created_at', 'updated_at'
     ];
 }

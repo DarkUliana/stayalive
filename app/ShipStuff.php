@@ -12,8 +12,13 @@ class ShipStuff extends Model
 
     protected $hidden = ['ID', 'created_at', 'updated_at'];
 
-    public function items()
+    public function defaultItems()
     {
         return $this->hasMany('App\ShipStuffItem', 'stuffID', 'ID');
+    }
+
+    public function items()
+    {
+        return $this->hasMany('App\PlayerShipStuffItem', 'stuffID', 'ID');
     }
 }
