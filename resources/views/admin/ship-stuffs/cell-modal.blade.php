@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
                 <form>
-
+                    {{ csrf_field() }}
                     <div class="form-group}">
                         <label for="cellType" class="col-md-4 control-label">{{ 'cellType' }}</label>
                         <div class="col-md-6">

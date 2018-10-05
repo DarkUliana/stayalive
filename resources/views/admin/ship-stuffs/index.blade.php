@@ -9,10 +9,10 @@
                 <div class="card">
                     <div class="card-header">Shipstuffs</div>
                     <div class="card-body">
-                        <a href="{{ url('/ship-stuffs/create') }}" class="btn btn-success btn-sm"
-                           title="Add New ShipStuff">
+                        <div class="btn btn-success btn-sm" id="addNewFloor"
+                             title="Add New ShipStuff">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                        </div>
 
                         <form method="GET" action="{{ url('/ship-stuffs') }}" accept-charset="UTF-8"
                               class="form-inline my-2 my-lg-0 float-right" role="search">
@@ -49,7 +49,7 @@
                                      aria-labelledby="floorIndex-{{ $floor->floorIndex }}-tab">
                                     <br>
 
-                                    <form method="POST" action="{{ url('/ship-stuffs' . '/' . $floor->ID) }}"
+                                    <form method="POST" action="{{ url('/ship-stuff' . '/' . $floor->ID) }}"
                                           accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         {{ csrf_field() }}
@@ -58,7 +58,14 @@
                                                     class="fa fa-trash-o" aria-hidden="true"></i> Delete floor
                                         </button>
                                     </form>
-                                    <button type="submit" class="btn btn-success btn-sm"><i
+
+
+                                    <button type="submit" class="btn btn-warning btn-sm editFloor" data-id="{{ $floor->ID }}"><i
+                                                class="fa fa-trash-o" aria-hidden="true"></i> Edit floor
+                                    </button>
+
+
+                                    <button type="submit" class="btn btn-success btn-sm addNewCell"><i
                                                 class="fa fa-plus" aria-hidden="true"></i> Add cell
                                     </button>
                                     <br/>

@@ -38,7 +38,14 @@ class ShipStuffsController extends Controller
      */
     public function create()
     {
-        return view('admin.ship-stuffs.create');
+        $maxFloor = ShipStuff::max('floorIndex');
+        $floor = new ShipStuff([
+            'floorIndex' => ++$maxFloor,
+            'deckWidth' => 1
+        ]);
+        $create = true;
+
+        return view('admin.ship-stuffs.floor-modal', compact('floor', 'create'));
     }
 
     /**
@@ -55,7 +62,7 @@ class ShipStuffsController extends Controller
 
         ShipStuff::create($requestData);
 
-        return redirect('ship-stuffs')->with('flash_message', 'ShipStuff added!');
+        return redirect('ship-stuff')->with('flash_message', 'ShipStuff added!');
     }
 
     /**
@@ -81,9 +88,10 @@ class ShipStuffsController extends Controller
      */
     public function edit($id)
     {
-        $shipstuff = ShipStuff::findOrFail($id);
+        $floor = ShipStuff::findOrFail($id);
+        $create = false;
 
-        return view('admin.ship-stuffs.edit', compact('shipstuff'));
+        return view('admin.ship-stuffs.floor-modal', compact('floor', 'create'));
     }
 
     /**
@@ -102,7 +110,7 @@ class ShipStuffsController extends Controller
         $shipstuff = ShipStuff::findOrFail($id);
         $shipstuff->update($requestData);
 
-        return redirect('ship-stuffs')->with('flash_message', 'ShipStuff updated!');
+        return redirect('ship-stuff')->with('flash_message', 'ShipStuff updated!');
     }
 
     /**
@@ -115,8 +123,9 @@ class ShipStuffsController extends Controller
     public function destroy($id)
     {
         ShipStuff::destroy($id);
+        ShipStuffItem::where('stuffID', $id)->delete();
 
-        return redirect('ship-stuffs')->with('flash_message', 'ShipStuff deleted!');
+        return redirect('ship-stuff')->with('flash_message', 'ShipStuff deleted!');
     }
 
     public function sortedItems($collections)
@@ -147,13 +156,13 @@ class ShipStuffsController extends Controller
         return collect($collections);
     }
 
-    public function getShipModal($id)
+    public function getShipModal($id = 0)
     {
 
         $item = ShipStuffItem::where('ID', $id)->first();
         $cellTypes = ShipCellType::all();
         $technologyTypes = TechnologyType::all();
 
-        return view('admin.ship-stuffs.modal', compact('item', 'cellTypes', 'technologyTypes'));
+        return view('admin.ship-stuffs.cell-modal', compact('item', 'cellTypes', 'technologyTypes'));
     }
 }
