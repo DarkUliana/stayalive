@@ -13,6 +13,7 @@ use App\Inventory;
 use App\Item;
 use App\ItemsInCraft;
 use App\ItemType;
+use App\LocalyticsItemType;
 use App\LootCollectionItem;
 use App\PlayerBodySlot;
 use App\PlayerChestItems;
@@ -96,8 +97,9 @@ class ItemsController extends Controller
     public function create()
     {
         $types = ItemType::get();
+        $localyticsTypes = LocalyticsItemType::all();
 
-        return view('admin.items.create', compact('types'));
+        return view('admin.items.create', compact('types', 'localyticsTypes'));
     }
 
     /**
@@ -113,6 +115,7 @@ class ItemsController extends Controller
             'Name' => 'required',
             'MaxInStack' => 'required',
             'InventorySlotType' => 'required',
+            'itemType' => 'required',
         ]);
 
         $itemData = $request->all();
@@ -185,6 +188,7 @@ class ItemsController extends Controller
             ->get();
 
         $types = ItemType::get();
+        $localyticsTypes = LocalyticsItemType::all();
         $notes = [];
 
         if ($types->where('type', $item->InventorySlotType)->first()->typeName == 'Story') {
@@ -193,7 +197,7 @@ class ItemsController extends Controller
 
         }
 
-        return view('admin.items.edit', compact('item', 'types', 'properties', 'notes'));
+        return view('admin.items.edit', compact('item', 'types', 'localyticsTypes', 'properties', 'notes'));
     }
 
     /**
@@ -210,6 +214,7 @@ class ItemsController extends Controller
             'Name' => 'required',
             'MaxInStack' => 'required',
             'InventorySlotType' => 'required',
+            'itemType' => 'required',
         ]);
 
         $itemData = $request->all();

@@ -129,7 +129,7 @@ function editOrAddOnClick() {
                 $('#itemBlade').remove();
                 $('#itemsContainer>.row').append(data);
 
-                $('#inventorySlotType').select2({width: '100%', minimumResultsForSearch: Infinity});
+                $('#inventorySlotType, #itemType').select2({width: '100%', minimumResultsForSearch: Infinity});
 
                 $('#inventorySlotType').on('select2:select', function () {
 
