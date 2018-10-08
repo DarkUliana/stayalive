@@ -24,22 +24,30 @@ class PlayerShipStuffController extends Controller
 
         $collection = collect();
 
-        foreach ($floors as &$floor) {
+        foreach ($floors as $floor) {
 
             $temp = $floor->toArray();
 
-//            dd($temp);
             if ($floor->items->count() != $floor->defaultItems->count()) {
 
-                $indexes = $floor->items->pluck('cellIndex');
+                $indexes = $floor->items->pluck('cellIndex')->toArray();
+
                 $needed = $floor->defaultItems->whereNotIn('cellIndex', $indexes);
-                $temp['items'] = $floor->items->merge($needed);
+
+                $temp['floorCells'] = array_merge($needed->toArray(), $floor->items->toArray());
+
+            } else {
+
+                $temp['floorCells'] = $floor->items;
             }
 
-            unset($temp['defaultItems']);
+
+
+            unset($temp['default_items']);
+            unset($temp['items']);
             $collection->push($temp);
         }
-//        dd($collection->toArray());
+
         $data['shipFloors'] = $collection;
 
         $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get()->toArray();
