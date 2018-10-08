@@ -18,7 +18,7 @@ class PlayerShipStuffController extends Controller
             return response('Invalid data!', 400);
         }
 
-        $floors = ShipStuff::with(['items' => function($query) use ($request) {
+        $floors = ShipStuff::with(['items' => function ($query) use ($request) {
             $query->where('playerID', $request->playerID);
         }])->with('defaultItems')->get();
 
@@ -26,22 +26,21 @@ class PlayerShipStuffController extends Controller
 
         foreach ($floors as $floor) {
 
-            $temp = $floor->toArray();
-
             if ($floor->items->count() != $floor->defaultItems->count()) {
 
                 $indexes = $floor->items->pluck('cellIndex')->toArray();
 
                 $needed = $floor->defaultItems->whereNotIn('cellIndex', $indexes);
 
-                $temp['floorCells'] = array_merge($needed->toArray(), $floor->items->toArray());
+                $temp['floorCells'] = collect(array_merge($floor->items->toArray(), $needed->toArray()));
 
             } else {
 
                 $temp['floorCells'] = $floor->items;
             }
 
-
+            $max = $temp['floorCells']->count() - $temp['floorCells']->count() % $floor->deckWidth;
+            $temp['floorCells'] = $temp['floorCells']->sortBy('cellIndex')->splice(0, $max);
 
             unset($temp['default_items']);
             unset($temp['items']);
@@ -50,14 +49,15 @@ class PlayerShipStuffController extends Controller
 
         $data['shipFloors'] = $collection;
 
-        $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get()->toArray();
+        $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get();
 
 
         return response($data, 200);
 
     }
 
-    public function post(Request $request)
+    public
+    function post(Request $request)
     {
         if (!isset($request->playerID)) {
 
