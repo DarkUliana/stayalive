@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PlayerShipStuffCollection;
+//use App\Http\Resources\PlayerShipStuffCollection;
 use App\PlayerShipStuff;
 use App\PlayerShipStuffItem;
 use App\PlayerTechnologyQuantity;
@@ -18,9 +18,29 @@ class PlayerShipStuffController extends Controller
             return response('Invalid data!', 400);
         }
 
-        $data['shipFloors'] = ShipStuff::with(['items' => function($query) use ($request) {
+        $floors = ShipStuff::with(['items' => function($query) use ($request) {
             $query->where('playerID', $request->playerID);
-        }])->get()->toArray();
+        }])->with('defaultItems')->get();
+
+        $collection = collect();
+
+        foreach ($floors as &$floor) {
+
+            $temp = $floor->toArray();
+
+//            dd($temp);
+            if ($floor->items->count() != $floor->defaultItems->count()) {
+
+                $indexes = $floor->items->pluck('cellIndex');
+                $needed = $floor->defaultItems->whereNotIn('cellIndex', $indexes);
+                $temp['items'] = $floor->items->merge($needed);
+            }
+
+            unset($temp['defaultItems']);
+            $collection->push($temp);
+        }
+//        dd($collection->toArray());
+        $data['shipFloors'] = $collection;
 
         $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get()->toArray();
 
