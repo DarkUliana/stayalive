@@ -11,7 +11,14 @@ class ShipStuffController extends Controller
     public function get(Request $request)
     {
 
-        $data['shipFloors'] = ShipStuff::with('items')->get()->toArray();
+        $data['shipFloors'] = ShipStuff::with('defaultItems')->get()->toArray();
+
+        foreach ($data['shipFloors'] as &$floor) {
+
+            $floor['floorCells'] = $floor['default_items'];
+            unset($floor['default_items']);
+        }
+
 
         $data['concreteItemsCounts'] = TechnologyQuantity::all()->toArray();
 

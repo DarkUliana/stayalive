@@ -107,7 +107,7 @@ function boxOnClick() {
 
 function onDeleteCell() {
 
-    $('.deleteCell').on('click', function () {
+    $('form.deleteCell').on('click', function () {
 
         var id = $(this).closest('.modal').attr('data-id');
         var button = $(this);
@@ -130,9 +130,10 @@ function onDeleteCell() {
 
 function onUpdateCell() {
 
-    $('.cell-form').on('submit', function (e) {
+    $('form.cell-form').on('submit', function (e) {
 
         e.preventDefault();
+        console.log(1);
         var form = $(this);
         var data = form.serialize();
 
@@ -146,10 +147,9 @@ function onUpdateCell() {
             success: function (data) {
 
                 form.closest('.modal').modal('hide');
-                var id = $(form.closest('.modal').attr('data-id'));
-                var td = $('box[data-id="' + id + '"]').closest('td');
-                td.empty();
-                td.append(data);
+                var id = form.closest('.modal').attr('data-id');
+                var td = $('.box[data-id="' + id + '"]').closest('td');
+                td.replaceWith(data);
             },
         });
     });

@@ -60,7 +60,12 @@ class ShipStuffsController extends Controller
 
         $requestData = $request->all();
 
-        ShipStuff::create($requestData);
+        $floor = ShipStuff::create($requestData);
+        for ($i = 0; $i < $floor->deckWidth; ++$i) {
+
+            $cell = new ShipStuffItem(['cellIndex' => 0, 'cellType' => 1, 'techLevel' => '']);
+            $floor->defaultItems()->save($cell);
+        }
 
         return redirect('ship-stuff')->with('flash_message', 'ShipStuff added!');
     }
@@ -195,7 +200,8 @@ class ShipStuffsController extends Controller
 
     public function updateShipFloorCell(Request $request)
     {
-        $item = ShipStuffItem::where('ID', $request->ID)->update($request->input());
+        ShipStuffItem::where('ID', $request->ID)->update($request->all());
+        $item = ShipStuffItem::find($request->ID);
 
         return view('admin.ship-stuffs.cell', compact('item'));
     }

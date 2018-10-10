@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlayerShipStuffItem extends Model
+class LocalyticsItemType extends Model
 {
     protected $primaryKey = 'ID';
 
-    protected $guarded = [];
-
     protected $hidden = [
-        'ID', 'playerID', 'stuffID', 'created_at', 'updated_at'
+        'ID', 'created_at', 'updated_at'
     ];
+
+    protected $guarded = [];
 }

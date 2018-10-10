@@ -12,12 +12,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form class="cell-form">
-                    {{ csrf_field() }}
+            <form class="cell-form">
+                <div class="modal-body">
                     <div class="form-group}">
                         <label for="cellType" class="col-md-4 control-label">{{ 'cellType' }}</label>
                         <div class="col-md-6">
+                            <input type="hidden" name="ID" value="{{ $item->ID }}">
                             <select class="form-control form-control-sm"
                                     name="cellType">
                                 @foreach($cellTypes as $type)
@@ -46,12 +46,13 @@
                                    value="{{ $item->techLevel }}">
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

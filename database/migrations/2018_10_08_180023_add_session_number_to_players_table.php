@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShipCellTypesTable extends Migration
+class AddSessionNumberToPlayersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateShipCellTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ship_cell_types', function (Blueprint $table) {
-            $table->increments('ID');
-            $table->integer('index');
-            $table->string('name');
-            $table->string('color');
-            $table->timestamps();
+        Schema::table('players', function (Blueprint $table) {
+
+            $table->integer('SessionNumber')->default(0)->after('DieCount');
         });
     }
 
@@ -29,6 +26,9 @@ class CreateShipCellTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ship_cell_types');
+        Schema::table('players', function (Blueprint $table) {
+
+            $table->dropColumn('SessionNumber');
+        });
     }
 }

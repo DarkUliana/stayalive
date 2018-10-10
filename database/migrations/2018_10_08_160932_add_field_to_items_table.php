@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShipCellTypesTable extends Migration
+class AddFieldToItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateShipCellTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ship_cell_types', function (Blueprint $table) {
-            $table->increments('ID');
-            $table->integer('index');
-            $table->string('name');
-            $table->string('color');
-            $table->timestamps();
+        Schema::table('items', function (Blueprint $table) {
+
+            $table->integer('itemType')->default(0)->after('InventorySlotType');
         });
     }
 
@@ -29,6 +26,9 @@ class CreateShipCellTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ship_cell_types');
+        Schema::table('items', function (Blueprint $table) {
+
+            $table->dropColumn('itemType');
+        });
     }
 }

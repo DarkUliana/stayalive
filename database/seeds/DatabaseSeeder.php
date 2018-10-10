@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
          $this->call(ShipCellTypesTableSeeder::class);
          $this->call(TechnologyTypesTableSeeder::class);
+         $this->call(LocalyticsItemTypesTableSeeder::class);
+
     }
 }

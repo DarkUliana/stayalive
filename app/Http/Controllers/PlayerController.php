@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PlayerTraveledIsland;
 use Illuminate\Http\Request;
 use App\Player;
 use Illuminate\Support\Facades\Hash;
@@ -21,12 +22,16 @@ class PlayerController extends Controller
 
         $playerRenamed = $this->renameAttributesBack($player->toArray());
 
+        $playerRenamed['traveledIslands'] = PlayerTraveledIsland::where('googleID', $request->googleID)->pluck('name');
+
         return response($playerRenamed, 200);
     }
 
     public function store(Request $request)
     {
         $playerNamed = $this->renameAttributes($request->input());
+        unset($playerNamed['traveledIslands']);
+
         if (isset($playerNamed['ID'])) {
             unset($playerNamed['ID']);
         }
@@ -46,6 +51,13 @@ class PlayerController extends Controller
             $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
             $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
             $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+        }
+
+        PlayerTraveledIsland::where('googleID', $id)->delete();
+
+        foreach ($request->traveledIslands as $island) {
+
+            PlayerTraveledIsland::create(['googleID' => $id, 'name' => $island]);
         }
 
         return response('ok', 200);

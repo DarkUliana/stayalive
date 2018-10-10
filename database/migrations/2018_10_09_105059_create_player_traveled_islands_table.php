@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShipCellTypesTable extends Migration
+class CreatePlayerTraveledIslandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateShipCellTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ship_cell_types', function (Blueprint $table) {
+        Schema::create('player_traveled_islands', function (Blueprint $table) {
             $table->increments('ID');
-            $table->integer('index');
+            $table->string('googleID');
             $table->string('name');
-            $table->string('color');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateShipCellTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ship_cell_types');
+        Schema::dropIfExists('player_traveled_islands');
     }
 }

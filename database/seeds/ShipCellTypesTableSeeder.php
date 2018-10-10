@@ -14,23 +14,28 @@ class ShipCellTypesTableSeeder extends Seeder
         DB::table('ship_cell_types')->insert([
             [
                 'index' => 0,
-                'name' => 'Empty'
+                'name' => 'Empty',
+                'color' => '#fff'
             ],
             [
                 'index' => 1,
-                'name' => 'Item'
+                'name' => 'Item',
+                'color' => '#d6e8bb'
             ],
             [
                 'index' => 2,
-                'name' => 'Ghost'
+                'name' => 'Ghost',
+                'color' => '#bbdfe8'
             ],
             [
                 'index' => 3,
-                'name' => 'Trash'
+                'name' => 'Trash',
+                'color' => '#c4b19f'
             ],
             [
                 'index' => 4,
-                'name' => 'Disable'
+                'name' => 'Disable',
+                'color' => '#dbdbdb'
             ]
         ]);
     }
