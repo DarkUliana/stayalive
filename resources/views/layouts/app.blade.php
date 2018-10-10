@@ -106,9 +106,17 @@
         width: 100%;
     }
 
-    /*th {*/
-    /*font-size: 14px;*/
-    /*}*/
+    .ajax-background{
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        background: #000;
+        opacity: 0;
+        z-index: 100;
+        display: none;
+    }
 
 </style>
 <div id="app">

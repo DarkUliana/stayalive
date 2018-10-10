@@ -103,7 +103,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('ship-stuff', 'Admin\ShipStuffsController');
 
-    Route::get('get-ship-modal/{id}', 'Admin\ShipStuffsController@getShipModal');
+    Route::get('get-ship-cell-modal/{id}', 'Admin\ShipStuffsController@getShipModal');
+    Route::get('get-ship-floor-cell/{id}', 'Admin\ShipStuffsController@getShipFloorCell');
+    Route::delete('delete-ship-floor-cell/{id}', 'Admin\ShipStuffsController@deleteShipFloorCell');
+    Route::post('update-ship-floor-cell', 'Admin\ShipStuffsController@updateShipFloorCell');
 
 });
 

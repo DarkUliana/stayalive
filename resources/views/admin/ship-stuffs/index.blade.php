@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="btn btn-success btn-sm" id="addNewFloor"
                              title="Add New ShipStuff">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add new floor
                         </div>
 
                         <form method="GET" action="{{ url('/ship-stuffs') }}" accept-charset="UTF-8"
@@ -65,7 +65,8 @@
                                     </button>
 
 
-                                    <button type="submit" class="btn btn-success btn-sm addNewCell"><i
+                                    <button type="submit" class="btn btn-success btn-sm addNewCell" data-width="{{ $floor->deckWidth }}"
+                                    data-floor-id="{{ $floor->ID }}"><i
                                                 class="fa fa-plus" aria-hidden="true"></i> Add cell
                                     </button>
                                     <br/>
@@ -75,47 +76,14 @@
                                             @foreach($floor->items as $array)
                                                 <tr>
                                                     @foreach($array as $item)
-                                                        <td>
-                                                            <div class="box" data-id="{{ $item->ID }}">
-                                                                <div class="box-inner">
-                                                                    @if($item->technologyType == 1)
-                                                                        <div class="img-border"></div>
-                                                                    @else
-                                                                        <img src="{{ asset('images/' . $item->technology->image->name) }}">
-                                                                    @endif
-
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-
+                                                        @include('admin.ship-stuffs.cell')
                                                     @endforeach
-
                                                 </tr>
 
                                             @endforeach
-
-
                                         </table>
                                     </div>
                                 </div>
-
-
-                                {{--<tr>--}}
-                                {{--<td>{{ $loop->iteration or $item->ID }}</td>--}}
-                                {{--<td>{{ $item->floorIndex }}</td><td>{{ $item->deckWidth }}</td>--}}
-                                {{--<td>--}}
-                                {{--<a href="{{ url('/ship-stuffs/' . $item->ID) }}" title="View ShipStuff"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>--}}
-                                {{--<a href="{{ url('/ship-stuffs/' . $item->ID . '/edit') }}" title="Edit ShipStuff"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>--}}
-
-                                {{--<form method="POST" action="{{ url('/ship-stuffs' . '/' . $item->ID) }}" accept-charset="UTF-8" style="display:inline">--}}
-                                {{--{{ method_field('DELETE') }}--}}
-                                {{--{{ csrf_field() }}--}}
-                                {{--<button type="submit" class="btn btn-danger btn-sm" title="Delete ShipStuff" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>--}}
-                                {{--</form>--}}
-                                {{--</td>--}}
-                                {{--</tr>--}}
                             @endforeach
                         </div>
                     </div>
@@ -124,5 +92,5 @@
             </div>
         </div>
     </div>
-
+    <div class="ajax-background"></div>
 @endsection

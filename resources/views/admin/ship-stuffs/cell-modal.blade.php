@@ -1,18 +1,19 @@
-<!-- Modal -->
 <div class="modal fade" id="ship-modal" tabindex="-1" role="dialog" aria-labelledby="ship-modalTitle"
-     aria-hidden="true">
+     aria-hidden="true" data-id="{{ $item->ID }}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ship-modalTitle">Cell index {{ $item->cellIndex }}
-                    <i class="fa fa-trash deleteCell"></i>
+                    @if($last)
+                        <i class="fa fa-trash deleteCell"></i>
+                    @endif
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form class="cell-form">
                     {{ csrf_field() }}
                     <div class="form-group}">
                         <label for="cellType" class="col-md-4 control-label">{{ 'cellType' }}</label>

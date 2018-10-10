@@ -162,7 +162,41 @@ class ShipStuffsController extends Controller
         $item = ShipStuffItem::where('ID', $id)->first();
         $cellTypes = ShipCellType::all();
         $technologyTypes = TechnologyType::all();
+        $last = false;
+        if ($item->cellIndex == ShipStuffItem::where('stuffID', $item->stuffID)->max('cellIndex')) {
 
-        return view('admin.ship-stuffs.cell-modal', compact('item', 'cellTypes', 'technologyTypes'));
+            $last = true;
+        }
+
+        return view('admin.ship-stuffs.cell-modal', compact('item', 'cellTypes', 'technologyTypes', 'last'));
+    }
+
+    public function getShipFloorCell($id = 0)
+    {
+
+        $lastCell = ShipStuffItem::where('stuffID', $id)->max('cellIndex');
+        $item = ShipStuffItem::create([
+            'stuffID' => $id,
+            'cellIndex' => $lastCell + 1,
+            'cellType' => 0,
+            'technologyType' => 1,
+            'techLevel' => 0
+        ]);
+
+        return view('admin.ship-stuffs.cell', compact('item'));
+    }
+
+    public function deleteShipFloorCell($id = 0)
+    {
+        ShipStuffItem::destroy($id);
+
+        return response('ok', 200);
+    }
+
+    public function updateShipFloorCell(Request $request)
+    {
+        $item = ShipStuffItem::where('ID', $request->ID)->update($request->input());
+
+        return view('admin.ship-stuffs.cell', compact('item'));
     }
 }
