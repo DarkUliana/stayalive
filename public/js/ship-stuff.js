@@ -107,7 +107,7 @@ function boxOnClick() {
 
 function onDeleteCell() {
 
-    $('form.deleteCell').on('click', function () {
+    $('.deleteCell').on('click', function () {
 
         var id = $(this).closest('.modal').attr('data-id');
         var button = $(this);
@@ -122,7 +122,7 @@ function onDeleteCell() {
 
                 $('.tab-pane.active').find('tr:first > td:last').remove();
                 button.closest('.modal').modal('hide');
-                onDeleteCell();
+
             },
         });
     });

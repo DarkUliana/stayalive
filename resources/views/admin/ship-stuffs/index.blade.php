@@ -73,7 +73,7 @@
                                     <br/>
                                     <div class="table-responsive" id="ship-table">
                                         <table class="table table-ship">
-                                            @foreach($floor->items as $array)
+                                            @foreach($floor->defaultItems as $array)
                                                 <tr>
                                                     @foreach($array as $item)
                                                         @include('admin.ship-stuffs.cell')

@@ -21,7 +21,7 @@ class ShipStuffsController extends Controller
     public function index(Request $request)
     {
 
-        $collection = ShipStuff::with('items')->get();
+        $collection = ShipStuff::with('defaultItems')->get();
 
         $shipstuffs = $this->sortedItems($collection);
 
@@ -61,9 +61,9 @@ class ShipStuffsController extends Controller
         $requestData = $request->all();
 
         $floor = ShipStuff::create($requestData);
-        for ($i = 0; $i < $floor->deckWidth; ++$i) {
+        for ($i = 0; $i < $floor->deckWidth; $i++) {
 
-            $cell = new ShipStuffItem(['cellIndex' => 0, 'cellType' => 1, 'techLevel' => '']);
+            $cell = new ShipStuffItem(['cellIndex' => $i, 'cellType' => 0, 'technologyType' => 1, 'techLevel' => 0]);
             $floor->defaultItems()->save($cell);
         }
 
@@ -139,11 +139,9 @@ class ShipStuffsController extends Controller
         foreach ($collections as $collection) {
 
             $array = [];
-            foreach ($collection->items as $key => $item) {
-
+            foreach ($collection->defaultItems as $key => $item) {
 
                 $array[(int) ($item->cellIndex / $collection->deckWidth)][$key] = $item;
-
             }
 
             foreach ($array as &$one) {
@@ -153,9 +151,7 @@ class ShipStuffsController extends Controller
 
             $array = collect(array_reverse($array));
 
-            $collection->items = $array;
-
-
+            $collection->defaultItems = $array;
         }
 
         return collect($collections);
