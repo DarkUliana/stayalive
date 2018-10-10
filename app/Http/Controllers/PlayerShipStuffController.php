@@ -26,6 +26,8 @@ class PlayerShipStuffController extends Controller
 
         foreach ($floors as $floor) {
 
+            $temp = $floor->toArray();
+
             if ($floor->items->count() != $floor->defaultItems->count()) {
 
                 $indexes = $floor->items->pluck('cellIndex')->toArray();
