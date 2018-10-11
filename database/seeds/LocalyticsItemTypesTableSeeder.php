@@ -40,6 +40,10 @@ class LocalyticsItemTypesTableSeeder extends Seeder
                 'index' => 6,
                 'name' => 'chest'
             ],
+            [
+                'index' => 7,
+                'name' => 'unlock'
+            ],
         ]);
     }
 }
