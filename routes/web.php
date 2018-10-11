@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('recipes', 'Admin\RecipesController');
     Route::get('recipe-component', 'Admin\RecipesController@component');
+    Route::get('get-recipe-items-for-select/{type}', 'Admin\RecipesController@getItemsForSelect');
 
     Route::resource('descriptions', 'Admin\DescriptionsController');
     Route::get('localization', 'Admin\DescriptionsController@localization');

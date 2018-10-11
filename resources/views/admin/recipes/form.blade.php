@@ -2,12 +2,22 @@
     <label for="item" class="col-md-4 control-label">Item</label>
     <div class="col-md-6">
         <select id="item" name="itemID">
-            @foreach ($items as $item):
-            <option value="{{$item->ID}}"
-                    @if(isset($recipe) && $item->ID == $recipe->ItemID) selected="selected" @endif>
-                {{$item->Name}}
-            </option>
-            @endforeach
+            @if(isset($recipe) && $recipe->recipeType == 5)
+                @foreach ($technologies as $item):
+                <option value="{{$item->ID}}"
+                        @if($item->ID == $recipe->ItemID) selected="selected" @endif>
+                    {{$item->name}}
+                </option>
+                @endforeach
+            @else
+                @foreach ($items as $item):
+                <option value="{{$item->ID}}"
+                        @if(isset($recipe) && $item->ID == $recipe->ItemID) selected="selected" @endif>
+                    {{$item->Name}}
+                </option>
+                @endforeach
+            @endif
+
         </select>
     </div>
 </div>
@@ -21,9 +31,11 @@
 <div class="form-group {{ $errors->has('recipeType') ? 'has-error' : ''}}">
     <label for="recipeType" class="col-md-4 control-label">{{ 'Recipetype' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="recipeType" type="number" id="recipeType"
-               value="{{ $recipe->recipeType or ''}}">
-        {!! $errors->first('recipeType', '<p class="help-block">:message</p>') !!}
+        <select class="form-control" name="recipeType" id="recipeType">
+            @foreach($recipeTypes as $type)
+                <option value="{{ $type->index }}" {{ (isset($recipe) && $recipe->recipeType == $type->index) ? 'selected' : '' }}>{{ $type->name }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="form-group {{ $errors->has('CraftTime') ? 'has-error' : ''}}">
