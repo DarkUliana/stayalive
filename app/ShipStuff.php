@@ -4,13 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlayerShipStuff extends Model
+class ShipStuff extends Model
 {
     protected $primaryKey = 'ID';
 
     protected $guarded = [];
 
-    protected $hidden = ['ID', 'playerID', 'created_at', 'updated_at'];
+    protected $hidden = ['ID', 'created_at', 'updated_at'];
+
+    public function defaultItems()
+    {
+        return $this->hasMany('App\ShipStuffItem', 'stuffID', 'ID');
+    }
 
     public function items()
     {

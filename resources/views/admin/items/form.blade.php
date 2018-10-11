@@ -13,6 +13,20 @@
         {!! $errors->first('MaxInStack', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+<div class="form-group {{ $errors->has('itemType') ? 'has-error' : ''}}">
+    <label for="itemType" class="col-md-12 control-label">{{ 'itemType' }}</label>
+    <div class="col-md-12">
+        <select id="itemType" name="itemType">
+            @foreach($localyticsTypes as $type)
+                <option value="{{ $type->index }}"
+                        @if(isset($item->itemType) && $item->itemType == $type->index)
+                        selected
+                        @endif>{{ $type->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+</div>
 <div class="form-group {{ $errors->has('InventorySlotType') ? 'has-error' : ''}}">
     <label for="InventorySlotType" class="col-md-12 control-label">{{ 'InventorySlotType' }}</label>
     <div class="col-md-12">
@@ -27,6 +41,7 @@
     </div>
 
 </div>
+
 <h4>Properties</h4>
 
 @include('admin.items.property')
