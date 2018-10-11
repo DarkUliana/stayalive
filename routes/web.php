@@ -101,6 +101,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('loot-collections-item', 'Admin\LootCollectionsController@getItem');
     Route::get('loot-collection-object/{id}', 'Admin\LootCollectionsController@getLootCollectionObject');
 
+    Route::resource('ship-stuff', 'Admin\ShipStuffsController');
+
+    Route::get('get-ship-cell-modal/{id}', 'Admin\ShipStuffsController@getShipModal');
+    Route::get('get-ship-floor-cell/{id}', 'Admin\ShipStuffsController@getShipFloorCell');
+    Route::delete('delete-ship-floor-cell/{id}', 'Admin\ShipStuffsController@deleteShipFloorCell');
+    Route::post('update-ship-floor-cell', 'Admin\ShipStuffsController@updateShipFloorCell');
+
 });
 
 

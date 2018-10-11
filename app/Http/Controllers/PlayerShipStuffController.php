@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-//use App\Http\Resources\PlayerShipStuffCollection;
-use App\PlayerShipStuff;
 use App\PlayerShipStuffItem;
 use App\PlayerTechnologyQuantity;
 use App\ShipStuff;
+use App\TechnologyQuantity;
 use Illuminate\Http\Request;
 
 class PlayerShipStuffController extends Controller
@@ -26,9 +25,11 @@ class PlayerShipStuffController extends Controller
 
         foreach ($floors as $floor) {
 
-            if ($floor->items->count() != $floor->defaultItems->count()) {
+            $temp = $floor->toArray();
+            $indexes = $floor->items->pluck('cellIndex')->toArray();
+            $defaultIndexes = $floor->defaultItems->pluck('cellIndex')->toArray();
 
-                $indexes = $floor->items->pluck('cellIndex')->toArray();
+            if (array_diff($indexes, $defaultIndexes) || array_diff($defaultIndexes, $indexes)) {
 
                 $needed = $floor->defaultItems->whereNotIn('cellIndex', $indexes);
 
@@ -50,7 +51,28 @@ class PlayerShipStuffController extends Controller
         $data['shipFloors'] = $collection;
 
         $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get();
+        $defaultConcreteItems = TechnologyQuantity::all();
 
+        foreach ($data['concreteItemsCounts'] as $item) {
+
+            $default = $defaultConcreteItems->where('itemType', $item->itemType)->first();
+            if ($default && $item->itemCountMax != $default->itemCountMax) {
+
+                $item->itemCountMax = $default->itemCountMax;
+
+            }
+        }
+        $indexes = $data['concreteItemsCounts']->pluck('itemType')->toArray();
+        $defaultIndexes = $defaultConcreteItems->pluck('itemType')->toArray();
+
+        if (array_diff($indexes, $defaultIndexes) || array_diff($defaultIndexes, $indexes)) {
+
+            $needed = $defaultConcreteItems->whereNotIn('itemType', $indexes);
+
+            $data['concreteItemsCounts'] = collect(array_merge($data['concreteItemsCounts']->toArray(), $needed->toArray()));
+
+
+        }
 
         return response($data, 200);
 

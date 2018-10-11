@@ -27,7 +27,7 @@ use App\PlayerRestorableObject;
 use App\PlayerRestorableObjectSlot;
 use App\PlayerReward;
 use App\PlayerSequence;
-use App\PlayerShipStuff;
+use App\PlayerShipStuffItem;
 use App\PlayerTechnologiesStates;
 use App\RestorableObject;
 use App\Reward;
@@ -226,7 +226,7 @@ class PlayersController extends Controller
 
         PlayerQuestReplacement::where('googleID', $googleID)->delete();
         PlayerLearnedRecipe::where('googleID', $googleID)->delete();
-        PlayerShipStuff::where('playerID', $googleID)->delete();
+        PlayerShipStuffItem::where('playerID', $googleID)->delete();
 
         $items = PlayerRepairItem::where('playerID', $googleID)->get();
         foreach ($items as $item) {
@@ -330,7 +330,7 @@ class PlayersController extends Controller
         PlayerRestorableObjectSlot::truncate();
         PlayerQuestReplacement::truncate();
         PlayerLearnedRecipe::truncate();
-        PlayerShipStuff::truncate();
+        PlayerShipStuffItem::truncate();
         PlayerRepairItem::truncate();
         PlayerRepairItemPart::truncate();
         PlayerDiaryNote::truncate();

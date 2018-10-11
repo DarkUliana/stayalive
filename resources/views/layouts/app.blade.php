@@ -52,9 +52,71 @@
 
     }
 
-    /*th {*/
-    /*font-size: 14px;*/
-    /*}*/
+    .table-ship td, .table-ship th {
+        border: 0;
+        padding: 5px;
+    }
+
+    .box {
+        position: relative;
+        padding-top: 100%;
+        border: 2px solid #cccccc;
+        border-radius: 5px;
+        background: #f5f5f5;
+        cursor: pointer;
+    }
+
+    .box-inner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 2px;
+    }
+
+    .box-inner select {
+        margin: 5px 0px;
+    }
+
+    #ship-modalTitle i {
+        margin: 5px 20px;
+        float: right;
+        color: #dc3545;
+    }
+
+    #ship-modalTitle i {
+        cursor: pointer;
+    }
+
+    .box-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .box-inner .img-border {
+        width: 100%;
+        height: 100%;
+        border: 2px solid #4CC552;
+        border-radius: 5px;
+    }
+
+    #ship-modalTitle{
+        width: 100%;
+    }
+
+    .ajax-background{
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        background: #000;
+        opacity: 0;
+        z-index: 100;
+        display: none;
+    }
 
 </style>
 <div id="app">
@@ -234,6 +296,10 @@
 
 @if(Request::is('diary-storage-notes/*'))
     <script src="{{ asset('js/diary-storage-note.js') }}"></script>
+@endif
+
+@if(Request::is('ship-stuff'))
+    <script src="{{ asset('js/ship-stuff.js') }}"></script>
 @endif
 </body>
 </html>
