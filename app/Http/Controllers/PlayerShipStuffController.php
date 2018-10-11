@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-//use App\Http\Resources\PlayerShipStuffCollection;
-use App\PlayerShipStuff;
 use App\PlayerShipStuffItem;
 use App\PlayerTechnologyQuantity;
 use App\ShipStuff;
+use App\TechnologyQuantity;
 use Illuminate\Http\Request;
 
 class PlayerShipStuffController extends Controller
@@ -52,7 +51,18 @@ class PlayerShipStuffController extends Controller
         $data['shipFloors'] = $collection;
 
         $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get();
+        $defaultConcreteItems = TechnologyQuantity::all();
 
+        if ($data['concreteItemsCounts']->count() != $defaultConcreteItems->count()) {
+
+            $indexes = $data['concreteItemsCounts']->pluck('itemType')->toArray();
+
+            $needed = $defaultConcreteItems->whereNotIn('itemType', $indexes);
+
+            $data['concreteItemsCounts'] = collect(array_merge($data['concreteItemsCounts']->toArray(), $needed->toArray()));
+
+
+        }
 
         return response($data, 200);
 
