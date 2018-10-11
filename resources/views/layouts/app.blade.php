@@ -102,11 +102,11 @@
         border-radius: 5px;
     }
 
-    #ship-modalTitle{
+    #ship-modalTitle {
         width: 100%;
     }
 
-    .ajax-background{
+    .ajax-background {
         width: 100%;
         height: 100%;
         top: 0;
@@ -280,6 +280,10 @@
     <script src="{{ asset('js/recipes.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
             integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
+@endif
+
+@if(Request::is('recipes/*'))
+    <script src="{{ asset('js/recipe.js') }}"></script>
 @endif
 
 @if(Request::is('loot-collections/*'))

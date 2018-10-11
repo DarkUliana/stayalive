@@ -14,7 +14,9 @@ class CreateRecipeTypesTable extends Migration
     public function up()
     {
         Schema::create('recipe_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('ID');
+            $table->integer('index');
+            $table->string('name');
             $table->timestamps();
         });
     }

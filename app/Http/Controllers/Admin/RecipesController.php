@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Recipe;
 use App\RecipeComponents;
 use App\RecipeTechnologies;
+use App\RecipeType;
 use Illuminate\Http\Request;
 use App\Item;
 use App\Technology;
@@ -68,8 +69,9 @@ class RecipesController extends Controller
     {
         $items = Item::all();
         $technologies = Technology::all();
+        $recipeTypes = RecipeType::all();
 
-        return view('admin.recipes.create', compact('items', 'technologies'));
+        return view('admin.recipes.create', compact('items', 'technologies', 'recipeTypes'));
     }
 
     /**
@@ -126,12 +128,13 @@ class RecipesController extends Controller
     public function edit($id)
     {
         $recipe = Recipe::findOrFail($id);
+        $recipeTypes = RecipeType::all();
         $items = Item::all();
         $selectedItems = $this->getValuesFromEloquentArray($recipe->components, 'itemID');
         $technologies = Technology::all();
         $selectedTechnologies = $this->getValuesFromEloquentArray($recipe->technologies, 'technologyID');
 
-        return view('admin.recipes.edit', compact('recipe', 'items', 'selectedItems', 'technologies', 'selectedTechnologies'));
+        return view('admin.recipes.edit', compact('recipe', 'items', 'selectedItems', 'technologies', 'selectedTechnologies', 'recipeTypes'));
     }
 
     /**
@@ -253,6 +256,38 @@ class RecipesController extends Controller
             $array[] = $item->{$key};
         }
         return $array;
+    }
+
+    public function getItemsForSelect($type = 'items')
+    {
+
+        $data = [];
+
+        if ($type == 'items') {
+
+            $items = Item::all();
+            foreach ($items as $item) {
+
+                $data[] = [
+                    'id' => $item->ID,
+                    'text' => $item->Name
+                ];
+            }
+
+        } else {
+
+            $items = Technology::all();
+            foreach ($items as $item) {
+
+                $data[] = [
+                    'id' => $item->ID,
+                    'text' => $item->name
+                ];
+            }
+        }
+
+
+        return response($data, 200);
     }
 
 }

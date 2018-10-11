@@ -23,4 +23,9 @@ class Recipe extends Model
     {
         return $this->hasMany('App\RecipeTechnologies', 'recipeID', 'ID');
     }
+
+    public function type()
+    {
+        return $this->hasOne('App\RecipeType', 'recipeType', 'index');
+    }
 }

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
          $this->call(ShipCellTypesTableSeeder::class);
          $this->call(TechnologyTypesTableSeeder::class);
          $this->call(LocalyticsItemTypesTableSeeder::class);
+         $this->call(RecipeTypesTableSeeder::class);
 
     }
 }
