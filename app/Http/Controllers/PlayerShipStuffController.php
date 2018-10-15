@@ -78,8 +78,7 @@ class PlayerShipStuffController extends Controller
 
     }
 
-    public
-    function post(Request $request)
+    public function post(Request $request)
     {
         if (!isset($request->playerID)) {
 
@@ -92,12 +91,15 @@ class PlayerShipStuffController extends Controller
 
             $floor = ShipStuff::where('floorIndex', $item['floorIndex'])->first();
 
-            foreach ($item['floorCells'] as $cell) {
+            if ($floor) {
 
-                $temp = $cell;
-                $temp['playerID'] = $request->playerID;
-                $newCell = new PlayerShipStuffItem($temp);
-                $floor->items()->save($newCell);
+                foreach ($item['floorCells'] as $cell) {
+
+                    $temp = $cell;
+                    $temp['playerID'] = $request->playerID;
+                    $newCell = new PlayerShipStuffItem($temp);
+                    $floor->items()->save($newCell);
+                }
             }
         }
 

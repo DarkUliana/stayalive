@@ -31,9 +31,16 @@ class SlotCollection extends ResourceCollection
 
             $position = PlayerBodyPosition::where('googleID', $request->googleID)->first();
 
-            $array['sceneName'] = $position->sceneName;
-            $array['position'] = $position->toArray();
+            if (!$position) {
 
+                $array['sceneName'] = 'L01_Home';
+                $array['position'] = ['x' => 0, 'y' => 0, 'z' => 0];
+            } else {
+
+                $array['sceneName'] = $position->sceneName;
+                $array['position'] = $position->toArray();
+
+            }
         }
 
         return $array;
