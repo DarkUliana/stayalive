@@ -1,4 +1,4 @@
-<div class="card" style="margin-bottom: 20px">
+<div class="card one-item-collection-card" style="margin-bottom: 20px">
     <div class="card-header">Add one item collection</div>
     <div class="card-body">
         <form id="collectionForm">

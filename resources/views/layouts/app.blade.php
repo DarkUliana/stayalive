@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
     @if(Request::is('shop-articles'))
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/titatoggle/2.1.2/titatoggle-dist-min.css"/>
@@ -31,92 +32,7 @@
 </head>
 <body>
 <style>
-    .up, .down {
-        font-size: 1.6em;
-        position: absolute;
-    }
 
-    .up {
-
-        bottom: 8px;
-
-    }
-
-    .down {
-        top: 8px;
-    }
-
-    .sort {
-        height: 20px;
-        width: 10px;
-
-    }
-
-    .table-ship td, .table-ship th {
-        border: 0;
-        padding: 5px;
-    }
-
-    .box {
-        position: relative;
-        padding-top: 100%;
-        border: 2px solid #cccccc;
-        border-radius: 5px;
-        background: #f5f5f5;
-        cursor: pointer;
-    }
-
-    .box-inner {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        padding: 2px;
-    }
-
-    .box-inner select {
-        margin: 5px 0px;
-    }
-
-    #ship-modalTitle i {
-        margin: 5px 20px;
-        float: right;
-        color: #dc3545;
-    }
-
-    #ship-modalTitle i {
-        cursor: pointer;
-    }
-
-    .box-inner img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .box-inner .img-border {
-        width: 100%;
-        height: 100%;
-        border: 2px solid #4CC552;
-        border-radius: 5px;
-    }
-
-    #ship-modalTitle {
-        width: 100%;
-    }
-
-    .ajax-background {
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        position: fixed;
-        background: #000;
-        opacity: 0;
-        z-index: 100;
-        display: none;
-    }
 
 </style>
 <div id="app">
@@ -290,7 +206,7 @@
     <script src="{{ asset('js/loot-collection.js') }}"></script>
 @endif
 
-@if(Request::is('loot-collections'))
+@if(Request::is('loot-collections') || Request::is('loot-objects/*'))
     <script src="{{ asset('js/loot-collections.js') }}"></script>
 @endif
 
