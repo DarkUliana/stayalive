@@ -1,10 +1,11 @@
 $(document).ready(function () {
 
-    $('#addItem').on('click', function () {
+    $('.addItem').on('click', function () {
 
+        var button = $(this);
         var optionTexts = [];
 
-        $('tbody>tr').each(function () {
+        button.closest('table').find('tbody>tr').each(function () {
             optionTexts.push(parseInt($(this).attr('data-index')));
         });
 
@@ -25,7 +26,7 @@ $(document).ready(function () {
             },
             success: function (data) {
 
-                $('tbody').prepend(data);
+                button.closest('table').find('tbody').prepend(data);
                 selectEvent();
                 deleteItemEvent();
                 minMaxValuesFocusEvent();

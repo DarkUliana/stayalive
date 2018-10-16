@@ -202,11 +202,11 @@
     <script src="{{ asset('js/recipe.js') }}"></script>
 @endif
 
-@if(Request::is('loot-collections/*'))
+@if(Request::is('loot-collections/*') || Request::is('loot-objects/*'))
     <script src="{{ asset('js/loot-collection.js') }}"></script>
 @endif
 
-@if(Request::is('loot-collections') || Request::is('loot-objects/*'))
+@if(Request::is('loot-collections'))
     <script src="{{ asset('js/loot-collections.js') }}"></script>
 @endif
 

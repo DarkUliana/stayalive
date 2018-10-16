@@ -115,7 +115,7 @@ class LootObjectsController extends Controller
     {
 
         $requestData = $request->all();
-//        var_dump($requestData); die();
+
         unset($requestData['collections']);
 
         $object = LootObject::findOrFail($id);

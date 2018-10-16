@@ -2,6 +2,7 @@
     <div class="card-header">Add one item collection</div>
     <div class="card-body">
         <form id="collectionForm">
+            <input type="hidden" name="lootObjectID" value="{{ $lootobject->ID }}">
             <table class="table-responsive table-bordered" style="margin-bottom: 20px">
                 <tr>
                     <th>Name</th>

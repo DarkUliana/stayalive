@@ -46,10 +46,11 @@ $(document).ready(function () {
             },
             success: function (data) {
 
-                var option = new Option(data.value, data.id, false, true);
-                $("#objectCollections").append(option).trigger('change');
+                location.reload();
             },
         });
 
     });
+
+    $('#objectCollections').on('change')
 });

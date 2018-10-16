@@ -84,7 +84,10 @@
     z-index: 100;
     display: none;
 }
+.collections-card, .one-item-collection-card {
 
+    margin-top: 20px;
+}
 .collections-card>.card-header {
     background: #cdf59b;
     border: #769952 solid 2px;
