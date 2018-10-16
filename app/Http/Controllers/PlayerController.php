@@ -10,7 +10,7 @@ use GuzzleHttp\Client as HttpClient;
 
 class PlayerController extends Controller
 {
-    protected $noRename = ['isDie', 'isSpawnInLocation', 'goldCoin', 'techCoin', 'keyCoin', 'collectedTechCoin', 'googleID', 'password', 'fromIsland', 'toIsland', 'inWalking', 'timeWalking'];
+    protected $noRename = ['isDeveloper', 'isDie', 'isSpawnInLocation', 'goldCoin', 'techCoin', 'keyCoin', 'collectedTechCoin', 'googleID', 'password', 'fromIsland', 'toIsland', 'inWalking', 'timeWalking'];
 
     public function show(Request $request)
     {
