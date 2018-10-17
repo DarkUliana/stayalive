@@ -142,6 +142,11 @@ class PlayersController extends Controller
 
         $requestData = $request->all();
 
+        if (!isset($request['isDeveloper'])) {
+
+            $requestData['isDeveloper'] = 0;
+        }
+
         $player = Player::findOrFail($id);
         $player->update($requestData);
 
