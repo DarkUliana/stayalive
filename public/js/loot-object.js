@@ -52,5 +52,74 @@ $(document).ready(function () {
 
     });
 
-    $('#objectCollections').on('change')
+    $('#objectCollections').on("change", function(){
+
+
+        var newCollections = $("#objectCollections").select2("val");
+        var currentCollection = [];
+        var del = [];
+
+        $('.collections-card>.card-body>.card').each(function () {
+
+            var id = $(this).attr('data-id');
+            currentCollection.push(id);
+
+            if ($.inArray(id, newCollections) === -1) {
+
+                console.log(id);
+                del.push(id);
+
+                $('.collections-card [data-id="'+id+'"]').remove();
+            }
+
+
+        });
+
+        console.log(newCollections);
+        console.log(currentCollection);
+
+        newCollections.forEach(function (item) {
+
+            if ($.inArray(item, currentCollection) === -1) {
+
+                $.ajax({
+
+                    url: '/get-collection-for-loot-object/' + item,
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (data) {
+
+                        $('.collections-card>.card-body').prepend(data);
+                        addItem();
+                    }
+                });
+            }
+        });
+
+
+    });
 });
+
+function collectionSubmit() {
+
+    $('.lootCollectionForm').submit(function (e) {
+
+        e.preventDefault();
+        var collectionForm = $(this);
+
+        $.ajax({
+            url: $('#mainForm').attr('action'),
+            method: 'PATCH',
+            data: $('#mainForm').serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+
+                // collectionForm.submit();
+            }
+        });
+    });
+}

@@ -132,7 +132,10 @@ class LootObjectsController extends Controller
             }
         }
 
+        if ($request->ajax()) {
 
+            return response('ok', 200);
+        }
 
         return redirect('loot-objects')->with('flash_message', 'LootObject updated!');
     }
@@ -155,5 +158,12 @@ class LootObjectsController extends Controller
         }
 
         return redirect('loot-objects')->with('flash_message', 'LootObject deleted!');
+    }
+
+    public function getCollectionForLootObject($id = 0) {
+
+        $collection = LootObjectCollection::where('lootCollectionID', $id)->first();
+        $items = Item::all();
+        return view('admin.loot-objects.edit-collection', compact('collection', 'items'));
     }
 }
