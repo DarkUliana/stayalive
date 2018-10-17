@@ -44,6 +44,7 @@
                                     <th>Name</th>
                                     <th>GoogleID</th>
                                     <th>Online</th>
+                                    <th>Developer</th>
                                     <th><i class="fa fa-database" style="color: #e08e0b"></i></th>
                                     <th><i class="fa fa-cog" style="color:#1b4f72; font-size: 20px"></i></th>
                                     <th>Level</th>
@@ -52,15 +53,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <form id="deleteForm" method="POST" action="{{ url('players') }}">
-                                    <input type="hidden" name="_method" value="delete" />
-                                    {!! csrf_field() !!}
                                     @foreach($players as $item)
                                         <tr>
                                             <td>
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input class="forDelete" name="googleIDs[{{ $item->googleID }}]" type="checkbox">
+                                                        <input class="forDelete" data-id="{{ $item->googleID }}"
+                                                               type="checkbox">
                                                     </label>
                                                 </div>
                                             </td>
@@ -69,13 +68,23 @@
                                             <td>{{ $item->googleID }}</td>
                                             <td>
                                             </td>
+                                            <td>
+                                                <form action="{{ url('/players/' . $item->ID) }}"
+                                                      accept-charset="UTF-8" class="form-horizontal"
+                                                      enctype="multipart/form-data">
+
+                                                    {{ Form::checkbox('isDeveloper',true,null,
+                                                    ['class'=>'isDeveloper', 'checked' => ($item->isDeveloper ? true : false), 'value' => ($item->isDeveloper ? 1 : 0)]) }}
+
+                                                </form>
+                                            </td>
                                             <td>{{ $item->goldCoin }}</td>
                                             <td>{{ $item->techCoin }}</td>
                                             <td>{{ $item->CurrentLevel }}</td>
                                             <td>
                                                 <a href="{{ url('/players/' . $item->ID) }}" title="View player">
                                                     <div class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                           aria-hidden="true"></i> View
+                                                                                        aria-hidden="true"></i> View
                                                     </div>
                                                 </a>
                                                 <a href="{{ url('/players/' . $item->ID . '/edit') }}"
@@ -86,14 +95,14 @@
                                                     </div>
                                                 </a>
 
-                                                    <div class="btn btn-danger btn-sm  deleteOnePlayer"
-                                                            title="Delete player">
-                                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
-                                                    </div>
+                                                <div class="btn btn-danger btn-sm  deleteOnePlayer"
+                                                     title="Delete player">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
-                                </form>
+
                                 </tbody>
                             </table>
                             <div class="pagination-wrapper"> {!! $players->appends(['search' => Request::get('search')])->render() !!} </div>

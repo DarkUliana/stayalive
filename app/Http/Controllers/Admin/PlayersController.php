@@ -142,9 +142,18 @@ class PlayersController extends Controller
 
         $requestData = $request->all();
 
+        if (!isset($request['isDeveloper'])) {
+
+            $requestData['isDeveloper'] = 0;
+        }
+
         $player = Player::findOrFail($id);
         $player->update($requestData);
 
+        if ($request->ajax()) {
+
+            return response('ok', 200);
+        }
         return redirect('players')->with('flash_message', 'Player updated!');
     }
 
@@ -162,17 +171,12 @@ class PlayersController extends Controller
 
         if (isset($request->googleIDs)) {
 
-            $count = 0;
-            foreach ($request->googleIDs as $ID => $check) {
+            foreach ($request->googleIDs as $id) {
 
-                if ($check == 'on') {
-
-                    $this->delete($ID);
-                }
-                ++$count;
+                $this->delete($id);
             }
 
-            return redirect('players')->with('flash_message', "$count Players deleted!");
+            return response('ok', 200);
         }
 
         $this->delete($googleID);

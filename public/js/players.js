@@ -12,7 +12,25 @@ $(document).ready(function () {
 
         if (result) {
 
-            $('#deleteForm').submit();
+            var ids = [];
+
+            $('input:checked.forDelete').each(function () {
+
+                ids.push($(this).attr('data-id'))
+            });
+
+            $.ajax({
+                url: '/players',
+                method: 'DELETE',
+                data: {'googleIDs' : ids},
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function () {
+
+                    location.reload();
+                }
+            });
         }
 
     });
@@ -65,6 +83,21 @@ $(document).ready(function () {
             }
         }
 
+    });
+
+    $('.isDeveloper').on('change', function () {
+
+        var data = $(this).closest('form').serialize();
+        var url = $(this).closest('form').attr('action');
+
+        $.ajax({
+            url : url,
+            method : "PATCH",
+            data : data,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        });
     });
 });
 
