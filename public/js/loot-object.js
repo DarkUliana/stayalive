@@ -1,4 +1,8 @@
+var isSubmit = false;
+
 $(document).ready(function () {
+
+    collectionSubmit();
 
     $('#collectionName').val($('#objectKey').val() + ' ' + $('#collectionItem').find(':selected').text());
     $('select').select2({"width" : "100%"});
@@ -93,6 +97,7 @@ $(document).ready(function () {
 
                         $('.collections-card>.card-body').prepend(data);
                         addItem();
+                        collectionSubmit();
                     }
                 });
             }
@@ -104,10 +109,16 @@ $(document).ready(function () {
 
 function collectionSubmit() {
 
-    $('.lootCollectionForm').submit(function (e) {
+    $('form.lootCollectionForm').submit(function (e) {
+
+        if (isSubmit) {
+
+            return;
+        }
 
         e.preventDefault();
         var collectionForm = $(this);
+
 
         $.ajax({
             url: $('#mainForm').attr('action'),
@@ -118,7 +129,8 @@ function collectionSubmit() {
             },
             success: function () {
 
-                // collectionForm.submit();
+                isSubmit = true;
+                collectionForm.submit();
             }
         });
     });
