@@ -5,11 +5,12 @@
         <div class="row">
             @include('admin.sidebar')
 
-            <div class="col-md-5 col-sm-6" id="itemsCol">
+            <div class="col-md-6 col-sm-6" id="itemsCol">
                 <div class="card">
                     <div class="card-header"><h3>Items</h3></div>
                     <div class="card-body">
-                        <a href="{{ url('/items/create') }}" class="btn btn-success btn-sm" title="Add New item" id="addItem">
+                        <a href="{{ url('/items/create') }}" class="btn btn-success btn-sm" title="Add New item"
+                           id="addItem">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
 
@@ -24,7 +25,7 @@
                             <div class="input-group" style="margin-right: 20px">
                                 <select id="filter" name="filter">
                                     <option></option>
-                                    @foreach($types as $key => $type)
+                                    @foreach($itemTypes as $key => $type)
                                         <option value="{{ $key }}">{{ $type }}</option>
                                     @endforeach
                                 </select>
@@ -62,7 +63,33 @@
                                             <div class="col-md-2"></div>
                                         </div>
                                     </th>
-                                    <th>InventorySlotType</th>
+                                    <th>
+                                        <div class="row">
+                                            <div class="col-md-8">InventorySlotType</div>
+                                            <div class="col-md-2">
+                                                <div class="sort">
+                                                    <a href="{{ url('/items?sort=InventorySlotType&type=asc') }}"><span
+                                                                class="octicon octicon-chevron-up up"></span></a><a
+                                                            href="{{ url('/items?sort=InventorySlotType&type=desc') }}"><span
+                                                                class="octicon octicon-chevron-down down"></span></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="row">
+                                            <div class="col-md-8">itemType</div>
+                                            <div class="col-md-1">
+                                                <div class="sort">
+                                                    <a href="{{ url('/items?sort=itemType&type=asc') }}"><span
+                                                                class="octicon octicon-chevron-up up"></span></a><a
+                                                            href="{{ url('/items?sort=itemType&type=desc') }}"><span
+                                                                class="octicon octicon-chevron-down down"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>

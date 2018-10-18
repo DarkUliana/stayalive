@@ -41,35 +41,37 @@ class ItemsController extends Controller
     {
         session(['itemsParams' => $request->getQueryString()]);
 
-        $keyword = $request->get('search');
-        $filter = $request->get('filter');
-        $sort = $request->get('sort');
+        $keyword = $request->search;
+        $filter = $request->filter;
+
+        $sort = $request->sort;
 
         $type = 'asc';
-        if (!empty ($request->get('type'))) {
-            $type = $request->get('type');
+        if (isset($request->type)) {
+            $type = $request->type;
         }
         $perPage = 25;
 
         $items = Item::where([]);
 
-        if (!empty($keyword)) {
+        if (isset($keyword)) {
             $items = $items->where('name', 'like', "%$keyword%");
         }
-        if (!empty($filter)) {
-            $items = $items->where('InventorySlotType', $filter);
+        if (isset($filter)) {
+            $items = $items->where('itemType', $filter);
         }
-        if (!empty($sort)) {
+        if (isset($sort)) {
             $items = $items->orderBy($sort, $type);
         }
 
-        if (empty($keyword) && empty($filter) && empty($sort)) {
+        if (!isset($keyword) && !isset($filter) && !isset($sort)) {
             $items = $items->latest();
         }
 
         $items = $items->paginate($perPage);
 
-        $types = $this->getTypes();
+        $slotTypes = $this->getSlotTypes();
+        $itemTypes = $this->getItemTypes();
 
         if ($request->ajax()) {
 
@@ -78,7 +80,7 @@ class ItemsController extends Controller
                     'filter' => $request->get('filter'),
                     'sort' => $request->get('sort')])->links(),
 
-                'items' => (string)view('admin.items.item-tr', compact('items', 'types'))
+                'items' => (string)view('admin.items.item-tr', compact('items', 'slotTypes', 'itemTypes'))
             ];
 
 
@@ -86,7 +88,7 @@ class ItemsController extends Controller
         }
 
 
-        return view('admin.items.index', compact('items', 'types'));
+        return view('admin.items.index', compact('items', 'slotTypes', 'itemTypes'));
     }
 
     /**
@@ -310,14 +312,27 @@ class ItemsController extends Controller
         return view('admin.items.property', compact('properties', 'notes'));
     }
 
-    protected function getTypes()
+    protected function getSlotTypes()
     {
-        $types = ItemType::get();
+        $types = ItemType::all();
 
         $array = [];
 
         foreach ($types as $type) {
             $array[$type->type] = $type->typeName;
+        }
+
+        return $array;
+    }
+
+    protected function getItemTypes()
+    {
+        $types = LocalyticsItemType::all();
+
+        $array = [];
+
+        foreach ($types as $type) {
+            $array[$type->index] = $type->name;
         }
 
         return $array;
