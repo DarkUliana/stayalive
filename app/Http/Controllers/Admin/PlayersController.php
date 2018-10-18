@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\AfterCraftItems;
 use App\CloudItem;
 use App\Equipment;
 use App\Http\Controllers\Controller;
@@ -29,6 +28,8 @@ use App\PlayerReward;
 use App\PlayerSequence;
 use App\PlayerShipStuffItem;
 use App\PlayerTechnologiesStates;
+use App\PlayerTechnologyQuantity;
+use App\PlayerTraveledIsland;
 use App\RestorableObject;
 use App\Reward;
 use App\Timer;
@@ -206,8 +207,7 @@ class PlayersController extends Controller
 
     protected function delete($googleID)
     {
-
-//        CloudItem::where('googleID', $googleID)->delete();
+        
         Equipment::where('googleID', $googleID)->delete();
         Inventory::where('googleID', $googleID)->delete();
         ItemsInCraft::where('googleID', $googleID)->delete();
@@ -243,6 +243,8 @@ class PlayersController extends Controller
         Player::where('googleID', $googleID)->delete();
         PlayerPrefRecord::where('playerID', $googleID)->delete();
         PlayerSequence::where('googleID', $googleID)->delete();
+        PlayerTechnologyQuantity::where('playerID', $googleID)->delete();
+        PlayerTraveledIsland::where('googleID', $googleID)->delete();
 
     }
 
@@ -316,7 +318,6 @@ class PlayersController extends Controller
 
     public function deleteAll()
     {
-        AfterCraftItems::truncate();
         CloudItem::truncate();
         Equipment::truncate();
         Inventory::truncate();
@@ -339,6 +340,9 @@ class PlayersController extends Controller
         PlayerRepairItemPart::truncate();
         PlayerDiaryNote::truncate();
         PlayerPrefRecord::truncate();
+        PlayerSequence::truncate();
+        PlayerTechnologyQuantity::truncate();
+        PlayerTraveledIsland::truncate();
 
         Player::truncate();
 
