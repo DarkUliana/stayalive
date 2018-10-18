@@ -1,7 +1,8 @@
 <div class="form-group {{ $errors->has('key') ? 'has-error' : ''}}">
     <label for="key" class="col-md-4 control-label">{{ 'Key' }}</label>
     <div class="col-md-6">
-        <input id="objectKey" class="form-control" name="key" type="text" id="key" value="{{ $lootobject->key or ''}}" required>
+        <input id="objectKey" class="form-control" name="key" type="text" id="key" value="{{ $lootobject->key or ''}}"
+               required>
         {!! $errors->first('key', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -17,4 +18,3 @@
         </select>
     </div>
 </div>
-

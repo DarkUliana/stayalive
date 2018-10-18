@@ -1,42 +1,6 @@
 $(document).ready(function () {
 
-    $('#addItem').on('click', function () {
-
-        var optionTexts = [];
-
-        $('tbody>tr').each(function () {
-            optionTexts.push(parseInt($(this).attr('data-index')));
-        });
-
-        var index = {"index": Math.max.apply(null, optionTexts)};
-
-        if ($('tr').length == 1) {
-
-            index = {"index": 0};
-        }
-
-
-        $.ajax({
-            url: '/loot-collections-item',
-            method: 'GET',
-            data: index,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (data) {
-
-                $('tbody').prepend(data);
-                selectEvent();
-                deleteItemEvent();
-                minMaxValuesFocusEvent();
-
-                $('.minValue').first().trigger('keyup');
-                $('.maxValue').first().trigger('keyup');
-
-            },
-        });
-    });
-
+    addItem();
     selectEvent();
     deleteItemEvent();
     minMaxValuesFocusEvent();
@@ -101,5 +65,46 @@ function selectEvent() {
     $('select').on('change', function () {
 
         $(this).closest('tr').find('.minValue').trigger('keyup');
+    });
+}
+
+function addItem() {
+
+    $('.addItem').on('click', function () {
+
+        var button = $(this);
+        var optionTexts = [];
+
+        button.closest('table').find('tbody>tr').each(function () {
+            optionTexts.push(parseInt($(this).attr('data-index')));
+        });
+
+        var index = {"index": Math.max.apply(null, optionTexts)};
+
+        if ($('tr').length == 1) {
+
+            index = {"index": 0};
+        }
+
+
+        $.ajax({
+            url: '/loot-collections-item',
+            method: 'GET',
+            data: index,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+
+                button.closest('table').find('tbody').prepend(data);
+                selectEvent();
+                deleteItemEvent();
+                minMaxValuesFocusEvent();
+
+                $('.minValue').first().trigger('keyup');
+                $('.maxValue').first().trigger('keyup');
+
+            },
+        });
     });
 }

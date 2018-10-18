@@ -23,7 +23,7 @@
                 <th>minValue</th>
                 <th>maxValue</th>
                 <th>
-                    <button id="addItem" type="button" class="btn btn-success">Add</button>
+                    <button type="button" class="btn btn-success addItem">Add</button>
                 </th>
             </tr>
             </thead>

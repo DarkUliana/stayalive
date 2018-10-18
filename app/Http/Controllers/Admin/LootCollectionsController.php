@@ -57,6 +57,7 @@ class LootCollectionsController extends Controller
         $requestData = $request->all();
 
         unset($requestData['items']);
+        unset($requestData['lootObjectID']);
         
         $collection = LootCollection::create($requestData);
 
@@ -70,6 +71,11 @@ class LootCollectionsController extends Controller
         }
 
         if ($request->ajax()) {
+
+            if (isset($request->lootObjectID)) {
+
+                LootObjectCollection::create(['lootObjectID' => $request->lootObjectID, 'lootCollectionID' => $collection->ID]);
+            }
 
             $data = [
                 'value' => $collection->name,
@@ -139,7 +145,7 @@ class LootCollectionsController extends Controller
             }
         }
 
-        return redirect('loot-collections')->with('flash_message', 'LootCollection updated!');
+        return back()->with('flash_message', 'LootCollection updated!');
     }
 
     /**
