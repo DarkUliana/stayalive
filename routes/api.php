@@ -108,8 +108,8 @@ Route::get('notifications', 'NotificationController@index');
 
 Route::get('mobs', 'MobController@index');
 
-Route::get('logs', 'LogController@index');
-Route::post('logs', 'LogController@store');
+Route::get('logs', 'UnityLogController@index');
+Route::post('logs', 'UnityLogController@store');
 
 Route::get('ban', 'BanListController');
 

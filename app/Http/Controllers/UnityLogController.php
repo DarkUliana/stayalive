@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Log;
+use App\UnityLog;
 use Illuminate\Http\Request;
 
-class LogController extends Controller
+class UnityLogController extends Controller
 {
     public function index(Request $request) {
 
@@ -14,7 +14,7 @@ class LogController extends Controller
             return response('Invalid data', 400);
         }
 
-        $logs = Log::where('googleID', $request->googleID)->get()->toArray();
+        $logs = UnityLog::where('googleID', $request->googleID)->take(50)->get()->toArray();
         $response = [
             'playerID' => $request->googleID,
             'logStrings' => $logs
@@ -32,7 +32,7 @@ class LogController extends Controller
 
         foreach ($request->logStrings as $log) {
 
-            Log::create(array_merge(['googleID' => $request->playerID], $log));
+            UnityLog::create(array_merge(['googleID' => $request->playerID], $log));
         }
 
         return response('ok', 200);

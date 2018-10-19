@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class UnityLog extends Model
 {
     protected $primaryKey = 'ID';
 

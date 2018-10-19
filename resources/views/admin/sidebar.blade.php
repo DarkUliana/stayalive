@@ -74,6 +74,9 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/ship-stuff') }}">
                     Ship stuff
                 </a></li>
+            <li class="list-group-item"><a class="card-link" href="{{ url('unity-logs') }}">
+                    Unity logs
+                </a></li>
         </ul>
 
     </div>

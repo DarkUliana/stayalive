@@ -110,6 +110,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('delete-ship-floor-cell/{id}', 'Admin\ShipStuffsController@deleteShipFloorCell');
     Route::post('update-ship-floor-cell', 'Admin\ShipStuffsController@updateShipFloorCell');
 
+    Route::resource('unity-logs', 'Admin\UnityLogsController', ['only' => [
+        'index', 'show'
+    ]]);
+
 });
 
 
