@@ -3,8 +3,8 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            @include('admin.sidebar')
-            <div class="col-md-6">
+            @include('admin.sidebar', ['sidebarClass' => 'col-md-2 offset-md-1'])
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Shop articles</div>
                     <div class="card-body">
@@ -77,6 +77,7 @@
                                     </th>
                                     <th>inGold</th>
                                     <th>onSale</th>
+                                    <th>Item</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -84,7 +85,7 @@
                                 @foreach($shopArticles as $item)
                                     <tr>
                                         <td>{{$item->ID }}</td>
-                                        <td  @if($item->hot) style="color: #4CC552; font-weight: bold" @endif>{{ $item->shopID }}</td>
+                                        <td @if($item->hot) style="color: #4CC552; font-weight: bold" @endif>{{ $item->shopID }}</td>
                                         <td>{{ $categories[$item->shopItemCategory] }}</td>
 
                                         <td>{{ $item->price }}</td>
@@ -104,6 +105,9 @@
                                                        @if($item->onSale) checked @endif>
 
                                             </form>
+                                        </td>
+                                        <td>
+                                            {{ $item->items->count() == 1 ? $item->items->first()->imageName : '' }}
                                         </td>
                                         <td>
 
