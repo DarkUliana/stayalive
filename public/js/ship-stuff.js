@@ -84,6 +84,8 @@ function boxOnClick() {
 
     $('.box').on('click', function () {
 
+        $('.box').off('click');
+
         $.ajax({
             url: '/get-ship-cell-modal/' + $(this).attr('data-id'),
             method: 'GET',
@@ -102,6 +104,7 @@ function boxOnClick() {
 
 
         });
+        boxOnClick();
     });
 }
 
@@ -150,6 +153,9 @@ function onUpdateCell() {
                 var id = form.closest('.modal').attr('data-id');
                 var td = $('.box[data-id="' + id + '"]').closest('td');
                 td.replaceWith(data);
+
+                $('.box').off('click');
+                boxOnClick();
             },
         });
     });

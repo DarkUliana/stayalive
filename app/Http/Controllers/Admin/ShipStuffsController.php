@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Direction;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -27,8 +28,9 @@ class ShipStuffsController extends Controller
 
         $technologyTypes = TechnologyType::all();
         $cellTypes = ShipCellType::all();
+        $directions = Direction::all();
 
-        return view('admin.ship-stuffs.index', compact('shipstuffs', 'technologyTypes', 'cellTypes'));
+        return view('admin.ship-stuffs.index', compact('shipstuffs', 'technologyTypes', 'cellTypes', 'directions'));
     }
 
     /**
@@ -157,19 +159,20 @@ class ShipStuffsController extends Controller
         return collect($collections);
     }
 
-    public function getShipModal($id = 0)
+    public function getShipCellModal($id = 0)
     {
 
         $item = ShipStuffItem::where('ID', $id)->first();
         $cellTypes = ShipCellType::all();
         $technologyTypes = TechnologyType::all();
+        $directions = Direction::all();
         $last = false;
         if ($item->cellIndex == ShipStuffItem::where('stuffID', $item->stuffID)->max('cellIndex')) {
 
             $last = true;
         }
 
-        return view('admin.ship-stuffs.cell-modal', compact('item', 'cellTypes', 'technologyTypes', 'last'));
+        return view('admin.ship-stuffs.cell-modal', compact('item', 'cellTypes', 'technologyTypes', 'last', 'directions'));
     }
 
     public function getShipFloorCell($id = 0)
@@ -181,7 +184,8 @@ class ShipStuffsController extends Controller
             'cellIndex' => $lastCell + 1,
             'cellType' => 0,
             'technologyType' => 1,
-            'techLevel' => 0
+            'techLevel' => 0,
+            'dir' => 0
         ]);
 
         return view('admin.ship-stuffs.cell', compact('item'));

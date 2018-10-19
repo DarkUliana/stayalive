@@ -23,4 +23,9 @@ class ShipStuffItem extends Model
     {
         return $this->hasOne('App\TechnologyType', 'index', 'technologyType');
     }
+
+    public function direction()
+    {
+        return $this->hasOne('App\Direction', 'index', 'dir');
+    }
 }

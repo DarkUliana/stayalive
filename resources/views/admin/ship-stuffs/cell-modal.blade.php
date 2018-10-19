@@ -46,6 +46,17 @@
                                    value="{{ $item->techLevel }}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="dir" class="col-md-4 control-label">{{ 'Direction' }}</label>
+                        <div class="col-md-6">
+                            <select class="form-control form-control-sm"
+                                    name="dir">
+                                @foreach($directions as $direction)
+                                    <option value="{{ $direction->index }}" {{ $direction->index == $item->dir ? 'selected' : '' }}>{{ $direction->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">
