@@ -9,11 +9,28 @@
                 <div class="card">
                     <div class="card-header">Unity logs</div>
                     <div class="card-body">
+
+                        <form method="GET" action="{{ url('/unity-logs') }}" accept-charset="UTF-8"
+                              class="form-inline my-2 my-lg-0 float-right" role="search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Search..."
+                                       value="{{ request('search') }}">
+                                <span class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+
+                        <br/>
+                        <br/>
+
                         <div class="table-responsive table-bordered">
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>logTime</th>
+                                    <th style="min-width: 110px;">logTime</th>
                                     <th>googleID</th>
                                     <th>logType</th>
                                     <th style="word-break: break-all;">logCondition</th>
@@ -23,7 +40,7 @@
                                 <tbody>
                                 @foreach($logs as $log)
                                     <tr>
-                                        <td>{{ $log->logTime }}</td>
+                                        <td>{{ $log->created_at }}</td>
                                         <td>{{ $log->googleID }}</td>
                                         <td>{{ $log->logType }}</td>
                                         <td>{{ $log->logCondition }}</td>
