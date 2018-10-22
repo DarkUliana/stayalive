@@ -15,9 +15,11 @@ class CreateLaravelLogsTable extends Migration
     {
         Schema::create('laravel_logs', function (Blueprint $table) {
             $table->increments('ID');
-            $table->string('message');
-            $table->string('file');
-            $table->string('line');
+            $table->text('message')->nullable();
+            $table->text('file')->nullable();
+            $table->integer('line')->nullable();
+            $table->text('url')->nullable();
+            $table->longText('input')->nullable();
             $table->longText('detail')->nullable();
             $table->timestamps();
         });

@@ -6,6 +6,7 @@ use App\LaravelLog;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Input;
 
 class Handler extends ExceptionHandler
 {
@@ -38,26 +39,24 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        $log = [
-            'message' => json_encode($exception->getMessage()),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'detail' => json_encode($exception->getTrace())
-        ];
+        try {
 
-        dd(Request::input('googleID')); die();
+            $log = [
+                'message' => json_encode($exception->getMessage()),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'url' => Input::url(),
+                'input' => json_encode(Input::get()),
+                'detail' => json_encode($exception->getTraceAsString())
+            ];
 
-//        $log = [
-//            'message' => 'test',
-//            'file' => 'test',
-//            'line' => 'test',
-//            'detail' => 'test',
-//        ];
+            LaravelLog::create($log);
+        } catch (Exception $e) {
 
-        LaravelLog::create($log);
+            parent::report($e);
+        }
 
-//        return parent::report($exception);
-        return $log;
+        return parent::report($exception);
     }
 
     /**
