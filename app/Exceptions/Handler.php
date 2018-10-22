@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\LaravelLog;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -41,10 +42,10 @@ class Handler extends ExceptionHandler
             'message' => json_encode($exception->getMessage()),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
-            'detail' => json_encode($exception->getReport())
+            'detail' => json_encode($exception->getTrace())
         ];
 
-        var_dump($log); die();
+        dd(Request::input('googleID')); die();
 
 //        $log = [
 //            'message' => 'test',
@@ -55,7 +56,8 @@ class Handler extends ExceptionHandler
 
         LaravelLog::create($log);
 
-        parent::report($exception);
+//        return parent::report($exception);
+        return $log;
     }
 
     /**
