@@ -77,6 +77,11 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('unity-logs') }}">
                     Unity logs
                 </a></li>
+            @if(Auth::user()->role)
+                <li class="list-group-item"><a class="card-link" href="{{ url('laravel-logs') }}">
+                        Laravel logs
+                    </a></li>
+            @endif
         </ul>
 
     </div>
