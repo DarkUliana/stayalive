@@ -37,7 +37,10 @@ class DescriptionsController extends Controller
 
         if (!empty($keyword)) {
 
-            $descriptions = Description::where('key', 'LIKE', "%$keyword%");
+            $descriptions = Description::where('key', 'LIKE', "%$keyword%")
+            ->OrWhereHas('localizations', function ($q) use ($keyword) {
+                $q->where('description_localizations.name', 'LIKE', "%$keyword%")->orWhere('description_localizations.description', 'LIKE', "%$keyword%");
+            });
         } else {
 
             $descriptions = Description::where([]);
