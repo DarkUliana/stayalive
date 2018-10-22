@@ -16,8 +16,8 @@ Route::group(['middleware' => 'auth'], function () {
         return view('welcome');
     });
 
-    Route::get('/', function(){
-       return view('admin.dashboard');
+    Route::get('/', function () {
+        return view('admin.dashboard');
     });
 
     Route::resource('technologies', 'Admin\TechnologiesController');
@@ -112,6 +112,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('unity-logs', 'Admin\UnityLogsController', ['only' => [
         'index', 'show'
+    ]]);
+
+    Route::resource('laravel-logs', 'Admin\LaravelLogsController', ['only' => [
+        'index', 'show', 'destroy'
     ]]);
 
 });

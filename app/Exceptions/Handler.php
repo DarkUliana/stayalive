@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\LaravelLog;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Input;
 
 class Handler extends ExceptionHandler
 {
@@ -31,19 +34,36 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+        try {
+
+            $log = [
+                'message' => json_encode($exception->getMessage()),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'url' => Input::url(),
+                'input' => json_encode(Input::get()),
+                'detail' => json_encode($exception->getTraceAsString())
+            ];
+
+            LaravelLog::create($log);
+        } catch (Exception $e) {
+
+            parent::report($e);
+        }
+
+        return parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
