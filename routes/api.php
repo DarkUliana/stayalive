@@ -147,6 +147,9 @@ Route::get('quest-sequences', 'QuestSequenceController@get');
 Route::get('player-sequences', 'PlayerSequenceController@get');
 Route::post('player-sequences', 'PlayerSequenceController@post');
 
+Route::get('player-ship-chests', 'PlayerShipChestController@get');
+Route::post('player-ship-chests', 'PlayerShipChestController@post');
+
 
 
 //});
