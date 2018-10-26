@@ -47,11 +47,11 @@
                                         <td>{{ $item->questID }}</td>
                                         <td>{{ $item->type }}</td>
                                         <td>
-                                            <a href="{{ url('/dialogs/' . $item->ID) }}" title="View dialog">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('/dialogs/' . $item->ID) }}" title="View dialog">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('/dialogs/' . $item->ID . '/edit') }}" title="Edit dialog">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                                                           aria-hidden="true"></i> Edit

@@ -60,11 +60,11 @@
                                         <td>{{ $item->level }}</td>
                                         <td>{{ $item->playerLevel }}</td>
                                         <td>
-                                            <a href="{{ url('/technologies/' . $item->ID) }}" title="View technology">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('/technologies/' . $item->ID) }}" title="View technology">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('/technologies/' . $item->ID . '/edit') }}"
                                                title="Edit technology">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"

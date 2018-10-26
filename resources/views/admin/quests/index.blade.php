@@ -41,7 +41,7 @@
                                         <td>{{ $item->level }}</td>
                                         <td>{{ (isset($item->reward)) ? $item->reward->name : '' }}</td>
                                         <td>
-                                            <a href="{{ url('/quests/' . $item->ID) }}" title="View quest"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            {{--<a href="{{ url('/quests/' . $item->ID) }}" title="View quest"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>--}}
                                             <a href="{{ url('/quests/' . $item->ID . '/edit') }}" title="Edit quest"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                             <form method="POST" action="{{ url('/quests' . '/' . $item->ID) }}" accept-charset="UTF-8" style="display:inline">

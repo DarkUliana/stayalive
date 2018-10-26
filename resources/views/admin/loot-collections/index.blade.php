@@ -48,12 +48,12 @@
                                         <td>{{ $item->chance }}</td>
                                         <td>{{ $item->minValue }}</td>
                                         <td>
-                                            <a href="{{ url('/loot-collections/' . $item->ID) }}"
-                                               title="View LootCollection">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('/loot-collections/' . $item->ID) }}"--}}
+                                               {{--title="View LootCollection">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('/loot-collections/' . $item->ID . '/edit') }}"
                                                title="Edit LootCollection">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"

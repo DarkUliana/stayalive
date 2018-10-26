@@ -44,11 +44,11 @@
                                         <td>{{ $item->ID }}</td>
                                         <td>{{ $item->key }}</td>
                                         <td>
-                                            <a href="{{ url('/loot-objects/' . $item->ID) }}" title="View LootObject">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('/loot-objects/' . $item->ID) }}" title="View LootObject">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('/loot-objects/' . $item->ID . '/edit') }}"
                                                title="Edit LootObject">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"

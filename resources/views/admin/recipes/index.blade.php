@@ -115,12 +115,12 @@
                                                 <td>{{ $recipe->recipeType }}</td>
                                                 <td>{{ $recipe->CraftTime }}</td>
                                                 <td>
-                                                    <a href="{{ url('/recipes/' . $recipe->ID) }}" title="View recipe">
-                                                        <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                               aria-hidden="true"></i>
-                                                            View
-                                                        </button>
-                                                    </a>
+                                                    {{--<a href="{{ url('/recipes/' . $recipe->ID) }}" title="View recipe">--}}
+                                                        {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                               {{--aria-hidden="true"></i>--}}
+                                                            {{--View--}}
+                                                        {{--</button>--}}
+                                                    {{--</a>--}}
                                                     <a href="{{ url('/recipes/' . $recipe->ID . '/edit') }}"
                                                        title="Edit recipe">
                                                         <button class="btn btn-primary btn-sm"><i

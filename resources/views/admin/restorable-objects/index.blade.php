@@ -44,12 +44,12 @@
                                         <td>{{ $item->ID }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>
-                                            <a href="{{ url('restorable-objects/' . $item->ID) }}"
-                                               title="View restorable-object">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('restorable-objects/' . $item->ID) }}"--}}
+                                               {{--title="View restorable-object">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('restorable-objects/' . $item->ID . '/edit') }}"
                                                title="Edit restorable-object">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"

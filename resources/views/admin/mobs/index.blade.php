@@ -83,11 +83,11 @@
                                         <td>{{ $item->enemyLevel }}</td>
                                         <td>{{ $item->maximumHP }}</td>
                                         <td>
-                                            <a href="{{ url('mobs/' . $item->ID) }}" title="View mob">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('mobs/' . $item->ID) }}" title="View mob">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('mobs/' . $item->ID . '/edit') }}" title="Edit mob">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                                                           aria-hidden="true"></i> Edit

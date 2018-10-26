@@ -48,11 +48,11 @@
                                         <td>{{ $item->isSimple }}</td>
                                         <td>{{ $item->expirationDate }}</td>
                                         <td>
-                                            <a href="{{ url('notifications/' . $item->ID) }}" title="View notification">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('notifications/' . $item->ID) }}" title="View notification">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('notifications/' . $item->ID . '/edit') }}"
                                                title="Edit notification">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"

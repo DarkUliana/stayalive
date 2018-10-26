@@ -39,7 +39,7 @@
                                         <td>{{ $loop->iteration or $item->ID }}</td>
                                         <td>{{ $item->name }}</td><td>{{ $item->version }}</td>
                                         <td>
-                                            <a href="{{ url('/versions/' . $item->ID) }}" title="View version"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            {{--<a href="{{ url('/versions/' . $item->ID) }}" title="View version"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>--}}
                                             <a href="{{ url('/versions/' . $item->ID . '/edit') }}" title="Edit version"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                             <form method="POST" action="{{ url('/versions' . '/' . $item->ID) }}" accept-charset="UTF-8" style="display:inline">

@@ -82,11 +82,11 @@
                                             <td>{{ $item->techCoin }}</td>
                                             <td>{{ $item->CurrentLevel }}</td>
                                             <td>
-                                                <a href="{{ url('/players/' . $item->ID) }}" title="View player">
-                                                    <div class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                        aria-hidden="true"></i> View
-                                                    </div>
-                                                </a>
+                                                {{--<a href="{{ url('/players/' . $item->ID) }}" title="View player">--}}
+                                                    {{--<div class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                        {{--aria-hidden="true"></i> View--}}
+                                                    {{--</div>--}}
+                                                {{--</a>--}}
                                                 <a href="{{ url('/players/' . $item->ID . '/edit') }}"
                                                    title="Edit player">
                                                     <div class="btn btn-primary btn-sm"><i

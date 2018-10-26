@@ -48,12 +48,12 @@
                                         <td>{{ $item->noteSubject }}</td>
                                         <td>{{ $item->noteImage }}</td>
                                         <td>
-                                            <a href="{{ url('/diary-storage-notes/' . $item->ID) }}"
-                                               title="View diary-storage-note">
-                                                <button class="btn btn-info btn-sm"><i class="fa fa-eye"
-                                                                                       aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
+                                            {{--<a href="{{ url('/diary-storage-notes/' . $item->ID) }}"--}}
+                                               {{--title="View diary-storage-note">--}}
+                                                {{--<button class="btn btn-info btn-sm"><i class="fa fa-eye"--}}
+                                                                                       {{--aria-hidden="true"></i> View--}}
+                                                {{--</button>--}}
+                                            {{--</a>--}}
                                             <a href="{{ url('/diary-storage-notes/' . $item->ID . '/edit') }}"
                                                title="Edit diary-storage-note">
                                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"

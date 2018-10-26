@@ -39,7 +39,7 @@
                                         <td>{{ $loop->iteration or $item->ID }}</td>
                                         <td>{{ $item->locationName }}</td><td>{{ $item->frequencyOfOccurrence }}</td><td>{{ $item->lifetime }}</td>
                                         <td>
-                                            <a href="{{ url('/event-islands/' . $item->ID) }}" title="View event-island"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            {{--<a href="{{ url('/event-islands/' . $item->ID) }}" title="View event-island"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>--}}
                                             <a href="{{ url('/event-islands/' . $item->ID . '/edit') }}" title="Edit event-island"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                             <form method="POST" action="{{ url('/event-islands' . '/' . $item->ID) }}" accept-charset="UTF-8" style="display:inline">
