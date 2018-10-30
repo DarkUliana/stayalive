@@ -9,14 +9,16 @@ class UnityLogController extends Controller
 {
     public function index(Request $request) {
 
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
 
-        $logs = UnityLog::where('googleID', $request->googleID)->take(50)->get()->toArray();
+        $playerID = getPlayerID($request->localID);
+
+        $logs = UnityLog::where('playerID', $playerID)->take(50)->get()->toArray();
         $response = [
-            'playerID' => $request->googleID,
+            'localID' => $request->localID,
             'logStrings' => $logs
         ];
 
@@ -25,14 +27,16 @@ class UnityLogController extends Controller
 
     public function store(Request $request) {
 
-        if (!isset($request->playerID) || !isset($request->logStrings)) {
+        if (!isset($request->localID) || !isset($request->logStrings)) {
 
             return response('Invalid data', 400);
         }
 
+        $playerID = getPlayerID($request->localID);
+
         foreach ($request->logStrings as $log) {
 
-            UnityLog::create(array_merge(['googleID' => $request->playerID], $log));
+            UnityLog::create(array_merge(['playerID' => $playerID], $log));
         }
 
         return response('ok', 200);

@@ -45,7 +45,7 @@ class PlayersController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-        $perPage = 25;
+        $perPage = 200;
 
         if (!empty($keyword)) {
             $players = Player::where('Name', 'LIKE', "%$keyword%")->orWhere('googleID', 'LIKE', "%$keyword%")->paginate($perPage);

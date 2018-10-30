@@ -11,7 +11,7 @@ class PlayerShipChestItem extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'ID', 'googleID', 'playerShipChestID', 'created_at', 'updated_at'
+        'ID', 'playerID', 'playerShipChestID', 'created_at', 'updated_at'
     ];
 
     public function chest()

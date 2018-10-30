@@ -44,12 +44,14 @@ class SlotsController extends Controller
     public function show(Request $request)
     {
 
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        $slots = new SlotCollection($this->model::where('googleID', $request->googleID)->get()->sortBy('Index'));
+        $playerID = getPlayerID($request->localID);
+
+        $slots = new SlotCollection($this->model::where('playerID', $playerID)->get()->sortBy('Index'));
 
         return response($slots, 200);
     }
@@ -63,18 +65,19 @@ class SlotsController extends Controller
      */
     public function updateOrCreate(Request $request)
     {
-        if (!isset($request->slotsData) || !isset($request->googleID)) {
+        if (!isset($request->slotsData) || !isset($request->localID)) {
 
 
             return response('Invalid data', 400);
         }
 
+        $playerID = getPlayerID($request->localID);
 
-        $this->model::where('googleID', $request->googleID)->delete();
+        $this->model::where('playerID', $playerID)->delete();
 
         if ($this->type == 'player-body') {
 
-            $this->updatePlayerBodyPosition($request);
+            $this->updatePlayerBodyPosition($request, $playerID);
         }
 
         $counter = 0;
@@ -82,7 +85,7 @@ class SlotsController extends Controller
 
             $slot = json_decode($value['slotInfo'], true);
             $slot['itemID'] = $value['itemID'];
-            $slot['googleID'] = $request->googleID;
+            $slot['playerID'] = $playerID;
 
             if ($this->model::create($slot)) {
 
@@ -93,36 +96,12 @@ class SlotsController extends Controller
         return response("$counter items written", 200);
     }
 
-    protected function updatePlayerBodyPosition($request)
+    protected function updatePlayerBodyPosition($request, $playerID)
     {
 
         $position = $request->position;
         $position['sceneName'] = $request->sceneName;
 
-        PlayerBodyPosition::updateOrCreate(['googleID' => $request->googleID], $position);
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy()
-    {
-        //
+        PlayerBodyPosition::updateOrCreate(['playerID' => $playerID], $position);
     }
 }

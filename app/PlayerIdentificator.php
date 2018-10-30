@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Direction extends Model
+class PlayerIdentificator extends Model
 {
     protected $primaryKey = 'ID';
 
@@ -13,4 +13,9 @@ class Direction extends Model
     protected $hidden = [
         'ID', 'created_at', 'updated_at'
     ];
+
+    public function player()
+    {
+        return $this->belongsTo('App\Player', 'playerID', 'ID');
+    }
 }

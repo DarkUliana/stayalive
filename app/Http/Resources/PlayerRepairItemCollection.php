@@ -14,7 +14,7 @@ class PlayerRepairItemCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $repairItems['playerID'] = $request->playerID;
+        $repairItems['localID'] = $request->localID;
         $repairItems['repairItems'] = [];
 
         foreach ($this->collection as $item) {

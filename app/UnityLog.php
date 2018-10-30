@@ -8,7 +8,7 @@ class UnityLog extends Model
 {
     protected $primaryKey = 'ID';
 
-    protected $hidden = ['ID', 'googleID'];
+    protected $hidden = ['ID', 'playerID'];
 
     protected $guarded = [];
 

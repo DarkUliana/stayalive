@@ -24,8 +24,15 @@ class TimerController extends Controller
      */
     public function updateOrCreate(Request $request)
     {
+        if (!isset($request->localID)) {
+
+            return response('Invalid data!', 400);
+        }
+
+        $playerID = getPlayerID($request->localID);
+
         $data = [
-            'googleID' => $request->googleID,
+            'playerID' => $playerID,
             'type' => $this->type,
         ];
 
@@ -52,7 +59,14 @@ class TimerController extends Controller
      */
     public function show(Request $request)
     {
-        $timer = Timer::where('googleID', $request->googleID)
+        if (!isset($request->localID)) {
+
+            return response('Invalid data!', 400);
+        }
+
+        $playerID = getPlayerID($request->localID);
+
+        $timer = Timer::where('playerID', $playerID)
             ->where('type', $this->type)
             ->first();
 

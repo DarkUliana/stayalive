@@ -10,5 +10,5 @@ class PlayerBodyPosition extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['ID', 'googleID', 'sceneName', 'created_at', 'updated_at'];
+    protected $hidden = ['ID', 'playerID', 'sceneName', 'created_at', 'updated_at'];
 }

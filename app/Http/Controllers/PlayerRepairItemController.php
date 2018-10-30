@@ -11,24 +11,28 @@ class PlayerRepairItemController extends Controller
 {
     public function get(Request $request)
     {
-        if (!isset($request->playerID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        $repairItems = new PlayerRepairItemCollection(PlayerRepairItem::where('playerID', $request->playerID)->get());
+        $playerID = getPlayerID($request->localID);
+
+        $repairItems = new PlayerRepairItemCollection(PlayerRepairItem::where('playerID', $playerID)->get());
 
         return response($repairItems, 200);
     }
 
     public function post(Request $request)
     {
-        if (!isset($request->playerID) || !isset($request->repairItems)) {
+        if (!isset($request->localID) || !isset($request->repairItems)) {
 
             return response('Invalid data!', 400);
         }
 
-        $oldItems = PlayerRepairItem::where('playerID', $request->playerID)->get();
+        $playerID = getPlayerID($request->localID);
+
+        $oldItems = PlayerRepairItem::where('playerID', $playerID)->get();
 
         foreach ($oldItems as $oldItem) {
             $oldItem->delete();
@@ -37,7 +41,7 @@ class PlayerRepairItemController extends Controller
         foreach ($request->repairItems as $item) {
 
             $data = $item;
-            $data['playerID'] = $request->playerID;
+            $data['playerID'] = $playerID;
             unset($data['repairParts']);
 
             $object = PlayerRepairItem::create($data);

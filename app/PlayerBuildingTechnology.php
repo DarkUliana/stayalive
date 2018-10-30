@@ -11,7 +11,7 @@ class PlayerBuildingTechnology extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'created_at', 'updated_at', 'ID', 'googleID'
+        'created_at', 'updated_at', 'ID', 'playerID'
     ];
 
     protected $casts = [
@@ -20,7 +20,7 @@ class PlayerBuildingTechnology extends Model
 
     public function states()
     {
-        return $this->hasMany('App\PlayerTechnologiesStates', 'googleID', 'googleID');
+        return $this->hasMany('App\PlayerTechnologiesStates', 'playerID', 'playerID');
     }
 
     public function setInBuildingAttribute($value)

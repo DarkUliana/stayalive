@@ -9,29 +9,33 @@ class PlayerLearnedRecipeController extends Controller
 {
     public function get(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        $recipes = PlayerLearnedRecipe::where('googleID', $request->googleID)->get();
+        $playerID = getPlayerID($request->localID);
 
-        return response(['googleID' => $request->googleID, 'learnedRecipes' => $recipes], 200);
+        $recipes = PlayerLearnedRecipe::where('playerID', $playerID)->get();
+
+        return response(['localID' => $request->localID, 'learnedRecipes' => $recipes], 200);
     }
 
     public function post(Request $request)
     {
-        if (!isset($request->googleID) || !isset($request->learnedRecipes)) {
+        if (!isset($request->localID) || !isset($request->learnedRecipes)) {
 
             return response('Invalid data!', 400);
         }
 
-        PlayerLearnedRecipe::where('googleID', $request->googleID)->delete();
+        $playerID = getPlayerID($request->localID);
+
+        PlayerLearnedRecipe::where('playerID', $playerID)->delete();
 
         foreach ($request->learnedRecipes as $recipe) {
 
             $data = $recipe;
-            $data['googleID'] = $request->googleID;
+            $data['playerID'] = $playerID;
             PlayerLearnedRecipe::create($data);
         }
 

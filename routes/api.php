@@ -24,17 +24,15 @@ use Illuminate\Http\Request;
 
 //Route::group(['middleware' => 'api-connection'], function () {
 
-Route::get('player', 'PlayerController@show');
-Route::post('player', 'PlayerController@store');
-//    Route::post('player', 'PlayerController@update');
-Route::delete('player', 'PlayerController@delete');
+Route::get('player', 'PlayerController@get');
+Route::post('player', 'PlayerController@post');
 
 Route::get('base-player', 'BasePlayerController@index');
 Route::post('base-player', 'BasePlayerController@store');
 
 
-Route::get('{slot}', 'SlotsController@show')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items|player-body');
-Route::post('{slot}', 'SlotsController@updateOrCreate')->where('slot', 'equipment|inventory|after-craft-items|player-chest-items|player-body');
+Route::get('{slot}', 'SlotsController@show')->where('slot', 'equipment|inventory|player-chest-items|player-body');
+Route::post('{slot}', 'SlotsController@updateOrCreate')->where('slot', 'equipment|inventory|player-chest-items|player-body');
 
 Route::get('time', 'TimeController@index');
 
@@ -79,8 +77,8 @@ Route::get('unique-id', 'UniqueIdController');
 Route::post('cloud-items', 'CloudItemController@postItems');
 Route::get('cloud-items', 'CloudItemController@getItems');
 
-Route::post('daily-quests', 'QuestController@storeDaily');
-Route::post('plot-quests', 'QuestController@storePlot');
+//Route::post('daily-quests', 'QuestController@storeDaily');
+//Route::post('plot-quests', 'QuestController@storePlot');
 Route::get('daily-quests', 'QuestController@getDaily');
 Route::get('plot-quests', 'QuestController@getPlot');
 //    Route::get('quests', 'QuestController@index');

@@ -17,10 +17,15 @@ class SlotCollection extends ResourceCollection
     {
         $slots = $this->collection->toArray();
         $array['slotsData'] = [];
+
+        $playerID = $this->collection->first()->playerID;
+
         foreach ($slots as $value) {
+
             $newValue = $value;
             $itemID = $newValue['itemID'];
             unset($newValue['itemID']);
+
             $array['slotsData'][] = [
                 'slotInfo' => json_encode($newValue),
                 'itemID' => $itemID
@@ -29,7 +34,7 @@ class SlotCollection extends ResourceCollection
 
         if ($request->segment(2) == 'player-body') {
 
-            $position = PlayerBodyPosition::where('googleID', $request->googleID)->first();
+            $position = PlayerBodyPosition::where('playerID', $playerID)->first();
 
             if (!$position) {
 

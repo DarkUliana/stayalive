@@ -21,7 +21,7 @@ class ItemInCraftCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-//        var_dump($this->collection); die();
+
         $workbenches = [];
 
         foreach ($this->collection as $item) {

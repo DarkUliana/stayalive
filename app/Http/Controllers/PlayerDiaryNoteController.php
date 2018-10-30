@@ -9,31 +9,35 @@ class PlayerDiaryNoteController extends Controller
 {
     public function get(Request $request)
     {
-        if (!isset($request->playerID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
 
-        $response['playerID'] = $request->playerID;
-        $response['diaryNotes'] = PlayerDiaryNote::where('googleID', $request->playerID)->get();
+        $playerID = getPlayerID($request->localID);
+
+        $response['localID'] = $request->localID;
+        $response['diaryNotes'] = PlayerDiaryNote::where('playerID', $playerID)->get();
 
         return response($response, 200);
     }
 
     public function post(Request $request)
     {
-        if (!isset($request->playerID) || !isset($request->diaryNotes)) {
+        if (!isset($request->localID) || !isset($request->diaryNotes)) {
 
             return response('Invalid data', 400);
         }
 
-        PlayerDiaryNote::where('googleID', $request->playerID)->delete();
+        $playerID = getPlayerID($request->localID);
+
+        PlayerDiaryNote::where('playerID', $playerID)->delete();
 
         $counter = 0;
         foreach ($request->diaryNotes as $note) {
 
             $temp = $note;
-            $temp['googleID'] = $request->playerID;
+            $temp['playerID'] = $playerID;
             PlayerDiaryNote::create($temp);
 
             ++$counter;

@@ -10,13 +10,20 @@ class OnlineController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $online = Online::where(['googleID' => $request->googleID])->first();
+        if (!isset($request->localID)) {
+
+            return response('Your request has no localID', 400);
+        }
+
+        $playerID = getPlayerID($request->localID);
+
+        $online = Online::where(['playerID' => $playerID])->first();
 
 
         if (empty($online)) {
 
             if (!isset($request->withoutTouch)) {
-                Online::create(['googleID' => $request->googleID]);
+                Online::create(['playerID' => $playerID]);
             }
 
             return response('false', 200);

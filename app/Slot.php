@@ -9,7 +9,7 @@ class Slot extends Model
     protected $primaryKey = 'ID';
 
     protected $hidden = [
-        'created_at', 'updated_at', 'ID', 'googleID'
+        'created_at', 'updated_at', 'ID', 'playerID'
     ];
 
     protected $guarded = [];

@@ -24,6 +24,8 @@ class PlayerQuestCollection extends ResourceCollection
     {
         $questsArray = [];
 
+        $playerID = $this->collection->first()->playerID;
+
         foreach ($this->collection as $quest) {
 
             $temp = [
@@ -44,13 +46,13 @@ class PlayerQuestCollection extends ResourceCollection
 
         }
 
-        $questsArray['googleID'] = $request->googleID;
+        $questsArray['localID'] = $request->localID;
 
-        $replacement = PlayerQuestReplacement::where('googleID', $request->googleID)->first();
+        $replacement = PlayerQuestReplacement::where('playerID', $playerID)->first();
 
         if(!$replacement) {
 
-            $replacement = PlayerQuestReplacement::create(['googleID' => $request->googleID, 'replaced' => 0]);
+            $replacement = PlayerQuestReplacement::create(['playerID' => $playerID, 'replaced' => 0]);
         }
 
         $questsArray['replaced'] = $replacement->replaced;

@@ -12,13 +12,15 @@ class PlayerShipStuffController extends Controller
 {
     public function get(Request $request)
     {
-        if (!isset($request->playerID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        $floors = ShipStuff::with(['items' => function ($query) use ($request) {
-            $query->where('playerID', $request->playerID);
+        $playerID = getPlayerID($request->localID);
+
+        $floors = ShipStuff::with(['items' => function ($query) use ($playerID) {
+            $query->where('playerID', $playerID);
         }])->with('defaultItems')->get();
 
         $collection = collect();
@@ -50,7 +52,7 @@ class PlayerShipStuffController extends Controller
 
         $data['shipFloors'] = $collection;
 
-        $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $request->playerID)->get();
+        $data['concreteItemsCounts'] = PlayerTechnologyQuantity::where('playerID', $playerID)->get();
         $defaultConcreteItems = TechnologyQuantity::all();
 
         foreach ($data['concreteItemsCounts'] as $item) {
@@ -80,12 +82,14 @@ class PlayerShipStuffController extends Controller
 
     public function post(Request $request)
     {
-        if (!isset($request->playerID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        PlayerShipStuffItem::where('playerID', $request->playerID)->delete();
+        $playerID = getPlayerID($request->localID);
+
+        PlayerShipStuffItem::where('playerID', $playerID)->delete();
 
         foreach ($request->shipFloors as $item) {
 
@@ -96,18 +100,18 @@ class PlayerShipStuffController extends Controller
                 foreach ($item['floorCells'] as $cell) {
 
                     $temp = $cell;
-                    $temp['playerID'] = $request->playerID;
+                    $temp['playerID'] = $playerID;
                     $newCell = new PlayerShipStuffItem($temp);
                     $floor->items()->save($newCell);
                 }
             }
         }
 
-        PlayerTechnologyQuantity::where('playerID', $request->playerID)->delete();
+        PlayerTechnologyQuantity::where('playerID', $playerID)->delete();
         foreach ($request->concreteItemsCounts as $item) {
 
             $data = $item;
-            $data['playerID'] = $request->playerID;
+            $data['playerID'] = $playerID;
             PlayerTechnologyQuantity::create($data);
         }
 

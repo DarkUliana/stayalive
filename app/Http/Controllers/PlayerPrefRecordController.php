@@ -9,13 +9,16 @@ class PlayerPrefRecordController extends Controller
 {
     public function get(Request $request)
     {
-        if (!isset($request->playerID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
-        $records = PlayerPrefRecord::where('playerID', $request->playerID)->get();
 
-        $data['playerID'] = $request->playerID;
+        $playerID = getPlayerID($request->localID);
+
+        $records = PlayerPrefRecord::where('playerID', $playerID)->get();
+
+        $data['localID'] = $request->localID;
         $data['prefRecords'] = [];
         foreach ($records as $record) {
 
@@ -28,16 +31,18 @@ class PlayerPrefRecordController extends Controller
     public function post(Request $request)
     {
 
-        if (!isset($request->playerID) || !isset($request->prefRecords)) {
+        if (!isset($request->localID) || !isset($request->prefRecords)) {
 
             return response('Invalid data', 400);
         }
 
-        PlayerPrefRecord::where('playerID', $request->playerID)->delete();
+        $playerID = getPlayerID($request->localID);
+
+        PlayerPrefRecord::where('playerID', $playerID)->delete();
 
         foreach ($request->prefRecords as $record) {
 
-            PlayerPrefRecord::create(array_merge($record, ['playerID' => $request->playerID]));
+            PlayerPrefRecord::create(array_merge($record, ['playerID' => $playerID]));
         }
 
         return response('ok', 200);

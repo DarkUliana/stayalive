@@ -30,7 +30,7 @@ class ShopArticleCollection extends ResourceCollection
 
             unset($article['items']);
         }
-//        var_dump($collection); die();
+
         return $collection;
     }
 }

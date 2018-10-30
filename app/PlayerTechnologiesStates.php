@@ -11,6 +11,6 @@ class PlayerTechnologiesStates extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'created_at', 'updated_at', 'ID', 'googleID'
+        'created_at', 'updated_at', 'ID', 'playerID'
     ];
 }

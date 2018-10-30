@@ -11,6 +11,6 @@ class PlayerLearnedRecipe extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'googleID', 'created_at', 'updated_at'
+        'playerID', 'created_at', 'updated_at'
     ];
 }

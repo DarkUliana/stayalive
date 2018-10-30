@@ -11,6 +11,6 @@ class PlayerDiaryNote extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'ID', 'googleID', 'created_at', 'updated_at'
+        'ID', 'playerID', 'created_at', 'updated_at'
     ];
 }

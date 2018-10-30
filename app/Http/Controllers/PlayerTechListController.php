@@ -10,40 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class PlayerTechListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        if (!isset($request->googleID) || !isset($request->playerTechList)) {
-            return response('Invalid data', 400);
-        }
-
-        $data = $this->prepareDataForWrite($request->input());
-
-        States::where('googleID', $request->googleID)->delete();
-        foreach ($data['states'] as $state) {
-            States::create($state);
-        }
-
-        $build = Build::firstOrCreate(['googleID' => $request->googleID]);
-        $build->update($data['build']);
-
-        return response('ok', 200);
-    }
 
     /**
      * Display the specified resource.
@@ -53,8 +19,14 @@ class PlayerTechListController extends Controller
      */
     public function show(Request $request)
     {
+        if (!isset($request->localID)) {
 
-        $build = Build::where('googleID', $request->googleID)->with('states')->first();
+            return response('Invalid data', 400);
+        }
+
+        $playerID = getPlayerID($request->localID);
+
+        $build = Build::where('playerID', $playerID)->with('states')->first();
 
 
         if (empty($build)) {
@@ -67,30 +39,34 @@ class PlayerTechListController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        //
+        if (!isset($request->localID) || !isset($request->playerTechList)) {
+            return response('Invalid data', 400);
+        }
+
+        $playerID = getPlayerID($request->localID);
+
+        $data = $this->prepareDataForWrite($request->input(), $playerID);
+
+        States::where('playerID', $playerID)->delete();
+        foreach ($data['states'] as $state) {
+            States::create($state);
+        }
+
+        $build = Build::firstOrCreate(['playerID' => $playerID]);
+        $build->update($data['build']);
+
+        return response('ok', 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
-
-    protected function prepareDataForWrite($data)
+    protected function prepareDataForWrite($data, $playerID)
     {
         $write['build'] = $data;
         if (isset($write['build']['playerTechList'])) {
@@ -100,7 +76,7 @@ class PlayerTechListController extends Controller
         foreach ($data['playerTechList'] as $state) {
 
             $write['states'][] = [
-                'googleID' => $data['googleID'],
+                'playerID' => $playerID,
                 'technologyID' => $state['id'],
                 'technologyState' => $state['technologyState']
             ];
@@ -123,18 +99,20 @@ class PlayerTechListController extends Controller
             ];
         }
 
-        $response['googleID'] = $request->googleID;
-//        $response['playerTechList'] = json_encode($response['playerTechList']);
+        $response['localID'] = $request->localID;
+
         return $response;
     }
 
     public function getRaftState(Request $request)
     {
-        if(!isset($request->googleID)) {
+        if(!isset($request->localID)) {
             return response('Invalid data', 400);
         }
 
-        $state = PlayerRestorableObject::where('googleID', $request->googleID)->where('objectKey', 'Restorable_Raft')->first();
+        $playerID = getPlayerID($request->localID);
+
+        $state = PlayerRestorableObject::where('playerID', $playerID)->where('objectKey', 'Restorable_Raft')->first();
 
         if(!$state) {
 

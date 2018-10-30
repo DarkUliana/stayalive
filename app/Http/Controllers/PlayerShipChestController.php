@@ -11,14 +11,16 @@ class PlayerShipChestController extends Controller
 {
     public function get(Request $request)
     {
-        if (!isset($request->playerID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        $chests = PlayerShipChest::where('playerID', $request->playerID)->get();
+        $playerID = getPlayerID($request->localID);
 
-        $array['playerID'] = $request->playerID;
+        $chests = PlayerShipChest::where('playerID', $playerID)->get();
+
+        $array['localID'] = $request->localID;
         $array['chestSaves'] = [];
 
         foreach ($chests as $chest) {
@@ -31,24 +33,25 @@ class PlayerShipChestController extends Controller
 
     public function post(Request $request)
     {
-        if (!isset($request->chestSaves) || !isset($request->playerID)) {
+        if (!isset($request->chestSaves) || !isset($request->localID)) {
 
 
             return response('Invalid data', 400);
         }
 
+        $playerID = getPlayerID($request->localID);
 
-        $ids = PlayerShipChest::where('playerID', $request->playerID)->pluck('ID');
+        $ids = PlayerShipChest::where('playerID', $playerID)->pluck('ID');
 
         PlayerShipChestItem::whereIn('playerShipChestID', $ids)->delete();
-        PlayerShipChest::where('playerID', $request->playerID)->delete();
+        PlayerShipChest::where('playerID', $playerID)->delete();
 
 
         foreach ($request->chestSaves as $chest) {
 
             $data = $chest;
             unset($data['chestData']);
-            $data['playerID'] = $request->playerID;
+            $data['playerID'] = $playerID;
 
             $newChest = PlayerShipChest::create($data);
 
@@ -58,7 +61,7 @@ class PlayerShipChestController extends Controller
                 $slot = json_decode($value['slotInfo'], true);
 
                 $slot['itemID'] = $value['itemID'];
-                unset($slot['googleID']);
+                unset($slot['localID']);
 
                 $item = new PlayerShipChestItem($slot);
                 $newChest->items()->save($item);

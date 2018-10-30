@@ -10,6 +10,6 @@ class PlayerReward extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['ID', 'googleID', 'created_at', 'updated_at'];
+    protected $hidden = ['ID', 'playerID', 'created_at', 'updated_at'];
 
 }

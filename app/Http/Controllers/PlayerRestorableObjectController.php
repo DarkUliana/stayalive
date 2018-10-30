@@ -10,11 +10,13 @@ class PlayerRestorableObjectController extends Controller
 {
     public function index(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
             return response('Invalid data', 400);
         }
 
-        $objects = PlayerRestorableObject::where('googleID', $request->googleID)->get();
+        $playerID = getPlayerID($request->localID);
+
+        $objects = PlayerRestorableObject::where('playerID', $playerID)->get();
 
         $restorableObjects = [];
 
@@ -22,7 +24,6 @@ class PlayerRestorableObjectController extends Controller
 
             $temp['objectKey'] = $object->objectKey;
             $temp['objectData'] = [];
-//            $temp['objectData']['googleID'] = $object->googleID;
 
             foreach ($object->slots as $slot) {
 
@@ -44,7 +45,7 @@ class PlayerRestorableObjectController extends Controller
         }
 
         $return = [
-            'googleID' => $request->googleID,
+            'localID' => $request->localID,
             'restorableObjects' => $restorableObjects
         ];
 
@@ -54,10 +55,12 @@ class PlayerRestorableObjectController extends Controller
     public function store(Request $request)
     {
 
-        if (!isset($request->restorableObjects) || !isset($request->googleID)) {
+        if (!isset($request->restorableObjects) || !isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
+
+        $playerID = getPlayerID($request->localID);
 
         foreach ($request->restorableObjects as $object) {
 
@@ -65,7 +68,7 @@ class PlayerRestorableObjectController extends Controller
 
             $objectData = [
                 'objectKey' => $object['objectKey'],
-                'googleID' => $request->googleID
+                'playerID' => $playerID
 
             ];
 

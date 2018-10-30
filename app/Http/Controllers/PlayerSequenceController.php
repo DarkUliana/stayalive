@@ -12,23 +12,25 @@ class PlayerSequenceController extends Controller
     public function get(Request $request)
     {
 
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data!', 400);
         }
 
-        $sequences = PlayerSequence::where('googleID', $request->googleID)->get();
+        $playerID = getPlayerID($request->localID);
 
-        $quest = PlayerQuest::firstOrCreate(['googleID' => $request->googleID, 'type' => 'plot'], ['progress' => 0, 'questID' => -1]);
+        $sequences = PlayerSequence::where('playerID', $playerID)->get();
+
+        $quest = PlayerQuest::firstOrCreate(['playerID' => $playerID, 'type' => 'plot'], ['progress' => 0, 'questID' => -1]);
 
         $data['questControllerData'] = json_encode(['progress' => $quest->progress, 'ID' => $quest->ID]);
         $data['questID'] = $quest->questID;
-        $data['googleID'] = $request->googleID;
+        $data['localID'] = $request->localID;
         $data['openedSequences'] = $sequences->toArray();
 
         if ($sequences->count() < DiaryStorageNote::count()) {
 
-            $missing = $this->getMissingSequences($sequences, $request->googleID);
+            $missing = $this->getMissingSequences($sequences, $playerID);
             $data['openedSequences'] = array_merge($data['openedSequences'], $missing);
         }
 
@@ -37,25 +39,27 @@ class PlayerSequenceController extends Controller
 
     public function post(Request $request)
     {
-        if (!isset($request->googleID) || !isset($request->questControllerData)
+        if (!isset($request->localID) || !isset($request->questControllerData)
             || !isset($request->questID) || !isset($request->openedSequences)) {
 
             return response('Invalid data!', 400);
         }
+
+        $playerID = getPlayerID($request->localID);
 
         $questControllerData = json_decode($request->questControllerData);
         $playerQuest['questID'] = $request->questID;
         $playerQuest['progress'] = $questControllerData->progress;
 
 
-        PlayerQuest::updateOrCreate(['googleID' => $request->googleID, 'type' => 'plot'], $playerQuest);
+        PlayerQuest::updateOrCreate(['playerID' => $playerID, 'type' => 'plot'], $playerQuest);
 
-        PlayerSequence::where('googleID', $request->googleID)->delete();
+        PlayerSequence::where('playerID', $playerID)->delete();
 
         foreach ($request->openedSequences as $sequence) {
 
             $data = $sequence;
-            $data['googleID'] = $request->googleID;
+            $data['playerID'] = $playerID;
 
             PlayerSequence::create($data);
         }
@@ -63,7 +67,7 @@ class PlayerSequenceController extends Controller
         return response('ok', 200);
     }
 
-    protected function getMissingSequences($sequences, $googleID)
+    protected function getMissingSequences($sequences, $playerID)
     {
 
         $sequencesArr = [];
@@ -74,12 +78,12 @@ class PlayerSequenceController extends Controller
         foreach ($missing as $item) {
 
             $temp = [
-                'googleID' => $googleID,
+                'playerID' => $playerID,
                 'sequenceID' => $item,
                 'state' => 0
             ];
             PlayerSequence::create($temp);
-            unset($temp['googleID']);
+            unset($temp['playerID']);
             $sequencesArr[] = $temp;
 
         }

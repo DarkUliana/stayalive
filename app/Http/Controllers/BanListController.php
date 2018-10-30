@@ -9,12 +9,14 @@ class BanListController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
-            return response('Ivalid data!', 400);
+            return response('Invalid data!', 400);
         }
 
-        if (BanList::where('googleID', $request->googleID)->first()) {
+        $playerID = getPlayerID($request->localID);
+
+        if (BanList::where('playerID', $playerID)->first()) {
 
             return response(true, 200);
         }

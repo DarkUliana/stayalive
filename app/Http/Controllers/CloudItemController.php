@@ -9,26 +9,31 @@ class CloudItemController extends Controller
 {
     public function getItems(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
             return response('Invalid data', 400);
         }
 
+        $playerID = getPlayerID($request->localID);
+
         $items = [
-            'googleID' => $request->googleID,
-            'cloudItems' => CloudItem::where('googleID', $request->googleID)->where('isTaken', 0)->get()->toArray()
+            'localID' => $request->localID,
+            'cloudItems' => CloudItem::where('playerID', $playerID)->where('isTaken', 0)->get()->toArray()
         ];
         return $items;
     }
 
     public function postItems(Request $request)
     {
-//        var_dump($request->input()); die();
-        if (!isset($request->googleID) || !isset($request->cloudItems)) {
+
+        if (!isset($request->localID) || !isset($request->cloudItems)) {
             return response('Invalid data', 400);
         }
+
+        $playerID = getPlayerID($request->localID);
+
         foreach ($request->cloudItems as $item) {
 
-            CloudItem::updateOrCreate(['googleID' => $request['googleID'], 'uniqueID' => $item['uniqueID']], $item);
+            CloudItem::updateOrCreate(['playerID' => $playerID, 'uniqueID' => $item['uniqueID']], $item);
         }
 
         return response('ok', 200);

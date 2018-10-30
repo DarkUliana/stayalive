@@ -9,28 +9,33 @@ class PlayerRewardController extends Controller
 {
     public function index(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
-        $rewards = PlayerReward::where('googleID', $request->googleID)->get()->toArray();
+
+        $playerID = getPlayerID($request->localID);
+
+        $rewards = PlayerReward::where('playerID', $playerID)->get()->toArray();
 
         return response(['allChestDatas' => $rewards], 200);
     }
 
     public function store(Request $request)
     {
-//        var_dump($request->all()); die();
-        if (!isset($request->googleID)) {
+
+        if (!isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
 
-        PlayerReward::where('googleID', $request->googleID)->delete();
+        $playerID = getPlayerID($request->localID);
+
+        PlayerReward::where('playerID', $playerID)->delete();
 
         foreach ($request->allChestDatas as $reward) {
 
-            PlayerReward::create(array_merge(['googleID' => $request->googleID], $reward));
+            PlayerReward::create(array_merge(['playerID' => $playerID], $reward));
         }
 
         return response('ok', 200);

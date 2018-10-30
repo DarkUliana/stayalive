@@ -16,17 +16,18 @@ class PlayerQuestController extends Controller
 
     public function index(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
 
             return response('Invalid data', 400);
         }
 
+        $playerID = getPlayerID($request->localID);
 
-        $quests = PlayerQuest::where('googleID', $request->googleID)->where('type', '!=', 'plot')->get();
+        $quests = PlayerQuest::where('playerID', $playerID)->where('type', '!=', 'plot')->get();
 
         if ($quests->isEmpty()) {
 
-            $quests = $this->generateFirstQuests($request->googleID);
+            $quests = $this->generateFirstQuests($playerID);
 
         } else {
 
@@ -57,7 +58,7 @@ class PlayerQuestController extends Controller
 
                 if ($point->between($oldestQuest, Carbon::now())) {
 
-                    $quests = $this->generateNewQuests($request->googleID, $daily->pluck('questID')->toArray());
+                    $quests = $this->generateNewQuests($playerID, $daily->pluck('questID')->toArray());
                     break;
                 }
 
@@ -74,12 +75,14 @@ class PlayerQuestController extends Controller
 
     public function store(Request $request)
     {
-        if (!isset($request->googleID)) {
+        if (!isset($request->localID)) {
             return response('Invalid data', 400);
         }
 
-        PlayerQuestReplacement::updateOrCreate(['googleID' => $request->googleID], ['replaced' => $request->replaced]);
-        $quests = $this->prepareForWrite($request->input());
+        $playerID = getPlayerID($request->localID);
+
+        PlayerQuestReplacement::updateOrCreate(['playerID' => $playerID], ['replaced' => $request->replaced]);
+        $quests = $this->prepareForWrite($request->input(), $playerID);
 
         $counter = 0;
 
@@ -94,7 +97,7 @@ class PlayerQuestController extends Controller
 
     }
 
-    protected function prepareForWrite($data)
+    protected function prepareForWrite($data, $playerID)
     {
 
         $array = [];
@@ -104,7 +107,7 @@ class PlayerQuestController extends Controller
             $json = (array)json_decode($quest['questControllerData']);
 
             $array[] = array_merge([
-                'googleID' => $data['googleID'],
+                'playerID' => $playerID,
                 'type' => 'simple',
                 'questID' => $quest['questID']],
                 $json);
@@ -115,7 +118,7 @@ class PlayerQuestController extends Controller
 
             $json = (array)json_decode($data['starQuest']['questControllerData']);
             $array[] = array_merge([
-                'googleID' => $data['googleID'],
+                'playerID' => $playerID,
                 'type' => 'star',
                 'questID' => $data['starQuest']['questID']
             ], $json);
@@ -124,21 +127,21 @@ class PlayerQuestController extends Controller
         return $array;
     }
 
-    protected function generateNewQuests($googleID, $daily = [])
+    protected function generateNewQuests($playerID, $daily = [])
     {
         $levelMin = 1;
         $questCount = 3;
-        $level = Player::where('googleID', $googleID)->first()->CurrentLevel;
+        $level = Player::find($playerID)->CurrentLevel;
 
         $quests = $this->getAvailableQuests($level, $levelMin, $questCount);
 
         $newQuests = $this->getRandomQuests($quests, $questCount, $daily);
 
-        $this->deleteOldQuests($googleID);
-        $this->storeNewQuests($newQuests, $googleID);
-        $this->resetQuestReplacement($googleID);
+        $this->deleteOldQuests($playerID);
+        $this->storeNewQuests($newQuests, $playerID);
+        $this->resetQuestReplacement($playerID);
 
-        return PlayerQuest::where('googleID', $googleID)->get();
+        return PlayerQuest::where('playerID', $playerID)->get();
 
     }
 
@@ -181,13 +184,13 @@ class PlayerQuestController extends Controller
         return $newQuests;
     }
 
-    protected function storeNewQuests($newQuests, $googleID)
+    protected function storeNewQuests($newQuests, $playerID)
     {
         foreach ($newQuests as $quest) {
 
             PlayerQuest::create(
                 [
-                    'googleID' => $googleID,
+                    'playerID' => $playerID,
                     'type' => 'simple',
                     'questID' => $quest,
                     'progress' => 0
@@ -196,28 +199,28 @@ class PlayerQuestController extends Controller
         }
     }
 
-    protected function deleteOldQuests($googleID)
+    protected function deleteOldQuests($playerID)
     {
-        PlayerQuest::where('googleID', $googleID)
+        PlayerQuest::where('playerID', $playerID)
             ->where('type', 'simple')
             ->delete();
     }
 
-    protected function resetQuestReplacement($googleID)
+    protected function resetQuestReplacement($playerID)
     {
-        PlayerQuestReplacement::where('googleID', $googleID)->delete();
-        PlayerQuestReplacement::create(['googleID' => $googleID, 'replaced' => 0]);
+        PlayerQuestReplacement::where('playerID', $playerID)->delete();
+        PlayerQuestReplacement::create(['playerID' => $playerID, 'replaced' => 0]);
     }
 
-    protected function generateFirstQuests($googleID)
+    protected function generateFirstQuests($playerID)
     {
 
-        $this->generateNewQuests($googleID);
+        $this->generateNewQuests($playerID);
 
         $star = Quest::where('typeID', 2)->orderBy('ID')->first();
 
             $quest = [
-                'googleID' => $googleID,
+                'playerID' => $playerID,
                 'questID' => $star->ID,
                 'progress' => 0,
                 'type' => 'star'
@@ -226,6 +229,6 @@ class PlayerQuestController extends Controller
             PlayerQuest::create($quest);
 
 
-        return PlayerQuest::where('googleID', $googleID)->where('type', '!=', 'plot')->get();
+        return PlayerQuest::where('playerID', $playerID)->where('type', '!=', 'plot')->get();
     }
 }
