@@ -34,7 +34,7 @@ class PlayerController extends Controller
     {
         if (!isset($request->localID)) {
 
-            return response('400', 'Your request has no localID');
+            return response('Your request has no localID',400 );
         }
 
         $playerNamed = $this->renameAttributes($request->input());
