@@ -55,12 +55,11 @@ class PlayerShipChestController extends Controller
 
             $newChest = PlayerShipChest::create($data);
 
-            dd(json_decode($chest['chestData'])['slotsData']);
-            foreach (json_decode($chest['chestData']) as $value) {
+            foreach (json_decode($chest['chestData'])->slotsData as $value) {
 
-                $slot = json_decode($value['slotInfo'], true);
+                $slot = json_decode($value->slotInfo, true);
 
-                $slot['itemID'] = $value['itemID'];
+                $slot['itemID'] = $value->itemID;
                 unset($slot['localID']);
 
                 $item = new PlayerShipChestItem($slot);
