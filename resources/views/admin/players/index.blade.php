@@ -58,7 +58,7 @@
                                             <td>
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input class="forDelete" data-id="{{ $item->googleID }}"
+                                                        <input class="forDelete" data-id="{{ $item->ID }}"
                                                                type="checkbox">
                                                     </label>
                                                 </div>

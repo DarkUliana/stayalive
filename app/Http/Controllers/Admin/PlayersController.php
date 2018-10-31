@@ -16,6 +16,7 @@ use App\PlayerBodySlot;
 use App\PlayerBuildingTechnology;
 use App\PlayerChestItems;
 use App\PlayerDiaryNote;
+use App\PlayerIdentificator;
 use App\PlayerLearnedRecipe;
 use App\PlayerPrefRecord;
 use App\PlayerQuest;
@@ -45,7 +46,7 @@ class PlayersController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-        $perPage = 200;
+        $perPage = 50;
 
         if (!empty($keyword)) {
             $players = Player::where('Name', 'LIKE', "%$keyword%")->orWhere('googleID', 'LIKE', "%$keyword%")->paginate($perPage);
@@ -123,7 +124,7 @@ class PlayersController extends Controller
     public function edit($id)
     {
         $player = Player::findOrFail($id);
-        $cloud = CloudItem::where('googleID', Player::where('ID', $id)->value('googleID'))->where('isTaken', 0)->get();
+        $cloud = CloudItem::where('playerID', $id)->where('isTaken', 0)->get();
         $items = Item::all();
         $rewards = Reward::all();
 
@@ -167,12 +168,12 @@ class PlayersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(Request $request, $googleID = null)
+    public function destroy(Request $request, $localID = null)
     {
 
-        if (isset($request->googleIDs)) {
-
-            foreach ($request->googleIDs as $id) {
+        if (isset($request->localIDs)) {
+            
+            foreach ($request->localIDs as $id) {
 
                 $this->delete($id);
             }
@@ -180,7 +181,7 @@ class PlayersController extends Controller
             return response('ok', 200);
         }
 
-        $this->delete($googleID);
+        $this->delete($localID);
 
         return response('ok', 200);
     }
@@ -190,61 +191,61 @@ class PlayersController extends Controller
         $arr = [];
         foreach ($players as $player) {
 
-            if (!empty(Online::where('googleID', $player->googleID)->first())) {
+            if (!empty(Online::where('playerID', $player->ID)->first())) {
 
-                $online = Online::where('googleID', $player->googleID)->first()->online;
+                $online = Online::where('playerID', $player->ID)->first()->online;
             } else {
                 $online = 'false';
             }
 
             $arr[] = [
-                'googleID' => $player->googleID,
+                'playerID' => $player->ID,
                 'online' => $online
             ];
         }
         return $arr;
     }
 
-    protected function delete($googleID)
+    protected function delete($playerID)
     {
         
-        Equipment::where('googleID', $googleID)->delete();
-        Inventory::where('googleID', $googleID)->delete();
-        ItemsInCraft::where('googleID', $googleID)->delete();
-        PlayerBuildingTechnology::where('googleID', $googleID)->delete();
-        PlayerChestItems::where('googleID', $googleID)->delete();
-        PlayerQuest::where('googleID', $googleID)->delete();
-        PlayerTechnologiesStates::where('googleID', $googleID)->delete();
-        Timer::where('googleID', $googleID)->delete();
-        Online::where('googleID', $googleID)->delete();
-        PlayerReward::where('googleID', $googleID)->delete();
-        PlayerBodySlot::where('googleID', $googleID)->delete();
-        PlayerBodyPosition::where('googleID', $googleID)->delete();
+        Equipment::where('playerID', $playerID)->delete();
+        Inventory::where('playerID', $playerID)->delete();
+        ItemsInCraft::where('playerID', $playerID)->delete();
+        PlayerBuildingTechnology::where('playerID', $playerID)->delete();
+        PlayerChestItems::where('playerID', $playerID)->delete();
+        PlayerQuest::where('playerID', $playerID)->delete();
+        PlayerTechnologiesStates::where('playerID', $playerID)->delete();
+        Timer::where('playerID', $playerID)->delete();
+        Online::where('playerID', $playerID)->delete();
+        PlayerReward::where('playerID', $playerID)->delete();
+        PlayerBodySlot::where('playerID', $playerID)->delete();
+        PlayerBodyPosition::where('playerID', $playerID)->delete();
 
-        $objects = PlayerRestorableObject::where('googleID', $googleID)->get();
+        $objects = PlayerRestorableObject::where('playerID', $playerID)->get();
         foreach ($objects as $object) {
 
             PlayerRestorableObjectSlot::where('restorableObjectID', $object->ID)->delete();
         }
-        PlayerRestorableObject::where('googleID', $googleID)->delete();
+        PlayerRestorableObject::where('playerID', $playerID)->delete();
 
-        PlayerQuestReplacement::where('googleID', $googleID)->delete();
-        PlayerLearnedRecipe::where('googleID', $googleID)->delete();
-        PlayerShipStuffItem::where('playerID', $googleID)->delete();
+        PlayerQuestReplacement::where('playerID', $playerID)->delete();
+        PlayerLearnedRecipe::where('playerID', $playerID)->delete();
+        PlayerShipStuffItem::where('playerID', $playerID)->delete();
 
-        $items = PlayerRepairItem::where('playerID', $googleID)->get();
+        $items = PlayerRepairItem::where('playerID', $playerID)->get();
         foreach ($items as $item) {
 
             PlayerRepairItemPart::where('repairItemID', $item->ID)->delete();
         }
-        PlayerRepairItem::where('playerID', $googleID)->delete();
+        PlayerRepairItem::where('playerID', $playerID)->delete();
 
-        PlayerDiaryNote::where('googleID', $googleID)->delete();
-        Player::where('googleID', $googleID)->delete();
-        PlayerPrefRecord::where('playerID', $googleID)->delete();
-        PlayerSequence::where('googleID', $googleID)->delete();
-        PlayerTechnologyQuantity::where('playerID', $googleID)->delete();
-        PlayerTraveledIsland::where('googleID', $googleID)->delete();
+        PlayerDiaryNote::where('playerID', $playerID)->delete();
+        Player::where('ID', $playerID)->delete();
+        PlayerPrefRecord::where('playerID', $playerID)->delete();
+        PlayerSequence::where('playerID', $playerID)->delete();
+        PlayerTechnologyQuantity::where('playerID', $playerID)->delete();
+        PlayerTraveledIsland::where('playerID', $playerID)->delete();
 
     }
 
@@ -253,14 +254,14 @@ class PlayersController extends Controller
 
         $rewards = Reward::pluck('name')->toArray();
 
-        CloudItem::where('googleID', $request->googleID)
+        CloudItem::where('playerID', $request->playerID)
             ->where('isTaken', 0)
             ->delete();
 
         foreach ($request->items as $item) {
 
             $properties = [
-                'googleID' => $request->googleID,
+                'playerID' => $request->playerID,
                 'sourceID' => 4, 'isTaken' => 0,
                 'uniqueID' => uniqid('id', true),
                 'inStuck' => (Item::where('Name', $item['imageName'])->value('maxInStack')) == 1 ? 0 : 1

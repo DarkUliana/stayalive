@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Player;
+use App\PlayerIdentificator;
 use App\UnityLog;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,9 @@ class UnityLogsController extends Controller
         $logs = null;
         if (isset($request->search)) {
 
-            $logs = UnityLog::where('googleID', 'like', "%$request->search%")->latest();
+            $players = PlayerIdentificator::where('localID', 'like', "%$request->search%")->pluck('playerID');
+            $players->push(Player::where('googleID', 'like', "%$request->search%")->pluck('playerID'));
+            $logs = UnityLog::whereIn('playerID', $players->toArray())->orWhere()->latest();
 
         } else {
 

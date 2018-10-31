@@ -31,7 +31,7 @@
                                 <thead>
                                 <tr>
                                     <th style="min-width: 110px;">logTime</th>
-                                    <th>googleID</th>
+                                    <th>playerID</th>
                                     <th>logType</th>
                                     <th style="word-break: break-all;">logCondition</th>
                                     <th>Action</th>
@@ -41,7 +41,7 @@
                                 @foreach($logs as $log)
                                     <tr>
                                         <td>{{ $log->created_at }}</td>
-                                        <td>{{ $log->googleID }}</td>
+                                        <td>{{ $log->playerID }}</td>
                                         <td>{{ $log->logType }}</td>
                                         <td>{{ $log->logCondition }}</td>
                                         <td>

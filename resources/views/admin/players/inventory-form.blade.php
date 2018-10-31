@@ -1,4 +1,4 @@
-<input type="hidden" name="googleID" value="{{ $player->googleID }}">
+<input type="hidden" name="playerID" value="{{ $player->ID }}">
 <h4 style="margin-top: 50px">Items</h4>
 <table class="table table-bordered" >
     <tr>

@@ -27,8 +27,8 @@
                                     <td> {{ $log->logTime }} </td>
                                 </tr>
                                 <tr>
-                                    <th>googleID</th>
-                                    <td>{{ $log->googleID }}</td>
+                                    <th>playerID</th>
+                                    <td>{{ $log->playerID }}</td>
                                 </tr>
                                 <tr>
                                     <th>logType</th>

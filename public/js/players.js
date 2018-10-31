@@ -22,7 +22,7 @@ $(document).ready(function () {
             $.ajax({
                 url: '/players',
                 method: 'DELETE',
-                data: {'googleIDs' : ids},
+                data: {'localIDs' : ids},
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -44,7 +44,7 @@ $(document).ready(function () {
         if (result) {
 
             var btn = $(this);
-            var id = btn.closest('tr').find('td:nth-child(4)').text();
+            var id = btn.closest('tr').find('td:nth-child(2)').text();
 
             $.ajax({
 
@@ -113,7 +113,7 @@ function online() {
 
             data.forEach(function (item) {
 
-                var element = $('tr>td:nth-child(4):contains(' + item.googleID + ')').next().first();
+                var element = $('tr>td:nth-child(2):contains(' + item.playerID + ')').closest('tr').find('td:nth-child(5)');
 
                 element.empty();
 
