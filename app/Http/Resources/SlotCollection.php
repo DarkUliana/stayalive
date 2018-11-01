@@ -18,7 +18,7 @@ class SlotCollection extends ResourceCollection
         $slots = $this->collection->toArray();
         $array['slotsData'] = [];
 
-        $playerID = $this->collection->first()->playerID;
+        $playerID = getPlayerID($request->localID);
 
         foreach ($slots as $value) {
 
