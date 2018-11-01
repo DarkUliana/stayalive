@@ -51,12 +51,18 @@ class LocalIdInTables extends Migration
      */
     public function up()
     {
+        Schema::table('cloud_items', function ($t) {
+           $t->integer('playerID')->change();
+        });
+
+        die();
+
         Artisan::call('db:seed', ['--class' => 'NewPlayerIdentificatorsSeeder']);
 
         foreach ($this->tablesWithGoogleID as $table) {
 
             if (in_array($table, $this->tablesWithEnum)) {
-                DB::Statement("ALTER TABLE $table CHANGE COLUMN googleID playerID INT NOT NULL");
+                DB::Statement("ALTER TABLE $table CHANGE COLUMN googleID playerID INT(10) NOT NULL");
 
             } else {
 
