@@ -66,7 +66,7 @@ class PlayerController extends Controller
             $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
         } else {
 
-            if (isset($request->googleID)
+            if (isset($request->googleID) && !empty($request->googleID)
                 && $playerIdentificator->player->googleID != $request->googleID
                 && !empty(Player::where('googleID', $request->googleID)->first())) {
 
