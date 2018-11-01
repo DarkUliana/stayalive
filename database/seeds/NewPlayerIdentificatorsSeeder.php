@@ -53,10 +53,16 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
         foreach (array_merge($this->tables, $this->tablesWithPlayerID) as $table) {
 
+
             $key = 'googleID';
             if (in_array($table, $this->tablesWithPlayerID)) {
 
                 $key = 'playerID';
+            }
+
+            if ($table == 'cloud_items') {
+
+                var_dump(DB::table($table)->pluck($key)->unique()); die();
             }
 
             $googleIDs = DB::table($table)->pluck($key)->unique();
@@ -64,12 +70,21 @@ class NewPlayerIdentificatorsSeeder extends Seeder
             foreach ($googleIDs as $googleID) {
 
                 $player = $players->where('googleID', $googleID)->first();
+
                 if (empty($player)) {
 
-                    DB::table($table)->where($key, $googleID)->delete();
+                    DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table) {
+
+                        DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->delete();
+                    });
+                    die('empty');
                 } else {
 
-                    DB::table($table)->where($key, $googleID)->update([$key => $player->ID]);
+                    DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table, $key, $player) {
+
+                        DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->update([$key => $player->ID]);
+                    });
+
                 }
 
             }
