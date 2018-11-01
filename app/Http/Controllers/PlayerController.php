@@ -17,11 +17,12 @@ class PlayerController extends Controller
     {
         $playerIdentificator = PlayerIdentificator::where('localID', $request->localID)->first();
 
-        if (empty($playerIdentificator)) {
+        if (empty($playerIdentificator) || empty($playerIdentificator->player)) {
             return response('NULL', 404);
         }
 
         $player = $playerIdentificator->player;
+
         $playerRenamed = $this->renameAttributesBack($player->toArray());
 
         $playerRenamed['traveledIslands'] = PlayerTraveledIsland::where('playerID', $player->ID)->pluck('name');
