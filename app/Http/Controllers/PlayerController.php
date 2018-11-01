@@ -55,7 +55,7 @@ class PlayerController extends Controller
             PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
 
             $params = [
-                'playerID' => $player->ID
+                'localID' => $request->localID
             ];
             $client = new HttpClient();
             $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
@@ -86,14 +86,18 @@ class PlayerController extends Controller
 
 
             $playerID = $playerIdentificator->playerID;
+        }
+
+        if (isset($request->traveledIslands)) {
 
             PlayerTraveledIsland::where('playerID', $playerID)->delete();
+
+            foreach ($request->traveledIslands as $island) {
+
+                PlayerTraveledIsland::create(['playerID' => $playerID, 'name' => $island]);
+            }
         }
 
-        foreach ($request->traveledIslands as $island) {
-
-            PlayerTraveledIsland::create(['playerID' => $playerID, 'name' => $island]);
-        }
 
         return response($identification, 200);
     }
