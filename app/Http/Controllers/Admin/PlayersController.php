@@ -241,11 +241,12 @@ class PlayersController extends Controller
         PlayerRepairItem::where('playerID', $playerID)->delete();
 
         PlayerDiaryNote::where('playerID', $playerID)->delete();
-        Player::where('ID', $playerID)->delete();
         PlayerPrefRecord::where('playerID', $playerID)->delete();
         PlayerSequence::where('playerID', $playerID)->delete();
         PlayerTechnologyQuantity::where('playerID', $playerID)->delete();
         PlayerTraveledIsland::where('playerID', $playerID)->delete();
+        PlayerIdentificator::where('playerID', $playerID)->delete();
+        Player::where('ID', $playerID)->delete();
 
     }
 
@@ -345,6 +346,7 @@ class PlayersController extends Controller
         PlayerTechnologyQuantity::truncate();
         PlayerTraveledIsland::truncate();
 
+        PlayerIdentificator::truncate();
         Player::truncate();
 
         return response('ok', 200);

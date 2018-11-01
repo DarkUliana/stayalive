@@ -30,7 +30,7 @@ class PlayerTechListController extends Controller
 
 
         if (empty($build)) {
-            return response('Not found', 404);
+            return response('Building technologies not found', 404);
         }
 
         $build = $this->prepareDataForResponse($build->toArray(), $request);
@@ -69,9 +69,11 @@ class PlayerTechListController extends Controller
     protected function prepareDataForWrite($data, $playerID)
     {
         $write['build'] = $data;
-        if (isset($write['build']['playerTechList'])) {
-            unset($write['build']['playerTechList']);
-        }
+
+        unset($write['build']['playerTechList']);
+        unset($write['build']['localID']);
+
+        $write['build']['playerID'] = $playerID;
 
         foreach ($data['playerTechList'] as $state) {
 
@@ -106,7 +108,7 @@ class PlayerTechListController extends Controller
 
     public function getRaftState(Request $request)
     {
-        if(!isset($request->localID)) {
+        if (!isset($request->localID)) {
             return response('Invalid data', 400);
         }
 
@@ -114,7 +116,7 @@ class PlayerTechListController extends Controller
 
         $state = PlayerRestorableObject::where('playerID', $playerID)->where('objectKey', 'Restorable_Raft')->first();
 
-        if(!$state) {
+        if (!$state) {
 
             return response('Not found', 404);
         }

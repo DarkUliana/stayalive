@@ -17,11 +17,12 @@ class PlayerController extends Controller
     {
         $playerIdentificator = PlayerIdentificator::where('localID', $request->localID)->first();
 
-        if (empty($playerIdentificator)) {
+        if (empty($playerIdentificator) || empty($playerIdentificator->player)) {
             return response('NULL', 404);
         }
 
         $player = $playerIdentificator->player;
+
         $playerRenamed = $this->renameAttributesBack($player->toArray());
 
         $playerRenamed['traveledIslands'] = PlayerTraveledIsland::where('playerID', $player->ID)->pluck('name');
@@ -34,7 +35,7 @@ class PlayerController extends Controller
     {
         if (!isset($request->localID)) {
 
-            return response('400', 'Your request has no localID');
+            return response('Your request has no localID',400 );
         }
 
         $playerNamed = $this->renameAttributes($request->input());
@@ -55,7 +56,7 @@ class PlayerController extends Controller
             PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
 
             $params = [
-                'playerID' => $player->ID
+                'localID' => $request->localID
             ];
             $client = new HttpClient();
             $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
@@ -65,7 +66,7 @@ class PlayerController extends Controller
             $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
         } else {
 
-            if (isset($request->googleID)
+            if (isset($request->googleID) && !empty($request->googleID)
                 && $playerIdentificator->player->googleID != $request->googleID
                 && !empty(Player::where('googleID', $request->googleID)->first())) {
 
@@ -86,14 +87,18 @@ class PlayerController extends Controller
 
 
             $playerID = $playerIdentificator->playerID;
+        }
+
+        if (isset($request->traveledIslands)) {
 
             PlayerTraveledIsland::where('playerID', $playerID)->delete();
+
+            foreach ($request->traveledIslands as $island) {
+
+                PlayerTraveledIsland::create(['playerID' => $playerID, 'name' => $island]);
+            }
         }
 
-        foreach ($request->traveledIslands as $island) {
-
-            PlayerTraveledIsland::create(['playerID' => $playerID, 'name' => $island]);
-        }
 
         return response($identification, 200);
     }
