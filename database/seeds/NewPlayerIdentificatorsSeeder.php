@@ -60,10 +60,7 @@ class NewPlayerIdentificatorsSeeder extends Seeder
                 $key = 'playerID';
             }
 
-            if ($table == 'cloud_items') {
 
-                var_dump(DB::table($table)->pluck($key)->unique()); die();
-            }
 
             $googleIDs = DB::table($table)->pluck($key)->unique();
 
@@ -77,7 +74,7 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
                         DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->delete();
                     });
-                    die('empty');
+
                 } else {
 
                     DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table, $key, $player) {
@@ -87,6 +84,11 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
                 }
 
+            }
+
+            if ($table == 'cloud_items') {
+
+                die();
             }
 
         }
