@@ -41,4 +41,9 @@ class Player extends Model
     {
         $this->attributes['isSpawnInLocation'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
+
+    public function identificator()
+    {
+        return $this->hasMany('App\PlayerIdentificator', 'playerID', 'ID');
+    }
 }
