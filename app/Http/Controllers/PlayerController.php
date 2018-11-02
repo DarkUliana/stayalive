@@ -67,7 +67,7 @@ class PlayerController extends Controller
         } else {
 
             if (isset($request->googleID) && !empty($request->googleID)
-                && $playerIdentificator->player->googleID != $request->googleID
+                && empty($playerIdentificator->player->googleID)
                 && !empty(Player::where('googleID', $request->googleID)->first())) {
 
                 $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
@@ -82,9 +82,12 @@ class PlayerController extends Controller
 
             } else {
 
+                if (!empty($playerIdentificator->player->googleID)) {
+
+                    unset($playerNamed['googleID']);
+                }
                 Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
             }
-
 
             $playerID = $playerIdentificator->playerID;
         }
