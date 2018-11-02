@@ -51,12 +51,13 @@ class LocalIdInTables extends Migration
      */
     public function up()
     {
+
         Artisan::call('db:seed', ['--class' => 'NewPlayerIdentificatorsSeeder']);
 
         foreach ($this->tablesWithGoogleID as $table) {
 
             if (in_array($table, $this->tablesWithEnum)) {
-                DB::Statement("ALTER TABLE $table CHANGE COLUMN googleID playerID INT NOT NULL");
+                DB::Statement("ALTER TABLE $table CHANGE googleID playerID INT NOT NULL");
 
             } else {
 
@@ -70,9 +71,9 @@ class LocalIdInTables extends Migration
         foreach (array_merge($this->tablesWithGoogleID, $this->tablesWithPlayerID) as $table) {
 
             if (!in_array($table, $this->tablesWithEnum)) {
-                Schema::table($table, function (Blueprint $table) {
+                Schema::table($table, function (Blueprint $t) {
 
-                    $table->integer('playerID')->change();
+                    $t->integer('playerID')->change();
                 });
             }
         }

@@ -45,13 +45,18 @@ class NewPlayerIdentificatorsSeeder extends Seeder
     public function run()
     {
 
-        $players = Player::all();
-        foreach ($players as $player) {
+        Player::orderBy('ID')->chunk(100, function ($players) {
 
-            PlayerIdentificator::create(['playerID' => $player->ID, 'localID' => $player->googleID]);
-        }
+            foreach ($players as $player) {
+
+                PlayerIdentificator::create(['playerID' => $player->ID, 'localID' => $player->googleID]);
+            }
+        });
+
+
 
         foreach (array_merge($this->tables, $this->tablesWithPlayerID) as $table) {
+
 
             $key = 'googleID';
             if (in_array($table, $this->tablesWithPlayerID)) {
@@ -59,17 +64,30 @@ class NewPlayerIdentificatorsSeeder extends Seeder
                 $key = 'playerID';
             }
 
-            $googleIDs = DB::table($table)->pluck($key)->unique();
+
+
+            $googleIDs = DB::table($table)->select("$key as googleID")->distinct()->get();
 
             foreach ($googleIDs as $googleID) {
 
-                $player = $players->where('googleID', $googleID)->first();
+                $player = Player::where('googleID', $googleID->googleID)->first();
+
                 if (empty($player)) {
 
-                    DB::table($table)->where($key, $googleID)->delete();
+                    DB::table($table)->where($key, $googleID->googleID)->delete();
+//                    DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table) {
+//
+//                        DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->delete();
+//                    });
+
                 } else {
 
-                    DB::table($table)->where($key, $googleID)->update([$key => $player->ID]);
+                    DB::table($table)->where($key, $googleID->googleID)->update([$key => $player->ID]);
+//                    DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table, $key, $player) {
+//
+//                        DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->update([$key => $player->ID]);
+//                    });
+
                 }
 
             }
