@@ -59,38 +59,6 @@
         {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div class="form-group {{ $errors->has('tmpComponentsSize') ? 'has-error' : ''}}">
-    <label for="tmpComponentsSize" class="col-md-4 control-label">{{ 'Tmpcomponentssize' }}</label>
-    <div class="col-md-6">
-        <input class="form-control" name="tmpComponentsSize" type="number" id="tmpComponentsSize"
-               value="{{ $recipe->tmpComponentsSize or ''}}">
-        {!! $errors->first('tmpComponentsSize', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
-<div class="form-group {{ $errors->has('componentsSize') ? 'has-error' : ''}}">
-    <label for="componentsSize" class="col-md-4 control-label">{{ 'Componentssize' }}</label>
-    <div class="col-md-6">
-        <input class="form-control" name="componentsSize" type="number" id="componentsSize"
-               value="{{ $recipe->componentsSize or ''}}">
-        {!! $errors->first('componentsSize', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
-<div class="form-group {{ $errors->has('tmpBuildingsSize') ? 'has-error' : ''}}">
-    <label for="tmpBuildingsSize" class="col-md-4 control-label">{{ 'Tmpbuildingssize' }}</label>
-    <div class="col-md-6">
-        <input class="form-control" name="tmpBuildingsSize" type="number" id="tmpBuildingsSize"
-               value="{{ $recipe->tmpBuildingsSize or ''}}">
-        {!! $errors->first('tmpBuildingsSize', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
-<div class="form-group {{ $errors->has('BuildingsSize') ? 'has-error' : ''}}">
-    <label for="BuildingsSize" class="col-md-4 control-label">{{ 'Buildingssize' }}</label>
-    <div class="col-md-6">
-        <input class="form-control" name="BuildingsSize" type="number" id="BuildingsSize"
-               value="{{ $recipe->BuildingsSize or ''}}">
-        {!! $errors->first('BuildingsSize', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
 <div class="form-group {{ $errors->has('Type') ? 'has-error' : ''}}">
     <label for="Type" class="col-md-4 control-label">{{ 'Type' }}</label>
     <div class="col-md-6">
