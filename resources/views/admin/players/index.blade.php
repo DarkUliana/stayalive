@@ -34,7 +34,11 @@
 
                         <br/>
                         <br/>
-                        <h5>Number of players: {{ $count }}</h5>
+                        <div class="row">
+                            <div class="col-md-3"><h5>Number of players: {{ $count }}</h5></div>
+                            <div class="col-md-3"><h5 id="online">Online: </h5></div>
+                        </div>
+
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>

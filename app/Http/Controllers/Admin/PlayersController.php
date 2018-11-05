@@ -34,6 +34,7 @@ use App\PlayerTraveledIsland;
 use App\RestorableObject;
 use App\Reward;
 use App\Timer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PlayersController extends Controller
@@ -198,11 +199,13 @@ class PlayersController extends Controller
                 $online = 'false';
             }
 
-            $arr[] = [
+            $arr['players'][] = [
                 'playerID' => $player->ID,
                 'online' => $online
             ];
         }
+
+        $arr['online'] = Online::where('updated_at', '>', date('Y-m-d H:i:s', time()-30))->count();
         return $arr;
     }
 
