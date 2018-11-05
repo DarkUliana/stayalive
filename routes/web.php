@@ -118,6 +118,10 @@ Route::group(['middleware' => 'auth'], function () {
         'index', 'show', 'destroy'
     ]]);
 
+    Route::resource('purchase-stages', 'Admin\PurchaseStagesController', ['only' => [
+        'index'
+    ]]);
+
 });
 
 

@@ -82,6 +82,9 @@
                         Laravel logs
                     </a></li>
             @endif
+            <li class="list-group-item"><a class="card-link" href="{{ url('purchase-stages') }}">
+                    Purchase Stages
+                </a></li>
         </ul>
 
     </div>

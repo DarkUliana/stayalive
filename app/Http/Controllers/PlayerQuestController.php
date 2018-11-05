@@ -33,7 +33,7 @@ class PlayerQuestController extends Controller
 
             $daily = $quests->where('type', 'simple');
 
-            if ($daily->isEmpty) {
+            if ($daily->isEmpty()) {
 
                 $quests = $this->generateNewQuests($playerID, $daily->pluck('questID')->toArray());
             } else {
