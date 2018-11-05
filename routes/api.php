@@ -148,6 +148,8 @@ Route::post('player-sequences', 'PlayerSequenceController@post');
 Route::get('player-ship-chests', 'PlayerShipChestController@get');
 Route::post('player-ship-chests', 'PlayerShipChestController@post');
 
+Route::post('purchase-stage', 'PurchaseStageController');
+
 
 
 //});
