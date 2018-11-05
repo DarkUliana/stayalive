@@ -33,38 +33,40 @@ class PlayerQuestController extends Controller
 
             $daily = $quests->where('type', 'simple');
 
-            $questsTime = $daily->pluck('created_at')->toArray();
+            if ($daily->isEmpty) {
 
-            $oldestQuest = min($questsTime);
+                $quests = $this->generateNewQuests($playerID, $daily->pluck('questID')->toArray());
+            } else {
 
-            $time = QuestReplacementTime::pluck('time');
-            $points = [];
+                $questsTime = $daily->pluck('created_at')->toArray();
 
-            foreach ($time as $t) {
+                $oldestQuest = min($questsTime);
 
-                $hours = explode(':', $t)[0];
-                $minutes = explode(':', $t)[1];
+                $time = QuestReplacementTime::pluck('time');
+                $points = [];
 
-                $point = Carbon::today()->addHours($hours)->addMinutes($minutes);
-                if ($point < $oldestQuest) {
+                foreach ($time as $t) {
 
-                    $point->addDay();
-                }
-                $points[] = $point;
-            }
+                    $hours = explode(':', $t)[0];
+                    $minutes = explode(':', $t)[1];
 
-            foreach ($points as $point) {
+                    $point = Carbon::today()->addHours($hours)->addMinutes($minutes);
+                    if ($point < $oldestQuest) {
 
-
-                if ($point->between($oldestQuest, Carbon::now())) {
-
-                    $quests = $this->generateNewQuests($playerID, $daily->pluck('questID')->toArray());
-                    break;
+                        $point->addDay();
+                    }
+                    $points[] = $point;
                 }
 
+                foreach ($points as $point) {
 
+                    if ($point->between($oldestQuest, Carbon::now())) {
+
+                        $quests = $this->generateNewQuests($playerID, $daily->pluck('questID')->toArray());
+                        break;
+                    }
+                }
             }
-
         }
 
         $questsArr = new PlayerQuestCollection($quests);
