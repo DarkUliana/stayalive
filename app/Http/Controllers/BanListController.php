@@ -18,9 +18,9 @@ class BanListController extends Controller
 
         if (BanList::where('playerID', $playerID)->first()) {
 
-            return response(true, 200);
+            return response(1, 200);
         }
 
-        return response(false, 200);
+        return response(0, 200);
     }
 }
