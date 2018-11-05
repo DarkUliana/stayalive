@@ -205,7 +205,7 @@ class PlayersController extends Controller
             ];
         }
 
-        $arr['count'] = Online::where('updated_at', '>', date('Y-m-d H:i:s', time()-30))->count();
+        $arr['online'] = Online::where('updated_at', '>', date('Y-m-d H:i:s', time()-30))->count();
         return $arr;
     }
 
