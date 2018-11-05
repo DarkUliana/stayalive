@@ -111,7 +111,7 @@ function online() {
 
         success: function (data) {
 
-            data.forEach(function (item) {
+            data.players.forEach(function (item) {
 
                 var element = $('tr>td:nth-child(2):contains(' + item.playerID + ')').closest('tr').find('td:nth-child(5)');
 
