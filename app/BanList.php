@@ -14,6 +14,6 @@ class BanList extends Model
 
     public function player()
     {
-        return $this->hasOne('App\Player', 'googleID', 'googleID');
+        return $this->hasOne('App\Player', 'ID', 'playerID');
     }
 }

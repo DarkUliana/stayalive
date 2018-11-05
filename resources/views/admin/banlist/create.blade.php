@@ -14,7 +14,7 @@
 
 
                     {{ csrf_field() }}
-                    <select id="ban" name="googleID">
+                    <select id="ban" name="playerID">
                         @foreach($players as $player)
                             <option value="{{ $player->ID }}"><span
                                         class="font-weight-bold">{{ $player->Name }}</span> {{$player->ID }}

@@ -47,7 +47,7 @@
                                             {{ $item->ID }}
                                         </td>
                                         <td>{{ $item->player->Name }}</td>
-                                        <td>{{ $item->googleID }}</td>
+                                        <td>{{ $item->player->googleID }}</td>
                                         <td>
                                             <form method="POST" action="{{ url('/banlist' . '/' . $item->ID) }}"
                                                   accept-charset="UTF-8" style="display:inline">
