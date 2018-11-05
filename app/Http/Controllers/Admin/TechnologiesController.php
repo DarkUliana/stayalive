@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Recipe;
 use App\Technology;
 use App\TechnologyItems;
 use Illuminate\Http\Request;
@@ -111,10 +112,14 @@ class TechnologiesController extends Controller
     public function edit($id)
     {
         $technology = Technology::findOrFail($id);
+        $technologies = Technology::all();
         $items = Item::all();
         $selectedItems = $this->itemsToArray($technology->items);
+        $recipe = Recipe::where('ItemID', $technology->ID)->first();
+        $selectedTechnologies = RecipesController::getValuesFromEloquentArray($recipe->technologies, 'technologyID');
 
-        return view('admin.technologies.edit', compact(['technology', 'items', 'selectedItems']));
+        return view('admin.technologies.edit', compact('technology', 'items', 'selectedItems', 'recipe',
+            'technologies', 'selectedTechnologies'));
     }
 
     /**

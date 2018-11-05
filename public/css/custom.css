@@ -88,12 +88,12 @@
 
     margin-top: 20px;
 }
-.collections-card>.card-header {
+.collections-card>.card-header, .recipe-card>.card-header {
     background: #cdf59b;
     border: #769952 solid 2px;
 }
 
-.collections-card>.card-body {
+.collections-card>.card-body, .recipe-card>.card-body {
     border: 2px solid #769952;
     border-top: 0;
 }

@@ -249,7 +249,7 @@ class RecipesController extends Controller
     }
 
 
-    public function getValuesFromEloquentArray($items, $key)
+    public static function getValuesFromEloquentArray($items, $key)
     {
         $array = [];
         foreach ($items as $item) {

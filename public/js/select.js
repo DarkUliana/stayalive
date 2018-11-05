@@ -11,5 +11,7 @@ $(document).ready(function () {
 
     $('#ban').select2({width: '100%', placeholder: 'Player'});
 
+    $('#itemID').select2({width: '100%'});
+
 });
 

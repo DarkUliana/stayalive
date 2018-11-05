@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('#recipeType').change(function () {
 
         var type = 'items';
-console.log($(this).val());
+
         if ($(this).val() == 5) {
 
             type = 'technologies';
