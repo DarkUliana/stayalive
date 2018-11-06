@@ -115,7 +115,7 @@ class TechnologiesController extends Controller
         $technologies = Technology::all();
         $items = Item::all();
         $selectedItems = $this->itemsToArray($technology->items);
-        $recipe = Recipe::where('ItemID', $technology->ID)->first();
+        $recipe = Recipe::where('ItemID', $technology->ID)->where('recipeType', 5)->first();
         $selectedTechnologies = [];
         if ($recipe) {
 
