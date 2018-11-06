@@ -116,7 +116,12 @@ class TechnologiesController extends Controller
         $items = Item::all();
         $selectedItems = $this->itemsToArray($technology->items);
         $recipe = Recipe::where('ItemID', $technology->ID)->first();
-        $selectedTechnologies = RecipesController::getValuesFromEloquentArray($recipe->technologies, 'technologyID');
+        $selectedTechnologies = [];
+        if ($recipe) {
+
+            $selectedTechnologies = RecipesController::getValuesFromEloquentArray($recipe->technologies, 'technologyID');
+        }
+
 
         return view('admin.technologies.edit', compact('technology', 'items', 'selectedItems', 'recipe',
             'technologies', 'selectedTechnologies'));
