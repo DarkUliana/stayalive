@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     boxOnClick();
+    clearAll();
 
     $('#addNewFloor').on('click', function () {
 
@@ -99,6 +100,7 @@ function boxOnClick() {
                 $('body').append(data);
                 onDeleteCell();
                 onUpdateCell();
+                formClear();
                 $('.modal').modal('show');
             },
 
@@ -159,4 +161,32 @@ function onUpdateCell() {
             },
         });
     });
+}
+
+function formClear() {
+
+    $('#form-clear').on('click', function () {
+
+        $(this).closest('form').get(0).reset();
+        $(this).closest('form').find('select').prop('selectedIndex', 0);
+    });
+}
+
+function clearAll() {
+
+    $('.clear-all').on('click', function () {
+
+        $.ajax({
+            url: '/ship-stuff-clear-all/' + $(this).data('stuff-id'),
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+
+                location.reload();
+            },
+        });
+    });
+
 }

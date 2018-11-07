@@ -14,6 +14,7 @@
             </div>
             <form class="cell-form">
                 <div class="modal-body">
+                    <div class="btn btn-warning float-right" id="form-clear">Clear</div>
                     <div class="form-group}">
                         <label for="cellType" class="col-md-4 control-label">{{ 'cellType' }}</label>
                         <div class="col-md-6">

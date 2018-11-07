@@ -205,4 +205,17 @@ class ShipStuffsController extends Controller
 
         return view('admin.ship-stuffs.cell', compact('item'));
     }
+
+    public function clearAll($stuffID) {
+
+        $data = [
+            'cellType' => 0,
+            'technologyType' => 1,
+            'techLevel' => 0
+        ];
+
+        ShipStuffItem::where('stuffID', $stuffID)->update($data);
+
+        return response('ok', 200);
+    }
 }

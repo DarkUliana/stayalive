@@ -69,6 +69,7 @@
                                     data-floor-id="{{ $floor->ID }}"><i
                                                 class="fa fa-plus" aria-hidden="true"></i> Add cell
                                     </button>
+                                    <button class="btn btn-sm btn-warning clear-all" data-stuff-id="{{ $floor->ID }}">Clear all</button>
                                     <br/>
                                     <br/>
                                     <div class="table-responsive" id="ship-table">

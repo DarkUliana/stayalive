@@ -104,6 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('get-collection-for-loot-object/{id}', 'Admin\LootObjectsController@getCollectionForLootObject');
 
     Route::resource('ship-stuff', 'Admin\ShipStuffsController');
+    Route::post('ship-stuff-clear-all/{stuffID}', 'Admin\ShipStuffsController@clearAll');
 
     Route::get('get-ship-cell-modal/{id}', 'Admin\ShipStuffsController@getShipCellModal');
     Route::get('get-ship-floor-cell/{id}', 'Admin\ShipStuffsController@getShipFloorCell');
