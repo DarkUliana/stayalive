@@ -81,8 +81,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('notifications', 'Admin\NotificationsController');
 
-    Route::resource('banlist', 'Admin\BanListController', ['only' => [
-        'index', 'store', 'destroy'
+    Route::resource('ban-list', 'Admin\BanListController', ['only' => [
+        'index', 'store', 'update', 'destroy'
     ]]);
 
     Route::resource('event-islands', 'Admin\EventIslandsController');

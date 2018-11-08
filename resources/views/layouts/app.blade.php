@@ -188,8 +188,9 @@
     <script src="{{ asset('js/mob.js') }}"></script>
 @endif
 
-@if(Request::is('banlist'))
+@if(Request::is('ban-list'))
     <script src="{{ asset('js/select.js') }}"></script>
+    <script src="{{ asset('js/ban-list.js') }}"></script>
 @endif
 
 @if(Request::is('recipes'))
@@ -221,5 +222,6 @@
 @if(Request::is('ship-stuff'))
     <script src="{{ asset('js/ship-stuff.js') }}"></script>
 @endif
+
 </body>
 </html>

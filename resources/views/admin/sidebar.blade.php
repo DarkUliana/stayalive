@@ -56,9 +56,13 @@
             <li class="list-group-item"><a class="card-link" href="{{ url('/notifications') }}">
                     Notifications
                 </a></li>
-            <li class="list-group-item"><a class="card-link" href="{{ url('/banlist') }}">
+            <li class="list-group-item"><a class="card-link" href="{{ url('ban-list') }}">
                     BanList
-                </a></li>
+                </a>
+                @if($newPlayerInBan = \App\BanList::where('status', 0)->count())
+                    <span class="ban-notification">{{ $newPlayerInBan }}</span>
+                @endif
+            </li>
             <li class="list-group-item"><a class="card-link" href="{{ url('/event-islands') }}">
                     Event Islands
                 </a></li>

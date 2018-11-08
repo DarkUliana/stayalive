@@ -15,8 +15,9 @@ class BanListController extends Controller
         }
 
         $playerID = getPlayerID($request->localID);
+        $ban = BanList::where('playerID', $playerID)->first();
 
-        if (BanList::where('playerID', $playerID)->first()) {
+        if ($ban && $ban->status == 2) {
 
             return response(1, 200);
         }

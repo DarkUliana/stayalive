@@ -153,3 +153,14 @@
     font-weight: bold;
     text-align: center;
 }
+
+.ban-notification {
+
+    position: relative;
+    float: right;
+    padding: 0 4px;
+    background-color: #ffba00;
+    color: #ffffff;
+    border-radius: 5px;
+
+}

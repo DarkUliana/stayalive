@@ -28,8 +28,11 @@ class BanListController extends Controller
         }
 
         $players = Player::all();
+        $view = view('admin.ban-list.index', compact('banlist', 'players'));
 
-        return view('admin.banlist.index', compact('banlist', 'players'));
+        BanList::where('status', 0)->update(['status' => 1]);
+
+        return $view;
     }
 
     /**
@@ -39,7 +42,7 @@ class BanListController extends Controller
      */
     public function create()
     {
-        return view('admin.banlist.create');
+        return view('admin.ban-list.create');
     }
 
     /**
@@ -51,12 +54,15 @@ class BanListController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $requestData = $request->all();
-        
-        BanList::create($requestData);
 
-        return redirect('banlist')->with('flash_message', 'Player added!');
+        $requestData = $request->all();
+
+        if (!BanList::where('playerID', $request->playerID)) {
+
+            BanList::create($requestData);
+        }
+
+        return redirect('ban-list')->with('flash_message', 'Player added!');
     }
 
     /**
@@ -70,7 +76,7 @@ class BanListController extends Controller
     {
         $banlist = BanList::findOrFail($id);
 
-        return view('admin.banlist.show', compact('banlist'));
+        return view('admin.ban-list.show', compact('banlist'));
     }
 
     /**
@@ -84,7 +90,7 @@ class BanListController extends Controller
     {
         $banlist = BanList::findOrFail($id);
 
-        return view('admin.banlist.edit', compact('banlist'));
+        return view('admin.ban-list.edit', compact('banlist'));
     }
 
     /**
@@ -97,13 +103,13 @@ class BanListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $banlist = BanList::findOrFail($id);
         $banlist->update($requestData);
 
-        return redirect('banlist')->with('flash_message', 'BanList updated!');
+        return redirect('ban-list')->with('flash_message', 'BanList updated!');
     }
 
     /**
@@ -117,6 +123,6 @@ class BanListController extends Controller
     {
         BanList::destroy($id);
 
-        return redirect('banlist')->with('flash_message', 'Player deleted!');
+        return redirect('ban-list')->with('flash_message', 'Player deleted!');
     }
 }

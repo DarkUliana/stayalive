@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\BanList;
+use App\CloudItem;
 use App\PlayerIdentificator;
 use App\PlayerTraveledIsland;
 use Illuminate\Http\Request;
@@ -86,6 +88,8 @@ class PlayerController extends Controller
 
                     unset($playerNamed['googleID']);
                 }
+
+                $this->checkData($playerNamed, $playerIdentificator->playerID);
                 Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
             }
 
@@ -134,6 +138,15 @@ class PlayerController extends Controller
         }
 
         return $renamed;
+    }
+
+    protected function checkData($data, $playerID) {
+
+        if (((CloudItem::where(['playerID' => $playerID, 'imageName' => 'goldCoinPurchase', 'isTaken' => 1])->sum('count') + 50) < $data['goldCoin'])
+        || ((CloudItem::where(['playerID' => $playerID, 'imageName' => 'keyCoinPurchase', 'isTaken' => 1])->sum('count') + 5) < $data['keyCoin'])) {
+
+            BanList::firstOrCreate(['playerID' => $playerID]);
+        }
     }
 
 }

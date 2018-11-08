@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ url('/banlist') }}" accept-charset="UTF-8"
+            <form method="POST" action="{{ url('/ban-list') }}" accept-charset="UTF-8"
                   class="form-horizontal" enctype="multipart/form-data">
                 <div class="modal-body">
 
