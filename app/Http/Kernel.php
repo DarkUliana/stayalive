@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 //        'connection' => \App\Http\Middleware\CheckConnection::class,
 //        'api-connection' => \App\Http\Middleware\CheckConnectionForApi::class,
+        'sidebar' => \App\Http\Middleware\Sidebar::class,
     ];
 }
