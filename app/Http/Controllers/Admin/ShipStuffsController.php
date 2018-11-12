@@ -135,7 +135,7 @@ class ShipStuffsController extends Controller
         return redirect('ship-stuff')->with('flash_message', 'ShipStuff deleted!');
     }
 
-    public function sortedItems($collections)
+    public static function sortedItems($collections)
     {
 
         foreach ($collections as $collection) {

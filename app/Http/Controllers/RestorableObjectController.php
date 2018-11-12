@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\RestorableObjectCollection;
 use App\RestorableObject;
+use App\RestorableObjectCell;
 use App\RestorableObjectItem;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,16 @@ class RestorableObjectController extends Controller
                 $itemObj = new RestorableObjectItem(array_merge($item, ['isTopList' => 0]));
                 $newObject->items()->save($itemObj);
             }
+
+            if (isset($object['deckCells'])) {
+
+                foreach ($object['deckCells'] as $cell) {
+
+                    $newCell = new RestorableObjectCell($cell);
+                    $newObject->cells()->save($newCell);
+                }
+            }
+
 
 
         }

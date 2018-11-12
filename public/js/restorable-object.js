@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $(document).on('click', '#addTopListItem, #addBottomListItem', function () {
+    $('#addTopListItem, #addBottomListItem').on('click', function () {
 
         var isTop = $(this).closest('#topTable').length;
         console.log(isTop);
@@ -8,14 +8,14 @@ $(document).ready(function () {
 
         var optionTexts = [];
 
-        $(tableId+' tr .counter').each(function () {
+        $(tableId + ' tr .counter').each(function () {
             optionTexts.push(parseInt($(this).text()))
         });
 
         var data = {"counter": Math.max.apply(null, optionTexts)};
         console.log(optionTexts);
 
-        if ($(tableId+' .counter').length === 0) {
+        if ($(tableId + ' .counter').length === 0) {
 
             data = {"counter": 0};
         }
@@ -37,6 +37,20 @@ $(document).ready(function () {
         });
     });
 
+    $('.box').on('click', function () {
+
+        var inputs = $(this).find('input');
+        $(this).toggleClass('dark-border');
+
+        // console.log(input.hasAttribute('disabled'));
+        if ($(this).find('input').first().is('[disabled]')) {
+
+            inputs.prop('disabled', false);
+        } else {
+
+            inputs.prop('disabled', true);
+        }
+    });
 
     deleteItemEvent();
 

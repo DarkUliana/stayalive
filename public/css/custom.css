@@ -164,3 +164,7 @@
     border-radius: 5px;
 
 }
+
+.dark-border {
+    border-color: #fd450c !important;
+}

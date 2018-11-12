@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 
 use App\Item;
 use App\RestorableObject;
+use App\RestorableObjectCell;
 use App\RestorableObjectItem;
+use App\ShipStuff;
 use Illuminate\Http\Request;
 
 class RestorableObjectsController extends Controller
@@ -39,7 +41,12 @@ class RestorableObjectsController extends Controller
     public function create()
     {
         $items = Item::all();
-        return view('admin.restorable-objects.create', compact($items));
+
+        $collection = ShipStuff::with('defaultItems')->get();
+
+        $shipstuffs = ShipStuffsController::sortedItems($collection);
+
+        return view('admin.restorable-objects.create', compact('items', 'shipstuffs'));
     }
 
     /**
@@ -72,6 +79,15 @@ class RestorableObjectsController extends Controller
 
                 $itemObj = new RestorableObjectItem($item);
                 $newObj->items()->save($itemObj);
+            }
+        }
+
+        if (isset($requestData['deckCells'])) {
+
+            foreach ($requestData['deckCells'] as $cell) {
+
+                $newCell = new RestorableObjectCell(['floor' => $cell['floor'], 'index' => $cell['index']]);
+                $newObj->cells()->save($newCell);
             }
         }
         
@@ -109,7 +125,12 @@ class RestorableObjectsController extends Controller
         $bottomListItems = $restorableObject->items()->where('isTopList', 0)->get();
         $items = Item::all();
 
-        return view('admin.restorable-objects.edit', compact('restorableObject', 'items', 'topListItems', 'bottomListItems'));
+        $collection = ShipStuff::with('defaultItems')->get();
+
+        $shipstuffs = ShipStuffsController::sortedItems($collection);
+
+        return view('admin.restorable-objects.edit', compact('restorableObject', 'items', 'topListItems',
+            'bottomListItems', 'shipstuffs'));
     }
 
     /**
@@ -146,6 +167,17 @@ class RestorableObjectsController extends Controller
 
                 $itemObj = new RestorableObjectItem($item);
                 $obj->items()->save($itemObj);
+            }
+        }
+
+        RestorableObjectCell::where('restorableObjectID', $id)->delete();
+
+        if (isset($requestData['deckCells'])) {
+
+            foreach ($requestData['deckCells'] as $cell) {
+
+                $newCell = new RestorableObjectCell(['floor' => $cell['floor'], 'index' => $cell['index']]);
+                $obj->cells()->save($newCell);
             }
         }
 
