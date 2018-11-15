@@ -56,7 +56,7 @@ class LootObjectsController extends Controller
     {
 
         $requestData = $request->all();
-//        var_dump($requestData); die();
+
         unset($requestData['collections']);
 
         $object = LootObject::create($requestData);
@@ -70,7 +70,7 @@ class LootObjectsController extends Controller
             }
         }
 
-        return redirect('loot-objects')->with('flash_message', 'LootObject added!');
+        return redirect("loot-objects/$object->ID/edit")->with('flash_message', 'LootObject added!');
     }
 
     /**

@@ -28,7 +28,7 @@
 
 
                         </form>
-                        @include ('admin.loot-objects.collection')
+                        {{--@include ('admin.loot-objects.collection')--}}
                         <button id="submit" class="btn btn-primary">Create</button>
                     </div>
                 </div>
