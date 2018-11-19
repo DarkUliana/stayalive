@@ -152,6 +152,9 @@ Route::post('player-ship-chests', 'PlayerShipChestController@post');
 
 Route::post('purchase-stage', 'PurchaseStageController');
 
+Route::get('tutorial-save-data', 'TutorialSaveDataController@get');
+Route::post('tutorial-save-data', 'TutorialSaveDataController@post');
+
 
 
 //});
