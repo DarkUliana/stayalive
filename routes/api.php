@@ -83,6 +83,8 @@ Route::get('daily-quests', 'QuestController@getDaily');
 Route::get('plot-quests', 'QuestController@getPlot');
 //    Route::get('quests', 'QuestController@index');
 
+Route::get('quest-descriptions', 'QuestDescriptionController');
+
 Route::post('player-quests', 'PlayerQuestController@store');
 Route::get('player-quests', 'PlayerQuestController@index');
 
