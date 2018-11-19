@@ -263,8 +263,13 @@ class QuestsController extends Controller
         QuestField::where('questID', $id)->delete();
         Quest::destroy($id);
         $dialog = Dialog::where('questID', $id)->first();
-        DialogDescription::where('dialogID', $dialog->ID)->delete();
-        $dialog->delete();
+
+        if ($dialog) {
+
+            DialogDescription::where('dialogID', $dialog->ID)->delete();
+            $dialog->delete();
+        }
+
 
         return redirect('quests')->with('flash_message', 'Quest deleted!');
     }
