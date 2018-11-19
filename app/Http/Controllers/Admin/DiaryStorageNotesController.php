@@ -38,7 +38,7 @@ class DiaryStorageNotesController extends Controller
      */
     public function create()
     {
-        $quests = Quest::all();
+        $quests = Quest::orderBy('name')->get();
 
         return view('admin.diary-storage-notes.create', compact('quests'));
     }
@@ -100,7 +100,7 @@ class DiaryStorageNotesController extends Controller
     {
         $diaryStorageNote = DiaryStorageNote::findOrFail($id);
         $noteQuests = $diaryStorageNote->quests()->pluck('questID')->toArray();
-        $quests = Quest::all();
+        $quests = Quest::orderBy('name')->get();
 
         return view('admin.diary-storage-notes.edit', compact('diaryStorageNote', 'noteQuests', 'quests'));
     }
