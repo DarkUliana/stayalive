@@ -16,7 +16,20 @@ class TutorialSaveDataController extends Controller
 
         $playerID = getPlayerID($request->localID);
 
-        $data = TutorialSaveData::where('playerID', $playerID)->first()->toArray();
+        $data = TutorialSaveData::where('playerID', $playerID)->first();
+
+        if (!$data) {
+
+            $data = [
+                'isComplete' => false,
+                'tutorialStep' => 1,
+                'tutorialStage' => 0
+            ];
+        } else {
+
+            $data = $data->toArray();
+        }
+
         unset($data['playerID']);
         $data['localID'] = $request->localID;
 
