@@ -10,18 +10,16 @@ class QuestDescriptionController extends Controller
     public function __invoke()
     {
         $descriptions = QuestDescription::all();
-        $grouped = $descriptions->groupBy('questID');
 
         $return = [];
 
-        foreach ($grouped as $key => $item) {
+        foreach ($descriptions as $description) {
 
-            $return['questDescriptions'][] = [
-                'questID' => $key,
-                'descriptions' => $item
-            ];
+            $return[$description->questID]['questID'] = $description->questID;
+            $return[$description->questID]['descriptions'][] = $description;
         }
-        return $return;
+
+        return response(array_values($return), 200);
 
     }
 }

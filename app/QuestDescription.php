@@ -10,5 +10,5 @@ class QuestDescription extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['ID', 'created_at', 'updated_at'];
+    protected $hidden = ['ID', 'questID', 'created_at', 'updated_at'];
 }
