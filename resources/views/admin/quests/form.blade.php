@@ -77,57 +77,188 @@
     </div>
 </div>
 
-<div id="dialogCard1" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
-    <div class="card-header"><h5>Begin Dialog</h5></div>
+{{--<div id="dialogCard1" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">--}}
+    {{--<div class="card-header"><h5>Begin Dialog</h5></div>--}}
+    {{--<div class="card-body">--}}
+        {{--<table class="table table-bordered">--}}
+            {{--<tr>--}}
+                {{--<th>Description</th>--}}
+                {{--<th>Speaker</th>--}}
+
+                {{--<th>--}}
+                    {{--<button type="button" class="addDescription btn btn-success">Add</button>--}}
+                {{--</th>--}}
+            {{--</tr>--}}
+
+            {{--<tbody>--}}
+            {{--@isset($beginDialog)--}}
+                {{--@foreach($beginDialog->descriptions->sortBy('number') as $value)--}}
+
+                    {{--@include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'beginDescriptions'])--}}
+
+                {{--@endforeach--}}
+            {{--@endisset--}}
+            {{--</tbody>--}}
+
+        {{--</table>--}}
+    {{--</div>--}}
+{{--</div>--}}
+
+{{--<div id="dialogCard2" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">--}}
+    {{--<div class="card-header"><h5>Additional Dialog</h5></div>--}}
+    {{--<div class="card-body">--}}
+        {{--<table class="table table-bordered">--}}
+            {{--<tr>--}}
+                {{--<th>Description</th>--}}
+                {{--<th>Speaker</th>--}}
+
+                {{--<th>--}}
+                    {{--<button type="button" class="addDescription btn btn-success">Add</button>--}}
+                {{--</th>--}}
+            {{--</tr>--}}
+
+            {{--<tbody>--}}
+            {{--@isset($additionalDialog)--}}
+                {{--@foreach($additionalDialog->descriptions->sortBy('number') as $value)--}}
+
+                    {{--@include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'additionalDescriptions'])--}}
+
+                {{--@endforeach--}}
+            {{--@endisset--}}
+            {{--</tbody>--}}
+
+        {{--</table>--}}
+    {{--</div>--}}
+{{--</div>--}}
+
+<div class="card" style="margin: 15px 0 15px 0">
+    <div class="card-header"><h5>Quest descriptions</h5></div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <th>Description</th>
-                <th>Speaker</th>
-
-                <th>
-                    <button type="button" class="addDescription btn btn-success">Add</button>
-                </th>
-            </tr>
-
-            <tbody>
-            @isset($beginDialog)
-                @foreach($beginDialog->descriptions->sortBy('number') as $value)
-
-                    @include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'beginDescriptions'])
-
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                @foreach
+                <tr>
+                    <td {{ in_array($loop->index, [0,3,4]) }}colspan="2" bgcolor="#faffef">
+                        <label>Header Text</label>
+                        <nav>
+                            <div class="nav nav-tabs" id="headerText">
+                                @foreach($languages as $language)
+                                    <a class="nav-item nav-link {{ $loop->first ? 'active' : '' }}" href="#{{ $language->language }}"></a>
+                                @endforeach
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="headerTextContent">
+                            @isset($questdescription)
+                                @foreach($questdescriptions->where('mode', 0)->first()->description->localizations as $localization)
+                                    <div role="tabpanel" class="tab-pane fade show active"
+                                         id="{{ $localization->language->language }}"
+                                         aria-labelledby="{{ $localization->language->language }}-tab"></div>
+                                @endforeach
+                            @endisset
+                        </div>
+                        {{--<input class="form-control" name="data[0][textKey]"--}}
+                        {{--value="{{ isset($questdescription) ? $questdescription->values()[0]['textKey'] : '' }}">--}}
+                    </td>
+                </tr>
                 @endforeach
-            @endisset
-            </tbody>
+                <tr>
+                    <td bgcolor="#faffef">
+                        <label>Left Text</label>
+                        <nav>
+                            <div class="nav nav-tabs" id="headerText">
+                                @foreach($languages as $language)
+                                    <a class="nav-item nav-link {{ $loop->first ? 'active' : '' }}" href="#{{ $language->language }}"></a>
+                                @endforeach
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="headerTextContent">
+                            @isset($questdescription)
+                                @foreach($questdescriptions->where('mode', 1)->first()->description->localizations as $localization)
+                                    <div role="tabpanel" class="tab-pane fade show active"
+                                         id="{{ $localization->language->language }}"
+                                         aria-labelledby="{{ $localization->language->language }}-tab"></div>
+                                @endforeach
+                            @endisset
+                        </div>
+                        {{--<input class="form-control" name="data[1][textKey]"--}}
+                        {{--value="{{ isset($questdescription) ? $questdescription->values()[1]['textKey'] : '' }}">--}}
+                    </td>
+                    <td bgcolor="#fff0d7">
+                        <label>Right Image</label>
+                        <input class="form-control" name="data[1][imageName]"
+                               value="{{ isset($questdescription) ? $questdescription->values()[1]['imageName'] : '' }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#fff0d7">
+                        <label>Left Image</label>
+                        <input class="form-control" name="data[2][imageName]"
+                               value="{{ isset($questdescription) ? $questdescription->values()[2]['textKey'] : '' }}">
+                    </td>
+                    <td bgcolor="#faffef">
+                        <label>Right Text</label>
+                        <nav>
+                            <div class="nav nav-tabs" id="headerText">
+                                @foreach($languages as $language)
+                                    <a class="nav-item nav-link {{ $loop->first ? 'active' : '' }}" href="#{{ $language->language }}"></a>
+                                @endforeach
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="headerTextContent">
+                            @foreach($languages as $language)
+                                <div role="tabpanel" class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $language->language }}"
+                                aria-labelledby="{{ $language->language }}-tab">
+                                    <textarea class="form-control" name="questdescription[{{ $language->ID }}][description]">
+                                        {{ isset($questdescriptions) ?
+                                        $questdescriptions->where('mode', 0)->first()
+                                        ->description->localizations->where('languageID', $language->ID) : '' }}
+                                    </textarea>
+                                </div>
+                                @endforeach
+                                {{--@isset($questdescription)--}}
+                            {{--@foreach($questdescriptions->where('mode', 2)->first()->description->localizations as $localization)--}}
+                            {{--<div role="tabpanel" class="tab-pane fade show active" id="{{ $localization->language->language }}"--}}
+                            {{--aria-labelledby="{{ $localization->language->language }}-tab"></div>--}}
+                            {{--@endforeach--}}
+                            {{--@endisset--}}
+                        </div>
+                        {{--<input class="form-control" name="data[2][textKey]"--}}
+                        {{--value="{{ isset($questdescription) ? $questdescription->values()[2]['imageName'] : '' }}">--}}
+                    </td>
 
-        </table>
-    </div>
-</div>
-
-<div id="dialogCard2" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">
-    <div class="card-header"><h5>Additional Dialog</h5></div>
-    <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <th>Description</th>
-                <th>Speaker</th>
-
-                <th>
-                    <button type="button" class="addDescription btn btn-success">Add</button>
-                </th>
-            </tr>
-
-            <tbody>
-            @isset($additionalDialog)
-                @foreach($additionalDialog->descriptions->sortBy('number') as $value)
-
-                    @include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'additionalDescriptions'])
-
-                @endforeach
-            @endisset
-            </tbody>
-
-        </table>
+                </tr>
+                <tr bgcolor="#faffef">
+                    <td colspan="2">
+                        <label>Wide Text</label>
+                        <nav>
+                            <div class="nav nav-tabs" id="headerText">
+                                @foreach($languages as $language)
+                                    <a class="nav-item nav-link active" href="{{ $language->language }}"></a>
+                                @endforeach
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="headerTextContent">
+                            @isset($questdescription)
+                                @foreach($questdescriptions->where('mode', 3)->first()->description->localizations as $localization)
+                                    <div role="tabpanel" class="tab-pane fade show active"
+                                         id="{{ $localization->language->language }}"
+                                         aria-labelledby="{{ $localization->language->language }}-tab"></div>
+                                @endforeach
+                            @endisset
+                        </div>
+                        {{--<input class="form-control" name="data[3][textKey]"--}}
+                        {{--value="{{ isset($questdescription) ? $questdescription->values()[3]['textKey'] : '' }}">--}}
+                    </td>
+                </tr>
+                <tr bgcolor="#fff0d7">
+                    <td colspan="2">
+                        <label>Wide Image</label>
+                        <input class="form-control" name="data[4][imageName]"
+                               value="{{ isset($questdescription) ? $questdescription->values()[4]['imageName'] : '' }}">
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 

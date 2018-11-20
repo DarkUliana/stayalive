@@ -11,4 +11,9 @@ class QuestDescription extends Model
     protected $guarded = [];
 
     protected $hidden = ['ID', 'questID', 'created_at', 'updated_at'];
+
+    public function description()
+    {
+        return $this->hasOne('App\Description', 'key', 'textKey');
+    }
 }

@@ -123,8 +123,6 @@ Route::group(['middleware' => ['auth', 'sidebar']], function () {
         'index'
     ]]);
 
-    Route::resource('quest-descriptions', 'Admin\QuestDescriptionsController');
-
 });
 
 

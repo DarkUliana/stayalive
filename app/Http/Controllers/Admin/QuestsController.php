@@ -10,6 +10,7 @@ use App\Enemy;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Item;
+use App\Language;
 use App\Quest;
 use App\QuestField;
 use App\QuestType;
@@ -173,13 +174,14 @@ class QuestsController extends Controller
         $additionalDialog = Dialog::where('questID', $id)->where('type', 'additional')->first();
         $descriptions = Description::all();
         $speakers = Speaker::pluck('name');
+        $languages = Language::all();
 
         if (isset($quest->field)) {
             $items = $this->getItems($quest->field->fieldName->name);
         }
 
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
-            'additionalDialog', 'descriptions', 'speakers'));
+            'additionalDialog', 'descriptions', 'speakers', 'languages'));
     }
 
     /**
