@@ -23,6 +23,16 @@
 </tr>
 <tr>
     <th>
+        Peace radius
+    </th>
+    <td>
+        <input class="form-control" name="peaceRadius" type="number" step="0.01"
+               id="peaceRadius" value="{{ $mob->peaceRadius or ''}}" required>
+        {!! $errors->first('peaceRadius', '<p class="help-block">:message</p>') !!}
+    </td>
+</tr>
+<tr>
+    <th>
         Maximum HP
     </th>
     <td>
