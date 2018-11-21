@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\AdditionalQuestsField;
 use App\Description;
+use App\DescriptionMode;
 use App\Dialog;
 use App\DialogDescription;
 use App\Enemy;
@@ -175,13 +176,16 @@ class QuestsController extends Controller
         $descriptions = Description::all();
         $speakers = Speaker::pluck('name');
         $languages = Language::all();
+        $mods = DescriptionMode::all();
+        $questdescriptions = $quest->questdescriptions;
+//        dd($questdescriptions);
 
         if (isset($quest->field)) {
             $items = $this->getItems($quest->field->fieldName->name);
         }
 
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
-            'additionalDialog', 'descriptions', 'speakers', 'languages'));
+            'additionalDialog', 'descriptions', 'speakers', 'languages', 'mods', 'questdescriptions'));
     }
 
     /**
