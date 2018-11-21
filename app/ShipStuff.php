@@ -21,4 +21,9 @@ class ShipStuff extends Model
     {
         return $this->hasMany('App\PlayerShipStuffItem', 'stuffID', 'ID');
     }
+
+    public function recovers()
+    {
+        return $this->hasMany('App\FloorRecover', 'shipStuffID', 'ID');
+    }
 }

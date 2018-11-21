@@ -11,30 +11,45 @@
             @if($create)
                 <form method="POST" action="{{ url('/ship-stuff') }}" accept-charset="UTF-8" class="form-horizontal"
                       enctype="multipart/form-data">
-            @else
-                <form method="POST" action="{{ url('/ship-stuff/' . $floor->ID) }}" accept-charset="UTF-8"
-                      class="form-horizontal" enctype="multipart/form-data">
-                    {{ method_field('PATCH') }}
-            @endif
-                    {{ csrf_field() }}
-                    <div class="modal-body">
+                    @else
+                        <form method="POST" action="{{ url('/ship-stuff/' . $floor->ID) }}" accept-charset="UTF-8"
+                              class="form-horizontal" enctype="multipart/form-data">
+                            {{ method_field('PATCH') }}
+                            @endif
+                            {{ csrf_field() }}
+                            <div class="modal-body">
 
-                        <div class="form-group">
-                            <label for="deckWidth" class="col-md-4 control-label">{{ 'deckWidth' }}</label>
-                            <div class="col-md-6">
-                                <input type="hidden" name="floorIndex" value="{{ $floor->floorIndex }}">
-                                <input type="number" step="1"
-                                       class="form-control form-control-sm"
-                                       name="deckWidth"
-                                       value="{{ $floor->deckWidth }}">
+                                <div class="form-group">
+                                    <label for="deckWidth" class="col-md-4 control-label">{{ 'deckWidth' }}</label>
+                                    <div class="col-md-6">
+                                        <input type="hidden" name="floorIndex" value="{{ $floor->floorIndex }}">
+                                        <input type="number" step="1"
+                                               class="form-control form-control-sm"
+                                               name="deckWidth"
+                                               value="{{ $floor->deckWidth }}">
+                                        <br>
+                                        <label>floorRecover</label>
+                                        <div class="col-md-6">
+
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="floorRecover"
+                                                           value="0" {{ (!$floor->recovers->first() || !$floor->recovers->first()->floorRecover) ? 'checked' : '' }}> false
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="floorRecover"
+                                                           value="1" {{ ($floor->recovers->first() && $floor->recovers->first()->floorRecover) ? 'checked' : '' }}> true
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
         </div>
     </div>
 </div>

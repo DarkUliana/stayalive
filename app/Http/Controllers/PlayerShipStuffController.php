@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FloorRecover;
 use App\PlayerShipStuffItem;
 use App\PlayerTechnologyQuantity;
 use App\ShipStuff;
@@ -21,6 +22,8 @@ class PlayerShipStuffController extends Controller
 
         $floors = ShipStuff::with(['items' => function ($query) use ($playerID) {
             $query->where('playerID', $playerID);
+        }])->with(['recovers' => function ($query) use ($playerID) {
+            $query->where('playerID', $playerID);
         }])->with('defaultItems')->get();
 
         $collection = collect();
@@ -28,6 +31,21 @@ class PlayerShipStuffController extends Controller
         foreach ($floors as $floor) {
 
             $temp = $floor->toArray();
+
+////////////////////////floorRecover field/////////////////////////////////////////////
+
+            if ($floor->recovers->isEmpty()) {
+
+                $temp['floorRecover'] = FloorRecover::where('playerID', 0)->where('shipStuffID', '=', $floor->ID)->value('floorRecover');
+            } else {
+
+                $temp['floorRecover'] = $floor->recovers->first()->floorRecover;
+            }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////shipStuffItems (floors cells)//////////////////////////////////////
+
             $indexes = $floor->items->pluck('cellIndex')->toArray();
             $defaultIndexes = $floor->defaultItems->pluck('cellIndex')->toArray();
 
@@ -45,8 +63,11 @@ class PlayerShipStuffController extends Controller
             $max = $temp['floorCells']->count() - $temp['floorCells']->count() % $floor->deckWidth;
             $temp['floorCells'] = $temp['floorCells']->sortBy('cellIndex')->splice(0, $max);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
             unset($temp['default_items']);
             unset($temp['items']);
+            unset($temp['recovers']);
             $collection->push($temp);
         }
 
@@ -104,6 +125,11 @@ class PlayerShipStuffController extends Controller
                     $newCell = new PlayerShipStuffItem($temp);
                     $floor->items()->save($newCell);
                 }
+
+                FloorRecover::updateOrCreate(
+                    ['playerID' => $playerID, 'shipStuffID' => $floor->ID],
+                    ['floorRecover' => $item['floorRecover']]
+                );
             }
         }
 

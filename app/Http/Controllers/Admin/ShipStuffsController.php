@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Direction;
+use App\FloorRecover;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -61,6 +62,7 @@ class ShipStuffsController extends Controller
     {
 
         $requestData = $request->all();
+        unset($requestData['floorRecover']);
 
         $floor = ShipStuff::create($requestData);
         for ($i = 0; $i < $floor->deckWidth; $i++) {
@@ -68,6 +70,8 @@ class ShipStuffsController extends Controller
             $cell = new ShipStuffItem(['cellIndex' => $i, 'cellType' => 0, 'technologyType' => 1, 'techLevel' => 0]);
             $floor->defaultItems()->save($cell);
         }
+
+        FloorRecover::create(['playerID' => 0, 'shipStuffID' => $floor->ID, 'floorRecover' => 0]);
 
         return redirect('ship-stuff')->with('flash_message', 'ShipStuff added!');
     }
@@ -112,10 +116,22 @@ class ShipStuffsController extends Controller
     public function update(Request $request, $id)
     {
 
+        $this->validate($request, [
+            'floorIndex' => 'required|integer',
+            'deckWidth' => 'required|integer',
+            'floorRecover' => 'required',
+        ]);
+
         $requestData = $request->all();
+        unset($requestData['floorRecover']);
 
         $shipstuff = ShipStuff::findOrFail($id);
         $shipstuff->update($requestData);
+
+        FloorRecover::updateOrCreate(
+            ['playerID' => 0, 'shipStuffID' => $id],
+            ['floorRecover' => $request->floorRecover]
+        );
 
         return redirect('ship-stuff')->with('flash_message', 'ShipStuff updated!');
     }
@@ -131,6 +147,7 @@ class ShipStuffsController extends Controller
     {
         ShipStuff::destroy($id);
         ShipStuffItem::where('stuffID', $id)->delete();
+        FloorRecover::where('shipStuffID', $id)->delete();
 
         return redirect('ship-stuff')->with('flash_message', 'ShipStuff deleted!');
     }
