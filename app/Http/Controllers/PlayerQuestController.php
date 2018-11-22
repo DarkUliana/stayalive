@@ -170,19 +170,16 @@ class PlayerQuestController extends Controller
     {
         $newQuests = [];
 
-        if (!empty($quests)) {
+        while (count($newQuests) < $questCount) {
 
-            while (count($newQuests) < $questCount) {
+            $rnd = random_int(0, count($quests) - 1);
 
-                $rnd = random_int(0, count($quests) - 1);
+            if ((!in_array($quests[$rnd], $daily)
+                    || (count($quests) - count($daily)) < $questCount)
+                && (!in_array($quests[$rnd], $newQuests)
+                    || count($quests) < $questCount)) {
 
-                if ((!in_array($quests[$rnd], $daily)
-                        || (count($quests) - count($daily)) < $questCount)
-                    && (!in_array($quests[$rnd], $newQuests)
-                        || count($quests) < $questCount)) {
-
-                    $newQuests[] = $quests[$rnd];
-                }
+                $newQuests[] = $quests[$rnd];
             }
         }
 
