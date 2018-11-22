@@ -18,7 +18,7 @@ class DescriptionModesTableSeeder extends Seeder
             ],
             [
                 'index' => 0,
-                'name' => ' LeftText'
+                'name' => 'LeftText'
             ],
             [
                 'index' => 0,

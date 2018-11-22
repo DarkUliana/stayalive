@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\AdditionalQuestsField;
 use App\Description;
+use App\DescriptionLocalization;
 use App\DescriptionMode;
 use App\Dialog;
 use App\DialogDescription;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Item;
 use App\Language;
 use App\Quest;
+use App\QuestDescription;
 use App\QuestField;
 use App\QuestType;
 use App\Reward;
@@ -119,6 +121,8 @@ class QuestsController extends Controller
             }
         }
 
+        $this->saveQuestDescriptions($quest->id, $request->questdescriptions);
+
         return redirect('quests')->with('flash_message', 'Quest added!');
     }
 
@@ -173,19 +177,18 @@ class QuestsController extends Controller
         $types = QuestType::all();
         $beginDialog = Dialog::where('questID', $id)->where('type', 'begin')->first();
         $additionalDialog = Dialog::where('questID', $id)->where('type', 'additional')->first();
-        $descriptions = Description::all();
+//        $descriptions = Description::all();
         $speakers = Speaker::pluck('name');
         $languages = Language::all();
-        $mods = DescriptionMode::all();
+        $modes = DescriptionMode::all();
         $questdescriptions = $quest->questdescriptions;
-//        dd($questdescriptions);
 
         if (isset($quest->field)) {
             $items = $this->getItems($quest->field->fieldName->name);
         }
 
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
-            'additionalDialog', 'descriptions', 'speakers', 'languages', 'mods', 'questdescriptions'));
+            'additionalDialog', 'descriptions', 'speakers', 'languages', 'modes', 'questdescriptions'));
     }
 
     /**
@@ -199,12 +202,14 @@ class QuestsController extends Controller
     public function update(Request $request, $id)
     {
 
+        dd($request->input());
         $this->validate($request, $this->validateArray);
 
         $requestData = $request->all();
         unset($requestData['field']);
         unset($requestData['beginDescriptions']);
         unset($requestData['additionalDescriptions']);
+        unset($requestData['questdescriptions']);
 
         $quest = Quest::findOrFail($id);
         $quest->update($requestData);
@@ -253,6 +258,8 @@ class QuestsController extends Controller
             DialogDescription::whereIn('dialogID', $dialogs)->delete();
             Dialog::whereIn('ID', $dialogs)->delete();
         }
+
+        $this->saveQuestDescriptions($id, $request->questdescriptions);
 
         return redirect('quests')->with('flash_message', 'Quest updated!');
     }
@@ -330,5 +337,50 @@ class QuestsController extends Controller
         }
     }
 
+    protected function saveQuestDescriptions($id, $questdescriptions) {
+
+        foreach ($questdescriptions as $mode => $description) {
+
+            $descriptionID = $description['descriptionID'];
+            if (!$descriptionID) {
+
+                $newDescription = Description::create(['key' => $description['textKey']]);
+                $descriptionID = $newDescription->ID;
+            }
+
+            if (isset($description['localizations'])) {
+
+                foreach ($description['localizations'] as $language => $localization) {
+
+                    $localizationData = [
+
+                        'descriptionID' => $descriptionID,
+                        'languageID' => $language,
+                        'name' => '',
+                        'description' => $localization
+                    ];
+
+                    DescriptionLocalization::where('descriptionID', $description['descriptionID'])->update($localizationData);
+                }
+            }
+
+
+            $data = [
+                'textKey' => isset($description['textKey']) ? $description['textKey'] : null,
+                'imageName' => isset($description['imageName']) ? $description['imageName'] : null,
+                'mode' => $mode,
+                'questID' => $id
+            ];
+            if ($description['questDescriptionID']) {
+
+                QuestDescription::where('ID', $description['ID'])
+                    ->update($data);
+            } else {
+
+                QuestDescription::create($data);
+            }
+
+        }
+    }
 
 }

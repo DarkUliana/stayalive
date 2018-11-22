@@ -1,4 +1,8 @@
-<label>{{ $mode->name }}</label>
+<label>Key</label>
+
+<input class="form-control" type="text" name="{{ 'questdescriptions['.$mode->index.'][textKey]'}}"
+       value="{{ $description ? $description->description->key : '' }}" {{ $description ? 'disabled' : '' }}>
+<br>
 <nav>
     <div class="nav nav-tabs" id="{{ $mode->name }}" role="tablist">
         @foreach($languages as $language)
@@ -12,21 +16,22 @@
     </div>
 </nav>
 <div class="tab-content" id="{{ $mode->name }}Content">
-    @isset($questdescriptions)
 
-        @foreach($questdescriptions->where('mode', $mode->index)->first()->description->localizations as $localization)
+    @foreach($languages as $language)
 
+        @php
+        $localizations = $description ? $description->description : null;
+        @endphp
             <div class="tab-pane fade{{ $loop->first ? ' show active' : '' }}"
-                 id="nav-{{ $localization->language->language.$mode->index }}"
+                 id="nav-{{ $language->language.$mode->index }}"
                  role="tabpanel"
-                 aria-labelledby="nav-{{ $localization->language->language.$mode->index }}-tab">
+                 aria-labelledby="nav-{{ $language->language.$mode->index }}-tab">
 
+                <div class="form-group">
                         <textarea class="form-control"
-                                  name="{{ 'questdescriptions['.$mode->index.'][localizations]['.$localization->language->ID.']' }}"
-                                  cols="3">
-                        {{ $localization->text }}
-                        </textarea>
+                                  name="{{ 'questdescriptions['.$mode->index.'][localizations]['.$language->ID.']' }}"
+                                  rows="3">{{ $localizations ? $localizations->localizations->where('languageID', $language->ID)->description : '' }}</textarea>
+                </div>
             </div>
         @endforeach
-    @endisset
 </div>

@@ -17,8 +17,8 @@ class CreateQuestDescriptionsTable extends Migration
             $table->increments('ID');
             $table->integer('questID');
             $table->integer('mode');
-            $table->string('imageName');
-            $table->string('textKey');
+            $table->string('imageName')->nullable();
+            $table->string('textKey')->nullable();
             $table->timestamps();
         });
     }

@@ -135,13 +135,36 @@
     <div class="card-header"><h5>Quest descriptions</h5></div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered">
-                @foreach($mods as $mode)
+            <table class="table table-bordered quest-description-table">
+                @foreach($modes as $mode)
+                    @php
+                        $description = $questdescriptions->where('mode', $mode->index)->first();
+                    @endphp
                     <tr>
-                        <td>
+                        @if($mode->name == 'WideImage')
+                            <td colspan="2" style="background: #fff0d7">
 
+                                @include('admin.quests.default-fields')
+                                @include('admin.quests.image-name')
+                            </td>
+                        @else
+                            @if($mode->name == 'RightText')
+                                <td style="background: #fff0d7">
+                                    @include('admin.quests.image-name')
+                                </td>
+                            @endif
 
-                        </td>
+                            <td {{ $mode->name == 'HeaderText' || $mode->name == 'WideText' ? 'colspan=2' : '' }} style="background: #f0ffda">
+                                @include('admin.quests.default-fields')
+                                @include('admin.quests.localizations')
+                            </td>
+
+                            @if($mode->name == 'LeftText')
+                                <td style="background: #fff0d7">
+                                    @include('admin.quests.image-name')
+                                </td>
+                            @endif
+                        @endif
                     </tr>
                 @endforeach
 
