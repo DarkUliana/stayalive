@@ -168,3 +168,7 @@
 .dark-border {
     border-color: #fd450c !important;
 }
+
+.quest-description-table td {
+    border: 2px solid #dee2e6 !important;
+}

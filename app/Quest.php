@@ -28,4 +28,9 @@ class Quest extends Model
     {
         return $this->hasOne('App\Reward', 'ID', 'rewardID');
     }
+
+    public function questdescriptions()
+    {
+        return $this->hasMany('App\QuestDescription', 'questID', 'ID');
+    }
 }

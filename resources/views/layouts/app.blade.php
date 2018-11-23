@@ -155,12 +155,6 @@
     <script src="{{ asset('js/technologies.js') }}"></script>
 @endif
 
-@if(Request::is('dialogs/*') || Request::is('quests/*'))
-
-    <script src="{{ asset('js/dialog.js') }}"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-@endif
-
 @if(Request::is('descriptions'))
     <script src="{{ asset('js/descriptions.js') }}"></script>
 @endif

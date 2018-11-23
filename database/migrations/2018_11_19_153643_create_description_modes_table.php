@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuestDescriptionsTable extends Migration
+class CreateDescriptionModesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateQuestDescriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('quest_descriptions', function (Blueprint $table) {
+        Schema::create('description_modes', function (Blueprint $table) {
             $table->increments('ID');
-            $table->integer('questID');
-            $table->integer('mode');
-            $table->string('imageName')->nullable();
-            $table->string('textKey')->nullable();
+            $table->integer('index');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateQuestDescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quest_descriptions');
+        Schema::dropIfExists('description_modes');
     }
 }
