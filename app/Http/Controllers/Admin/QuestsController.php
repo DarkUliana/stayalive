@@ -97,6 +97,7 @@ class QuestsController extends Controller
         unset($requestData['beginDescriptions']);
         unset($requestData['additionalDescriptions']);
         unset($requestData['questdescriptions']);
+        unset($requestData['mode']);
 
         $quest = Quest::create($requestData);
 
@@ -215,6 +216,7 @@ class QuestsController extends Controller
         unset($requestData['beginDescriptions']);
         unset($requestData['additionalDescriptions']);
         unset($requestData['questdescriptions']);
+        unset($requestData['mode']);
 
         $quest = Quest::findOrFail($id);
         $quest->update($requestData);
@@ -363,6 +365,7 @@ class QuestsController extends Controller
 
     protected function saveQuestDescriptions($id, $questdescriptions) {
 
+        QuestDescription::where('questID', $id)->delete();
         foreach ($questdescriptions as $mode => $description) {
 
             if (isset($description['textKey'])) {
@@ -401,22 +404,23 @@ class QuestsController extends Controller
             $data = [
                 'textKey' => (isset($description['textKey'])) ? $description['textKey'] : null,
                 'imageName' => (isset($description['imageName'])) ? $description['imageName'] : null,
-                'mode' => $mode,
+                'mode' => $description['mode'],
                 'questID' => $id
             ];
 
-//            dd($description['questDescriptionID']);
-
-            if ($description['questDescriptionID']) {
-
-                QuestDescription::where('ID', $description['questDescriptionID'])
-                    ->update($data);
-            } else {
-
                 QuestDescription::create($data);
-            }
 
         }
+    }
+
+    public function getNewQuestDescription(Request $request)
+    {
+
+        $index = $request->index + 1;
+        $mode = $request->mode;
+        $languages = Language::all();
+
+        return view("admin.quests.mode-$request->mode", compact('index', 'mode', 'languages'));
     }
 
 }

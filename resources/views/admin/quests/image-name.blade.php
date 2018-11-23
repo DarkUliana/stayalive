@@ -1,4 +1,3 @@
 <label>Image name</label>
-<input type="text" name="{{ 'questdescriptions['.$mode->index.'][imageName]'}}" class="form-control"
-       value="{{ $description ?
-       $description->imageName : '' }}">
+<input type="text" name="{{ 'questdescriptions['.$index.'][imageName]'}}" class="form-control"
+       value="{{ isset($description) ? $description->imageName : '' }}">

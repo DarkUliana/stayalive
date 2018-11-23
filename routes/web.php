@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth', 'sidebar']], function () {
 
     Route::resource('quests', 'Admin\QuestsController');
     Route::get('quest-items', 'Admin\QuestsController@items');
+    Route::get('new-quest-description', 'Admin\QuestsController@getNewQuestDescription');
 
     Route::resource('versions', 'Admin\VersionsController');
 
