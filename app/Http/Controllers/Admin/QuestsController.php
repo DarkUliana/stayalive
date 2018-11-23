@@ -17,6 +17,7 @@ use App\Quest;
 use App\QuestDescription;
 use App\QuestField;
 use App\QuestType;
+use App\RestorableObject;
 use App\Reward;
 use App\RewardChestType;
 use App\Speaker;
@@ -73,8 +74,11 @@ class QuestsController extends Controller
         $field = AdditionalQuestsField::where('name', 'itemID')->first();
         $descriptions = Description::all();
         $speakers = Speaker::pluck('name');
+        $modes = DescriptionMode::all();
+        $languages = Language::all();
 
-        return view('admin.quests.create', compact('rewards', 'types', 'items', 'field', 'descriptions', 'speakers'));
+        return view('admin.quests.create', compact('rewards', 'types', 'items', 'field', 'descriptions',
+            'modes', 'speakers', 'languages'));
     }
 
     /**
@@ -92,6 +96,7 @@ class QuestsController extends Controller
         unset($requestData['field']);
         unset($requestData['beginDescriptions']);
         unset($requestData['additionalDescriptions']);
+        unset($requestData['questdescriptions']);
 
         $quest = Quest::create($requestData);
 
@@ -121,7 +126,7 @@ class QuestsController extends Controller
             }
         }
 
-        $this->saveQuestDescriptions($quest->id, $request->questdescriptions);
+        $this->saveQuestDescriptions($quest->ID, $request->questdescriptions);
 
         return redirect('quests')->with('flash_message', 'Quest added!');
     }
@@ -202,7 +207,7 @@ class QuestsController extends Controller
     public function update(Request $request, $id)
     {
 
-        dd($request->input());
+//        dd($request->input());
         $this->validate($request, $this->validateArray);
 
         $requestData = $request->all();
@@ -276,8 +281,24 @@ class QuestsController extends Controller
         QuestField::where('questID', $id)->delete();
         Quest::destroy($id);
         $dialog = Dialog::where('questID', $id)->first();
-        DialogDescription::where('dialogID', $dialog->ID)->delete();
-        $dialog->delete();
+        if ($dialog) {
+            DialogDescription::where('dialogID', $dialog->ID)->delete();
+            $dialog->delete();
+        }
+
+        $questdescriptions = QuestDescription::where('questID', $id)->get();
+
+        foreach ($questdescriptions as $one) {
+
+            $description = Description::where('key', $one->textKey)->first();
+            if ($description) {
+
+                DescriptionLocalization::where('descriptionID', $description->ID)->delete();
+                $description->delete();
+            }
+
+        }
+        QuestDescription::where('questID', $id)->delete();
 
         return redirect('quests')->with('flash_message', 'Quest deleted!');
     }
@@ -318,6 +339,9 @@ class QuestsController extends Controller
             case('speaker'):
                 $items = Speaker::all();
                 break;
+            case('objectToRestore'):
+                $items = RestorableObject::all();
+                break;
         }
 
         return $items;
@@ -341,39 +365,51 @@ class QuestsController extends Controller
 
         foreach ($questdescriptions as $mode => $description) {
 
-            $descriptionID = $description['descriptionID'];
-            if (!$descriptionID) {
+            if (isset($description['textKey'])) {
 
-                $newDescription = Description::create(['key' => $description['textKey']]);
-                $descriptionID = $newDescription->ID;
-            }
+                $descriptionID = $description['descriptionID'];
 
-            if (isset($description['localizations'])) {
+                if (!$descriptionID) {
 
-                foreach ($description['localizations'] as $language => $localization) {
-
-                    $localizationData = [
-
-                        'descriptionID' => $descriptionID,
-                        'languageID' => $language,
-                        'name' => '',
-                        'description' => $localization
-                    ];
-
-                    DescriptionLocalization::where('descriptionID', $description['descriptionID'])->update($localizationData);
+                    $newDescription = Description::create(['key' => $description['textKey']]);
+                    $descriptionID = $newDescription->ID;
                 }
-            }
 
+                if (isset($description['localizations'])) {
+
+
+                    foreach ($description['localizations'] as $language => $localization) {
+
+                        $searchData = [
+
+                            'descriptionID' => $descriptionID,
+                            'languageID' => $language,
+
+                        ];
+                        $saveData = [
+
+                            'name' => '',
+                            'description' => $localization
+                        ];
+
+                        DescriptionLocalization::updateOrCreate($searchData, $saveData);
+                    }
+                }
+
+            }
 
             $data = [
-                'textKey' => isset($description['textKey']) ? $description['textKey'] : null,
-                'imageName' => isset($description['imageName']) ? $description['imageName'] : null,
+                'textKey' => (isset($description['textKey'])) ? $description['textKey'] : null,
+                'imageName' => (isset($description['imageName'])) ? $description['imageName'] : null,
                 'mode' => $mode,
                 'questID' => $id
             ];
+
+//            dd($description['questDescriptionID']);
+
             if ($description['questDescriptionID']) {
 
-                QuestDescription::where('ID', $description['ID'])
+                QuestDescription::where('ID', $description['questDescriptionID'])
                     ->update($data);
             } else {
 

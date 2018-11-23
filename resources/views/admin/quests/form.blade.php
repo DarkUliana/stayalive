@@ -138,7 +138,7 @@
             <table class="table table-bordered quest-description-table">
                 @foreach($modes as $mode)
                     @php
-                        $description = $questdescriptions->where('mode', $mode->index)->first();
+                        $description = isset($questdescriptions) ? $questdescriptions->where('mode', $mode->index)->first() : null;
                     @endphp
                     <tr>
                         @if($mode->name == 'WideImage')
