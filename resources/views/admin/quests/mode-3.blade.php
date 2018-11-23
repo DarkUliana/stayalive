@@ -1,0 +1,1 @@
+@include('admin.quests.mode-0')

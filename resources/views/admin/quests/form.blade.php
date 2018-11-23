@@ -77,96 +77,34 @@
     </div>
 </div>
 
-{{--<div id="dialogCard1" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">--}}
-{{--<div class="card-header"><h5>Begin Dialog</h5></div>--}}
-{{--<div class="card-body">--}}
-{{--<table class="table table-bordered">--}}
-{{--<tr>--}}
-{{--<th>Description</th>--}}
-{{--<th>Speaker</th>--}}
-
-{{--<th>--}}
-{{--<button type="button" class="addDescription btn btn-success">Add</button>--}}
-{{--</th>--}}
-{{--</tr>--}}
-
-{{--<tbody>--}}
-{{--@isset($beginDialog)--}}
-{{--@foreach($beginDialog->descriptions->sortBy('number') as $value)--}}
-
-{{--@include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'beginDescriptions'])--}}
-
-{{--@endforeach--}}
-{{--@endisset--}}
-{{--</tbody>--}}
-
-{{--</table>--}}
-{{--</div>--}}
-{{--</div>--}}
-
-{{--<div id="dialogCard2" class="card @if(!isset($quest) || $quest->daily == 1){{ 'd-none' }}@endif">--}}
-{{--<div class="card-header"><h5>Additional Dialog</h5></div>--}}
-{{--<div class="card-body">--}}
-{{--<table class="table table-bordered">--}}
-{{--<tr>--}}
-{{--<th>Description</th>--}}
-{{--<th>Speaker</th>--}}
-
-{{--<th>--}}
-{{--<button type="button" class="addDescription btn btn-success">Add</button>--}}
-{{--</th>--}}
-{{--</tr>--}}
-
-{{--<tbody>--}}
-{{--@isset($additionalDialog)--}}
-{{--@foreach($additionalDialog->descriptions->sortBy('number') as $value)--}}
-
-{{--@include('admin.dialogs.description', ['index' => $loop->index, 'name' => 'additionalDescriptions'])--}}
-
-{{--@endforeach--}}
-{{--@endisset--}}
-{{--</tbody>--}}
-
-{{--</table>--}}
-{{--</div>--}}
-{{--</div>--}}
-
 <div class="card" style="margin: 15px 0 15px 0">
     <div class="card-header"><h5>Quest descriptions</h5></div>
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <select class="form-control form-control-sm" name="mode">
+                    @foreach($modes as $mode)
+                        <option value="{{ $mode->index }}">{{ $mode->name }}</option>
+                        <option></option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <div class="btn btn-success btn-sm" id="addDescription"><i class="fa fa-plus" aria-hidden="true"></i>
+                    Add
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="table-responsive">
             <table class="table table-bordered quest-description-table">
-                @foreach($modes as $mode)
-                    @php
-                        $description = isset($questdescriptions) ? $questdescriptions->where('mode', $mode->index)->first() : null;
-                    @endphp
-                    <tr>
-                        @if($mode->name == 'WideImage')
-                            <td colspan="2" style="background: #fff0d7">
-
-                                @include('admin.quests.default-fields')
-                                @include('admin.quests.image-name')
-                            </td>
-                        @else
-                            @if($mode->name == 'RightText')
-                                <td style="background: #fff0d7">
-                                    @include('admin.quests.image-name')
-                                </td>
-                            @endif
-
-                            <td {{ $mode->name == 'HeaderText' || $mode->name == 'WideText' ? 'colspan=2' : '' }} style="background: #f0ffda">
-                                @include('admin.quests.default-fields')
-                                @include('admin.quests.localizations')
-                            </td>
-
-                            @if($mode->name == 'LeftText')
-                                <td style="background: #fff0d7">
-                                    @include('admin.quests.image-name')
-                                </td>
-                            @endif
-                        @endif
-                    </tr>
-                @endforeach
+                @isset($questdescriptions)
+                    @foreach($questdescriptions as $description)
+                        @include("admin.quests.mode-$description->mode", ['mode' => $description->mode, 'index' => $loop->index])
+                    @endforeach
+                @endisset
 
             </table>
         </div>

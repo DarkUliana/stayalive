@@ -217,5 +217,9 @@
     <script src="{{ asset('js/ship-stuff.js') }}"></script>
 @endif
 
+@if(Request::is('quests/*'))
+    <script src="{{ asset('js/quest.js') }}"></script>
+@endif
+
 </body>
 </html>
