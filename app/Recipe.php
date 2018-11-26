@@ -28,4 +28,9 @@ class Recipe extends Model
     {
         return $this->hasOne('App\RecipeType', 'recipeType', 'index');
     }
+
+    public function classType()
+    {
+        return $this->hasOne('App\RecipeClassType', 'ID', 'classTypeID');
+    }
 }

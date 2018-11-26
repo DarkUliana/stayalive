@@ -59,11 +59,16 @@
         {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div class="form-group {{ $errors->has('Type') ? 'has-error' : ''}}">
-    <label for="Type" class="col-md-4 control-label">{{ 'Type' }}</label>
+<div class="form-group">
+    <label for="classType" class="col-md-4 control-label">{{ 'classType' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="Type" type="text" id="Type" value="{{ $recipe->Type or ''}}">
-        {!! $errors->first('Type', '<p class="help-block">:message</p>') !!}
+        <select class="form-control" name="classTypeID">
+            @foreach($classTypes as $class)
+                <option value="{{ $class->ID }}"
+                        {{ (isset($recipe) && $recipe->classTypeID == $class->ID) ? 'selected' : '' }}>
+                    {{ $class->type }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="form-group {{ $errors->has('InStack') ? 'has-error' : ''}}">

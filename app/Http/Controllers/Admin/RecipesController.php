@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Recipe;
+use App\RecipeClassType;
 use App\RecipeComponents;
 use App\RecipeTechnologies;
 use App\RecipeType;
@@ -70,8 +71,9 @@ class RecipesController extends Controller
         $items = Item::all();
         $technologies = Technology::all();
         $recipeTypes = RecipeType::all();
+        $classTypes = RecipeClassType::all();
 
-        return view('admin.recipes.create', compact('items', 'technologies', 'recipeTypes'));
+        return view('admin.recipes.create', compact('items', 'technologies', 'recipeTypes', 'classTypes'));
     }
 
     /**
@@ -133,8 +135,10 @@ class RecipesController extends Controller
         $selectedItems = $this->getValuesFromEloquentArray($recipe->components, 'itemID');
         $technologies = Technology::all();
         $selectedTechnologies = $this->getValuesFromEloquentArray($recipe->technologies, 'technologyID');
+        $classTypes = RecipeClassType::all();
 
-        return view('admin.recipes.edit', compact('recipe', 'items', 'selectedItems', 'technologies', 'selectedTechnologies', 'recipeTypes'));
+        return view('admin.recipes.edit', compact('recipe', 'items', 'selectedItems', 'technologies',
+            'selectedTechnologies', 'recipeTypes', 'classTypes'));
     }
 
     /**

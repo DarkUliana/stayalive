@@ -15,18 +15,21 @@ class RecipeCollection extends ResourceCollection
     public function toArray($request)
     {
         $collection = $this->collection->toArray();
+//        dd($collection);
 
         $recipes = [];
 
         foreach ($collection as $recipe) {
             $temp = [
-                'Type' => $recipe['Type'],
+                'Type' => $recipe['class_type']['type'],
                 'Data' => $recipe,
             ];
 
             unset($temp['Data']['Type']);
             unset($temp['Data']['components']);
             unset($temp['Data']['technologies']);
+            unset($temp['Data']['classTypeID']);
+            unset($temp['Data']['class_type']);
 
             if (is_null($temp['Data']['InStack'])) {
                 unset($temp['Data']['InStack']);

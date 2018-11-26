@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\RecipeClassType;
 use Illuminate\Http\Request;
 use App\Recipe;
 use App\RecipeComponents;
@@ -12,7 +13,7 @@ class RecipeController extends Controller
 {
     public function index()
     {
-        $recipes = new RecipeCollection(Recipe::with('components')->with('technologies')->get());
+        $recipes = new RecipeCollection(Recipe::with('components')->with('technologies')->with('classType')->get());
 
         return response($recipes, 200);
     }
@@ -60,7 +61,7 @@ class RecipeController extends Controller
         foreach ($recipes as $recipe) {
             $decodedData = json_decode($recipe['Data'], true);
             $data['recipe'] = $decodedData;
-            $data['recipe']['Type'] = $recipe['Type'];
+            $data['recipe']['classTypeID'] = RecipeClassType::where('type', $recipe['Type'])->value('ID');
             unset($data['recipe']['Components']);
             unset($data['recipe']['TechnologiesIDs']);
 
