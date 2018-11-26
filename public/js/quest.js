@@ -23,4 +23,9 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.deleteDescription').on('click', function () {
+
+        $(this).closest('tr').remove();
+    });
 });
