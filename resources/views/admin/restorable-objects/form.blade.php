@@ -6,32 +6,32 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header"><h5>Top List Items</h5></div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="topTable">
-                <tr>
-                    <th>Item</th>
-                    <th>Count</th>
-                    <th>
-                        <button id="addTopListItem" type="button" class="btn btn-success">Add</button>
-                    </th>
-                </tr>
-                @isset($restorableObject)
-                    @foreach($topListItems as $objectItem)
-                        @include('admin.restorable-objects.item', ['arrayName' => 'topListItems'])
-                    @endforeach
-                @endisset
-            </table>
-        </div>
-    </div>
+{{--<div class="card">--}}
+    {{--<div class="card-header"><h5>Top List Items</h5></div>--}}
+    {{--<div class="card-body">--}}
+        {{--<div class="table-responsive">--}}
+            {{--<table class="table table-bordered" id="topTable">--}}
+                {{--<tr>--}}
+                    {{--<th>Item</th>--}}
+                    {{--<th>Count</th>--}}
+                    {{--<th>--}}
+                        {{--<button id="addTopListItem" type="button" class="btn btn-success">Add</button>--}}
+                    {{--</th>--}}
+                {{--</tr>--}}
+                {{--@isset($restorableObject)--}}
+                    {{--@foreach($topListItems as $objectItem)--}}
+                        {{--@include('admin.restorable-objects.item', ['arrayName' => 'topListItems'])--}}
+                    {{--@endforeach--}}
+                {{--@endisset--}}
+            {{--</table>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
-</div>
+{{--</div>--}}
 <br>
 <br>
 <div class="card">
-    <div class="card-header"><h5>Bottom List Items</h5></div>
+    <div class="card-header"><h5>Items List</h5></div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="bottomTable">
