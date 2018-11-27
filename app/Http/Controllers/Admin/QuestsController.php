@@ -127,7 +127,7 @@ class QuestsController extends Controller
             }
         }
 
-        $this->saveQuestDescriptions($quest->ID, $request->questdescriptions);
+        $this->saveQuestDescriptions($quest->ID, ($request->is('questdescriptions') ? $request->questdescriptions : []));
 
         return redirect('quests')->with('flash_message', 'Quest added!');
     }
@@ -266,7 +266,7 @@ class QuestsController extends Controller
             Dialog::whereIn('ID', $dialogs)->delete();
         }
 
-        $this->saveQuestDescriptions($id, $request->questdescriptions);
+        $this->saveQuestDescriptions($id, ($request->is('questdescriptions') ? $request->questdescriptions : []));
 
         return redirect('quests')->with('flash_message', 'Quest updated!');
     }
@@ -325,7 +325,18 @@ class QuestsController extends Controller
         $ID = $type->ID;
         $inputType = $type->type;
 
-        return view('admin.quests.item', compact('ID', 'name', 'items', 'inputType'));
+        $quest = null;
+
+        if ($request->id != null) {
+
+            $quest = Quest::find($request->id);
+            if ($quest->typeID != $request->type) {
+
+                $quest = null;
+            }
+        }
+
+        return view('admin.quests.item', compact('ID', 'name', 'items', 'inputType', 'quest'));
     }
 
     protected function getItems($type)
@@ -369,6 +380,7 @@ class QuestsController extends Controller
     protected function saveQuestDescriptions($id, $questdescriptions) {
 
         QuestDescription::where('questID', $id)->delete();
+
         foreach ($questdescriptions as $mode => $description) {
 
             if (isset($description['textKey'])) {

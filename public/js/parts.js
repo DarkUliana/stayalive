@@ -62,16 +62,17 @@ $(document).ready(function () {
     $('#typeID').on('change', function () {
 
 
-        var type = {"type": $(this).val()};
+        var data = {"type": $(this).val()};
+        data.id = $('.card-header').attr('data-id');
 
         $.ajax({
             url: '/quest-items',
             method: 'GET',
-            data: type,
-            success: function (data) {
+            data: data,
+            success: function (d) {
 
                 $('#questObject').remove();
-                $('#questType').after(data);
+                $('#questType').after(d);
             },
         });
     });
