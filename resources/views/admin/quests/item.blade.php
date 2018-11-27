@@ -5,13 +5,13 @@
         @if($inputType == 'integer')
             <select name="field[value]" class="form-control" id="itemID">
                 @foreach ($items as $value)
-                    <option value="{{ $value->ID }}" {{ (isset($quest->field->value) && $quest->field->value == $value->ID) ? 'selected' : ''}}>{{ $value->name or $value->Name }}</option>
+                    <option value="{{ $value->ID }}" {{ (isset($quest->field) && $quest->field->value == $value->ID) ? 'selected' : ''}}>{{ isset($value->name) ? $value->name : $value->Name }}</option>
                 @endforeach
             </select>
         @elseif($name == 'ObjectToRestore')
             <select name="field[value]" class="form-control" id="itemID">
                 @foreach ($items as $value)
-                    <option value="{{ $value->name }}" {{ (isset($quest->field->value) && $quest->field->value == $value->name) ? 'selected' : ''}}>{{ $value->name }}</option>
+                    <option value="{{ $value->name }}" {{ (isset($quest->field) && $quest->field->value == $value->name) ? 'selected' : ''}}>{{ $value->name }}</option>
                 @endforeach
             </select>
         @else

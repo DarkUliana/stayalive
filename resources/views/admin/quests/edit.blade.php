@@ -6,7 +6,7 @@
             @include('admin.sidebar')
 
             <div class="col-md-9">
-                <div class="card">
+                <div class="card" id="card" data-id="{{ $quest->ID }}">
                     <div class="card-header">Edit quest #{{ $quest->ID }}</div>
                     <div class="card-body">
                         <a href="{{ url('/quests') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
