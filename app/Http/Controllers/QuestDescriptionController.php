@@ -19,7 +19,7 @@ class QuestDescriptionController extends Controller
             $return[$description->questID]['descriptions'][] = $description;
         }
 
-        return response(array_values($return), 200);
+        return response(['questDescriptions' => array_values($return)], 200);
 
     }
 }
