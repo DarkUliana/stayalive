@@ -127,7 +127,7 @@ class QuestsController extends Controller
             }
         }
 
-        $this->saveQuestDescriptions($quest->ID, ($request->is('questdescriptions') ? $request->questdescriptions : []));
+        $this->saveQuestDescriptions($quest->ID, ($request->has('questdescriptions') ? $request->questdescriptions : []));
 
         return redirect('quests')->with('flash_message', 'Quest added!');
     }
@@ -267,8 +267,8 @@ class QuestsController extends Controller
             DialogDescription::whereIn('dialogID', $dialogs)->delete();
             Dialog::whereIn('ID', $dialogs)->delete();
         }
-
-        $this->saveQuestDescriptions($id, ($request->is('questdescriptions') ? $request->questdescriptions : []));
+        
+        $this->saveQuestDescriptions($id, ($request->has('questdescriptions') ? $request->questdescriptions : []));
 
         return redirect('quests')->with('flash_message', 'Quest updated!');
     }
