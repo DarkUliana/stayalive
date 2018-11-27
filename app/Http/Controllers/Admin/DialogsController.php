@@ -21,6 +21,8 @@ class DialogsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
@@ -64,7 +66,7 @@ class DialogsController extends Controller
 
         $this->createDialog($dialogData, $descriptions);
 
-        return redirect('dialogs')->with('flash_message', 'Dialog added!');
+        return redirect('dialogs' . getQueryParams($request))->with('flash_message', 'Dialog added!');
     }
 
     /**
@@ -115,7 +117,7 @@ class DialogsController extends Controller
 
         $this->updateDialog($id, $dialogData, $descriptions);
 
-        return redirect('dialogs')->with('flash_message', 'Dialog updated!');
+        return redirect('dialogs' . getQueryParams($request))->with('flash_message', 'Dialog updated!');
     }
 
     /**

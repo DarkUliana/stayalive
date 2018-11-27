@@ -19,4 +19,19 @@ if (!function_exists('getPlayerID')) {
 
         return $player->ID;
     }
+
+    if (!function_exists('getQueryParams')) {
+
+        function getQueryParams($request)
+        {
+            $params = '';
+            if ($request->session()->has('itemsParams')) {
+
+                $params ='?' . session('itemsParams');
+            }
+
+            return $params;
+
+        }
+    }
 }

@@ -10,7 +10,7 @@
                     <div class="card-header">diary-storage-note {{ $diaryStorageNote->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/diary-storage-notes') }}" title="Back">
+                        <a href="{{ url()->previous() }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

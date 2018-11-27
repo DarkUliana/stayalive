@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Create New diary-storage-note</div>
                     <div class="card-body">
-                        <a href="{{ url('/diary-storage-notes') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url()->previous() }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 

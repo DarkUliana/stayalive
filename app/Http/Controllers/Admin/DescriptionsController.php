@@ -122,13 +122,7 @@ class DescriptionsController extends Controller
             $description->localizations()->save($localizationModel);
         }
 
-        $params = '';
-        if ($request->session()->has('itemsParams')) {
-
-            $params ='?' . session('itemsParams');
-        }
-
-        return redirect('descriptions' . $params)->with('flash_message', 'Description added!');
+        return redirect('descriptions' . getQueryParams($request))->with('flash_message', 'Description added!');
     }
 
     /**
@@ -192,14 +186,7 @@ class DescriptionsController extends Controller
             $description->localizations()->save($localizationModel);
         }
 
-        $params = '';
-        if ($request->session()->has('itemsParams')) {
-
-            $params ='?' . session('itemsParams');
-        }
-
-
-        return redirect('descriptions' . $params)->with('flash_message', 'Description updated!');
+        return redirect('descriptions' . getQueryParams($request))->with('flash_message', 'Description updated!');
     }
 
     /**
