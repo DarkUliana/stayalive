@@ -193,6 +193,8 @@ class QuestsController extends Controller
             $items = $this->getItems($quest->field->fieldName->name);
         }
 
+//        var_dump($quest->field->value == 2);die();
+
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
             'additionalDialog', 'descriptions', 'speakers', 'languages', 'modes', 'questdescriptions'));
     }

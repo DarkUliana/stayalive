@@ -62,8 +62,9 @@ $(document).ready(function () {
     $('#typeID').on('change', function () {
 
 
-        var data = {"type": $(this).val()};
-        data.id = $('.card-header').attr('data-id');
+        var data = {};
+        data.type = $(this).val();
+        data.id = $('#card').data('id');
 
         $.ajax({
             url: '/quest-items',
