@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    deleteDescription();
+
     $('#addDescription').on('click', function () {
 
         var data = {};
@@ -11,7 +13,13 @@ $(document).ready(function () {
             optionTexts.push(parseInt($(this).attr('data-index')));
         });
 
-        data.index = Math.max.apply(null, optionTexts);
+        if (optionTexts.length === 0) {
+
+            data.index = -1;
+        } else {
+
+            data.index = Math.max.apply(null, optionTexts);
+        }
 
         $.ajax({
             url: '/new-quest-description',
@@ -19,13 +27,25 @@ $(document).ready(function () {
             data: data,
             success: function (d) {
 
-                $('tbody').append(d);
+                if ($('tbody').length > 0) {
+
+                    $('tbody').append(d);
+                } else {
+
+                    $('table').append(d);
+                }
+                deleteDescription();
             }
         });
     });
+
+
+});
+
+function deleteDescription() {
 
     $('.deleteDescription').on('click', function () {
 
         $(this).closest('tr').remove();
     });
-});
+}
