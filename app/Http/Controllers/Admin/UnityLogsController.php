@@ -12,13 +12,17 @@ class UnityLogsController extends Controller
 {
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $perPage = 50;
         $logs = null;
         if (isset($request->search)) {
 
-            $players = PlayerIdentificator::where('localID', 'like', "%$request->search%")->pluck('playerID');
-            $players->push(Player::where('googleID', 'like', "%$request->search%")->pluck('playerID'));
-            $logs = UnityLog::whereIn('playerID', $players->toArray())->orWhere()->latest();
+            $byPlayerID = PlayerIdentificator::where('localID', 'like', "%$request->search%")->pluck('playerID')->toArray();
+            $byGoogleID = Player::where('googleID', 'like', "%$request->search%")->pluck('ID')->toArray();
+            $ids = array_merge($byGoogleID, $byPlayerID);
+
+            $logs = UnityLog::whereIn('playerID', $ids)->latest();
 
         } else {
 

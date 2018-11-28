@@ -9,20 +9,9 @@
                 <div class="card">
                     <div class="card-header">Versions</div>
                     <div class="card-body">
-                        <a href="{{ url('/versions/create') }}" class="btn btn-success btn-sm" title="Add New version">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
-                        <form method="GET" action="{{ url('/versions') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
-                                <span class="input-group-append">
-                                    <button class="btn btn-secondary" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
+                        {{--<a href="{{ url('/versions/create') }}" class="btn btn-success btn-sm" title="Add New version">--}}
+                            {{--<i class="fa fa-plus" aria-hidden="true"></i> Add New--}}
+                        {{--</a>--}}
 
                         <br/>
                         <br/>

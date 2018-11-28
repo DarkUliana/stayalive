@@ -171,7 +171,13 @@ class RecipesController extends Controller
             return response('OK', 200);
         }
 
-        return redirect('recipes' . getQueryParams(request()))->with('flash_message', 'Recipe updated!');
+        $route = 'recipes';
+        if (strstr(url()->previous(), 'technologies')) {
+
+            $route = 'technologies';
+        }
+
+        return redirect($route . getQueryParams(request()))->with('flash_message', 'Recipe updated!');
     }
 
     protected function save($requestData, $id, $technology = true)
