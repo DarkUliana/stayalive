@@ -25,7 +25,7 @@ class PlayerShipChestController extends Controller
 
         foreach ($chests as $chest) {
 
-            $array['chestSaves'][] = array_merge($chest->toArray(), ['chestsData' => json_encode(new SlotCollection($chest->items))]);
+            $array['chestSaves'][] = array_merge($chest->toArray(), ['chestData' => json_encode(new SlotCollection($chest->items))]);
         }
 
         return response($array, 200);
