@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
 
-                                            <input class="form-control" name="Type" type="hidden" id="Type" value="{{ $recipe->Type or 'CraftRecipe, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'}}">
+                                            <input class="form-control" name="classTypeID" type="hidden" id="Type" value="{{ $recipe->classTypeID or 1}}">
 
                                     <div class="form-group {{ $errors->has('InStack') ? 'has-error' : ''}}">
                                         <label for="InStack" class="col-md-4 control-label">{{ 'Instack' }}</label>
