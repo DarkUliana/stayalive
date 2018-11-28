@@ -10,7 +10,7 @@
                     <div class="card-header">LaravelLog {{ $laravellog->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/laravel-logs') }}" title="Back">
+                        <a href="{{ url('/laravel-logs' . getQueryParams(request())) }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

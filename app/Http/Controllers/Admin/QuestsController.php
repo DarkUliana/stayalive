@@ -49,6 +49,8 @@ class QuestsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
@@ -129,7 +131,7 @@ class QuestsController extends Controller
 
         $this->saveQuestDescriptions($quest->ID, ($request->is('questdescriptions') ? $request->questdescriptions : []));
 
-        return redirect('quests')->with('flash_message', 'Quest added!');
+        return redirect('quests' . getQueryParams(request()))->with('flash_message', 'Quest added!');
     }
 
     /**
@@ -270,7 +272,7 @@ class QuestsController extends Controller
 
         $this->saveQuestDescriptions($id, ($request->is('questdescriptions') ? $request->questdescriptions : []));
 
-        return redirect('quests')->with('flash_message', 'Quest updated!');
+        return redirect('quests' . getQueryParams(request()))->with('flash_message', 'Quest updated!');
     }
 
     /**
@@ -307,7 +309,7 @@ class QuestsController extends Controller
         }
         QuestDescription::where('questID', $id)->delete();
 
-        return redirect('quests')->with('flash_message', 'Quest deleted!');
+        return redirect('quests' . getQueryParams(request()))->with('flash_message', 'Quest deleted!');
     }
 
     public function items(Request $request)

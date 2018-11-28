@@ -44,6 +44,8 @@ class ShopArticlesController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $sort = $request->get('sort');
         $type = $request->get('type') ? $request->get('type') : 'asc';
@@ -107,7 +109,7 @@ class ShopArticlesController extends Controller
         }
 
 
-        return redirect('shop-articles')->with('flash_message', 'ShopArticles added!');
+        return redirect('shop-articles' . getQueryParams(request()))->with('flash_message', 'ShopArticles added!');
     }
 
     /**
@@ -195,7 +197,7 @@ class ShopArticlesController extends Controller
         }
 
 
-        return redirect('shop-articles')->with('flash_message', 'ShopArticles updated!');
+        return redirect('shop-articles' . getQueryParams(request()))->with('flash_message', 'ShopArticles updated!');
     }
 
     /**
@@ -210,7 +212,7 @@ class ShopArticlesController extends Controller
         ShopArticle::destroy($id);
         ShopArticleItems::where('articleID', $id)->delete();
 
-        return redirect('shop-articles')->with('flash_message', 'ShopArticles deleted!');
+        return redirect('shop-articles' . getQueryParams(request()))->with('flash_message', 'ShopArticles deleted!');
     }
 
     public function item(Request $request)

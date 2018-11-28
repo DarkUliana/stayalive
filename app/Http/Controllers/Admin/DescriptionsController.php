@@ -192,16 +192,18 @@ class DescriptionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  Request $request
+     *
      * @param  int $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         DescriptionLocalization::where('descriptionID', $id)->delete();
         Description::destroy($id);
 
-        return redirect('descriptions')->with('flash_message', 'Description deleted!');
+        return redirect('descriptions' . getQueryParams($request))->with('flash_message', 'Description deleted!');
     }
 
     protected function prepareDataForWrite($data)

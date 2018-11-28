@@ -10,7 +10,7 @@
                     <div class="card-header">notification {{ $notification->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('notifications') }}" title="Back">
+                        <a href="{{ url('notifications' . getQueryParams(request())) }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

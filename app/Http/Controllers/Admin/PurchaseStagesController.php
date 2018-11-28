@@ -17,11 +17,13 @@ class PurchaseStagesController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $purchasestages = PurchaseStage::latest()->paginate($perPage);
+            $purchasestages = PurchaseStage::where('purchaseID', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $purchasestages = PurchaseStage::latest()->paginate($perPage);
         }

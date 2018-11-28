@@ -10,7 +10,7 @@
                     <div class="card-header">mob {{ $mob->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('mobs') }}" title="Back">
+                        <a href="{{ url('mobs' . getQueryParams(request())) }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

@@ -10,7 +10,7 @@
                     <div class="card-header">shop article {{ $shopArticle->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/shop-articles') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/shop-articles' . getQueryParams(request())) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <a href="{{ url('/shop-articles/' . $shopArticle->ID . '/edit') }}" title="Edit shop-article"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                         <form method="POST" action="{{ url('shop-articles' . '/' . $shopArticle->ID) }}" accept-charset="UTF-8" style="display:inline">

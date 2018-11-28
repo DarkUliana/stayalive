@@ -17,11 +17,13 @@ class LaravelLogsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $laravellogs = LaravelLog::latest()->paginate($perPage);
+            $laravellogs = LaravelLog::where('url', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $laravellogs = LaravelLog::latest()->paginate($perPage);
         }
@@ -61,14 +63,16 @@ class LaravelLogsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
+     *
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         LaravelLog::destroy($id);
 
-        return redirect('laravel-logs')->with('flash_message', 'LaravelLog deleted!');
+        return redirect('laravel-logs' . getQueryParams($request))->with('flash_message', 'LaravelLog deleted!');
     }
 }

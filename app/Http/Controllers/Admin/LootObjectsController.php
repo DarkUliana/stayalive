@@ -20,11 +20,13 @@ class LootObjectsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $lootobjects = LootObject::latest()->paginate($perPage);
+            $lootobjects = LootObject::where('key', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $lootobjects = LootObject::latest()->paginate($perPage);
         }
@@ -137,11 +139,13 @@ class LootObjectsController extends Controller
             return response('ok', 200);
         }
 
-        return redirect('loot-objects')->with('flash_message', 'LootObject updated!');
+        return redirect('loot-objects' . getQueryParams(request()))->with('flash_message', 'LootObject updated!');
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Request $request
      *
      * @param  int $id
      *
@@ -157,7 +161,7 @@ class LootObjectsController extends Controller
             return response('deleted', 200);
         }
 
-        return redirect('loot-objects')->with('flash_message', 'LootObject deleted!');
+        return redirect('loot-objects' . getQueryParams($request))->with('flash_message', 'LootObject deleted!');
     }
 
     public function getCollectionForLootObject($id = 0) {

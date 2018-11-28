@@ -17,14 +17,20 @@ class NotificationsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $notifications = Notification::latest()->paginate($perPage);
+            $notifications = Notification::whereHas('description', function($query) use ($keyword) {
+                $query->where('key', 'LIKE', "%$keyword%");
+            });
         } else {
-            $notifications = Notification::latest()->paginate($perPage);
+            $notifications = Notification::latest();
         }
+
+        $notifications = $notifications->paginate($perPage);
 
 
         return view('admin.notifications.index', compact('notifications'));
@@ -56,7 +62,7 @@ class NotificationsController extends Controller
 
         Notification::create($requestData);
 
-        return redirect('notifications')->with('flash_message', 'Notification added!');
+        return redirect('notifications' . getQueryParams(request()))->with('flash_message', 'Notification added!');
     }
 
     /**
@@ -109,7 +115,7 @@ class NotificationsController extends Controller
         $notification = Notification::findOrFail($id);
         $notification->update($requestData);
 
-        return redirect('notifications')->with('flash_message', 'Notification updated!');
+        return redirect('notifications' . getQueryParams(request()))->with('flash_message', 'Notification updated!');
     }
 
     /**
@@ -123,6 +129,6 @@ class NotificationsController extends Controller
     {
         Notification::destroy($id);
 
-        return redirect('notifications')->with('flash_message', 'Notification deleted!');
+        return redirect('notifications' . getQueryParams(request()))->with('flash_message', 'Notification deleted!');
     }
 }

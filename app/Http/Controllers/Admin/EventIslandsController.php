@@ -19,11 +19,13 @@ class EventIslandsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $eventIslands = EventIsland::latest()->paginate($perPage);
+            $eventIslands = EventIsland::where('locationName', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $eventIslands = EventIsland::latest()->paginate($perPage);
         }
@@ -55,7 +57,7 @@ class EventIslandsController extends Controller
         
         EventIsland::create($requestData);
 
-        return redirect('event-islands')->with('flash_message', 'EventIsland added!');
+        return redirect('event-islands' . getQueryParams($request))->with('flash_message', 'EventIsland added!');
     }
 
     /**
@@ -102,20 +104,22 @@ class EventIslandsController extends Controller
         $eventIsland = EventIsland::findOrFail($id);
         $eventIsland->update($requestData);
 
-        return redirect('event-islands')->with('flash_message', 'EventIsland updated!');
+        return redirect('event-islands' . getQueryParams($request))->with('flash_message', 'EventIsland updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
+     *
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         EventIsland::destroy($id);
 
-        return redirect('event-islands')->with('flash_message', 'EventIsland deleted!');
+        return redirect('event-islands' . getQueryParams($request))->with('flash_message', 'EventIsland deleted!');
     }
 }

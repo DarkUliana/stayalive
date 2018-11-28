@@ -20,6 +20,8 @@ class TechnologiesController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $sort = $request->get('sort');
 
@@ -85,7 +87,7 @@ class TechnologiesController extends Controller
             $technology->items()->save($techItem);
         }
 
-        return redirect('technologies')->with('flash_message', 'Technology added!');
+        return redirect('technologies' . getQueryParams(request()))->with('flash_message', 'Technology added!');
     }
 
     /**
@@ -151,7 +153,7 @@ class TechnologiesController extends Controller
             $technology->items()->save($techItem);
         }
 
-        return redirect('technologies')->with('flash_message', 'Technology updated!');
+        return redirect('technologies' . getQueryParams(request()))->with('flash_message', 'Technology updated!');
     }
 
     /**
@@ -166,7 +168,7 @@ class TechnologiesController extends Controller
         TechnologyItems::where('technologyID', $id)->delete();
         Technology::destroy($id);
 
-        return redirect('technologies')->with('flash_message', 'Technology deleted!');
+        return redirect('technologies' . getQueryParams(request()))->with('flash_message', 'Technology deleted!');
     }
 
     protected function prepareDataForWrite($data)

@@ -21,6 +21,8 @@ class LootCollectionsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
@@ -84,7 +86,7 @@ class LootCollectionsController extends Controller
             return response($data, 200);
         }
 
-        return redirect('loot-collections')->with('flash_message', 'LootCollection added!');
+        return redirect("loot-collections/$collection->ID/edit")->with('flash_message', 'LootCollection added!');
     }
 
     /**
@@ -151,6 +153,8 @@ class LootCollectionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
+     *
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -166,7 +170,7 @@ class LootCollectionsController extends Controller
             return response('deleted', 200);
         }
 
-        return redirect('loot-collections')->with('flash_message', 'LootCollection deleted!');
+        return redirect('loot-collections' . getQueryParams($request))->with('flash_message', 'LootCollection deleted!');
     }
 
     public function getItem(Request $request)

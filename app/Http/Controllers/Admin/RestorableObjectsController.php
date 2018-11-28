@@ -21,11 +21,13 @@ class RestorableObjectsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $restorableObjects = RestorableObject::latest()->paginate($perPage);
+            $restorableObjects = RestorableObject::where('name', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $restorableObjects = RestorableObject::latest()->paginate($perPage);
         }
@@ -92,7 +94,7 @@ class RestorableObjectsController extends Controller
         }
         
 
-        return redirect('restorable-objects')->with('flash_message', 'Restorable Object added!');
+        return redirect('restorable-objects' . getQueryParams(request()))->with('flash_message', 'Restorable Object added!');
     }
 
     /**
@@ -181,7 +183,7 @@ class RestorableObjectsController extends Controller
             }
         }
 
-        return redirect('restorable-objects')->with('flash_message', 'Restorable Object updated!');
+        return redirect('restorable-objects' . getQueryParams(request()))->with('flash_message', 'Restorable Object updated!');
     }
 
     /**
@@ -196,7 +198,7 @@ class RestorableObjectsController extends Controller
         RestorableObject::destroy($id);
         RestorableObjectItem::where('restorableObjectID', $id)->delete();
 
-        return redirect('restorable-objects')->with('flash_message', 'Restorable Object deleted!');
+        return redirect('restorable-objects' . getQueryParams(request()))->with('flash_message', 'Restorable Object deleted!');
     }
 
     public function getItem(Request $request)

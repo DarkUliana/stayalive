@@ -28,11 +28,13 @@ class RewardsController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $rewards = Reward::latest()->paginate($perPage);
+            $rewards = Reward::where('name', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $rewards = Reward::latest()->paginate($perPage);
         }
@@ -78,7 +80,7 @@ class RewardsController extends Controller
             $reward->rewardList()->save($item);
         }
 
-        return redirect('rewards')->with('flash_message', 'Reward added!');
+        return redirect('rewards' . getQueryParams(request()))->with('flash_message', 'Reward added!');
     }
 
     /**
@@ -140,7 +142,7 @@ class RewardsController extends Controller
             $reward->rewardList()->save($item);
         }
 
-        return redirect('rewards')->with('flash_message', 'Reward updated!');
+        return redirect('rewards' . getQueryParams(request()))->with('flash_message', 'Reward updated!');
     }
 
     /**
@@ -155,7 +157,7 @@ class RewardsController extends Controller
         RewardItem::where('rewardID', $id)->delete();
         Reward::destroy($id);
 
-        return redirect('rewards')->with('flash_message', 'Reward deleted!');
+        return redirect('rewards' . getQueryParams(request()))->with('flash_message', 'Reward deleted!');
     }
 
     public function item(Request $request)

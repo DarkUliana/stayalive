@@ -17,6 +17,8 @@ class LanguagesController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
@@ -43,7 +45,7 @@ class LanguagesController extends Controller
         
         Language::create($requestData);
 
-        return redirect('languages')->with('flash_message', 'Language added!');
+        return redirect('languages' . getQueryParams($request))->with('flash_message', 'Language added!');
     }
 
     /**
@@ -62,21 +64,23 @@ class LanguagesController extends Controller
         $language = Language::findOrFail($id);
         $language->update($requestData);
 
-        return redirect('languages')->with('flash_message', 'Language updated!');
+        return redirect('languages' . getQueryParams($request))->with('flash_message', 'Language updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
+     *
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         Language::destroy($id);
 
-        return redirect('languages')->with('flash_message', 'Language deleted!');
+        return redirect('languages' . getQueryParams($request))->with('flash_message', 'Language deleted!');
     }
 
     public function languageItem()

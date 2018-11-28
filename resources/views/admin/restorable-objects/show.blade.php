@@ -10,7 +10,7 @@
                     <div class="card-header">restorable-object {{ $restorableObject->id }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('restorable-objects') }}" title="Back">
+                        <a href="{{ url('restorable-objects' . getQueryParams(request())) }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

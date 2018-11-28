@@ -10,7 +10,7 @@
                     <div class="card-header">player {{ $player->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/players') }}" title="Back">
+                        <a href="{{ url('/players' . getQueryParams(request())) }}" title="Back">
                             <button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 Back
                             </button>

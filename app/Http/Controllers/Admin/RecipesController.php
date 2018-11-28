@@ -24,6 +24,8 @@ class RecipesController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $filter = $request->get('filter');
         $sort = $request->get('sort');
@@ -103,7 +105,7 @@ class RecipesController extends Controller
             $recipe->technologies()->save($recipeTechnology);
         }
 
-        return redirect('recipes')->with('flash_message', 'Recipe added!');
+        return redirect('recipes' . getQueryParams(request()))->with('flash_message', 'Recipe added!');
     }
 
     /**
@@ -169,7 +171,7 @@ class RecipesController extends Controller
             return response('OK', 200);
         }
 
-        return redirect('recipes')->with('flash_message', 'Recipe updated!');
+        return redirect('recipes' . getQueryParams(request()))->with('flash_message', 'Recipe updated!');
     }
 
     protected function save($requestData, $id, $technology = true)
@@ -218,7 +220,7 @@ class RecipesController extends Controller
         RecipeComponents::where('recipeID', $id)->delete();
         RecipeTechnologies::where('recipeID', $id)->delete();
 
-        return redirect('recipes')->with('flash_message', 'Recipe deleted!');
+        return redirect('recipes' . getQueryParams(request()))->with('flash_message', 'Recipe deleted!');
     }
 
     protected function prepareDataForWrite($data)

@@ -17,7 +17,9 @@ class MobsController extends Controller
      */
     public function index(Request $request)
     {
-//        $keyword = $request->get('search');
+        session(['itemsParams' => $request->getQueryString()]);
+
+        $keyword = $request->get('search');
         $sort = $request->get('sort');
         $perPage = 25;
 
@@ -26,21 +28,25 @@ class MobsController extends Controller
             $type = $request->get('type');
         }
 
-//        if (!empty($keyword)) {
-//            $mobs = Mob::latest()->paginate($perPage);
-//        } else {
+        $mobs = Mob::where([]);
 
-
-//        $mobs = Mob::latest()->paginate($perPage);
-//        }
+        if (!empty($keyword)) {
+            $mobs = $mobs->whereHas('enemy', function($query) use ($keyword) {
+                $query->where('name', 'LIKE', "%$keyword%");
+            });
+        }
 
         if (!empty($sort)) {
 
-            $mobs = Mob::orderBy($sort, $type)->paginate($perPage);
-        } else {
-
-            $mobs = Mob::latest()->paginate($perPage);
+            $mobs = $mobs->orderBy($sort, $type);
         }
+
+        if (empty($request->type) && empty($keyword) && empty($sort)) {
+
+            $mobs = $mobs->latest();
+        }
+
+        $mobs = $mobs->paginate($perPage);
 
         return view('admin.mobs.index', compact('mobs'));
     }
@@ -72,7 +78,7 @@ class MobsController extends Controller
 
         Mob::create($requestData);
 
-        return redirect('mobs')->with('flash_message', 'Mob added!');
+        return redirect('mobs' . getQueryParams(request()))->with('flash_message', 'Mob added!');
     }
 
     /**
@@ -121,7 +127,7 @@ class MobsController extends Controller
         $mob = Mob::findOrFail($id);
         $mob->update($requestData);
 
-        return redirect('mobs')->with('flash_message', 'Mob updated!');
+        return redirect('mobs' . getQueryParams(request()))->with('flash_message', 'Mob updated!');
     }
 
     /**
@@ -135,7 +141,7 @@ class MobsController extends Controller
     {
         Mob::destroy($id);
 
-        return redirect('mobs')->with('flash_message', 'Mob deleted!');
+        return redirect('mobs' . getQueryParams(request()))->with('flash_message', 'Mob deleted!');
     }
 
     public function getFields(Request $request)

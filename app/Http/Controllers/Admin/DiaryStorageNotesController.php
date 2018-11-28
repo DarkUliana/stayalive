@@ -19,11 +19,13 @@ class DiaryStorageNotesController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $diaryStorageNotes = DiaryStorageNote::latest()->paginate($perPage);
+            $diaryStorageNotes = DiaryStorageNote::where('noteSubject', 'LIKE', "%$keyword%")->paginate($perPage);
         } else {
             $diaryStorageNotes = DiaryStorageNote::latest()->paginate($perPage);
         }
@@ -72,7 +74,7 @@ class DiaryStorageNotesController extends Controller
         }
 
 
-        return redirect('diary-storage-notes')->with('flash_message', 'DiaryStorageNote added!');
+        return redirect('diary-storage-notes' . getQueryParams($request))->with('flash_message', 'DiaryStorageNote added!');
     }
 
     /**
@@ -134,20 +136,22 @@ class DiaryStorageNotesController extends Controller
             }
         }
 
-        return redirect('diary-storage-notes')->with('flash_message', 'DiaryStorageNote updated!');
+        return redirect('diary-storage-notes' . getQueryParams($request))->with('flash_message', 'DiaryStorageNote updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
+     *
      * @param  int  $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         DiaryStorageNote::destroy($id);
 
-        return redirect('diary-storage-notes')->with('flash_message', 'DiaryStorageNote deleted!');
+        return redirect('diary-storage-notes' . getQueryParams($request))->with('flash_message', 'DiaryStorageNote deleted!');
     }
 }

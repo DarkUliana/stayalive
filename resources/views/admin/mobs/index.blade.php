@@ -78,7 +78,7 @@
                                 <tbody>
                                 @foreach($mobs as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration or $item->ID }}</td>
+                                        <td>{{ $item->ID }}</td>
                                         <td>{{ $item->enemy->name }}</td>
                                         <td>{{ $item->enemyLevel }}</td>
                                         <td>{{ $item->maximumHP }}</td>

@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Edit event-island #{{ $eventIsland->ID }}</div>
                     <div class="card-body">
-                        <a href="{{ url('/event-islands') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/event-islands' . getQueryParams(request())) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 

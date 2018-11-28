@@ -10,7 +10,7 @@
                     <div class="card-header">LootCollection {{ $lootcollection->id }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/loot-collections') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/loot-collections' . getQueryParams(request())) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <a href="{{ url('/loot-collections/' . $lootcollection->id . '/edit') }}" title="Edit LootCollection"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                         <form method="POST" action="{{ url('lootcollections' . '/' . $lootcollection->id) }}" accept-charset="UTF-8" style="display:inline">

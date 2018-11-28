@@ -47,6 +47,8 @@ class PlayersController extends Controller
      */
     public function index(Request $request)
     {
+        session(['itemsParams' => $request->getQueryString()]);
+
         $keyword = $request->get('search');
         $perPage = 50;
 
@@ -95,7 +97,7 @@ class PlayersController extends Controller
 
         Player::create($requestData);
 
-        return redirect('players')->with('flash_message', 'Player added!');
+        return redirect('players' . getQueryParams(request()))->with('flash_message', 'Player added!');
     }
 
     /**
@@ -162,7 +164,7 @@ class PlayersController extends Controller
 
             return response('ok', 200);
         }
-        return redirect('players')->with('flash_message', 'Player updated!');
+        return redirect('players' . getQueryParams(request()))->with('flash_message', 'Player updated!');
     }
 
     /**
@@ -268,23 +270,27 @@ class PlayersController extends Controller
             ->where('isTaken', 0)
             ->delete();
 
-        foreach ($request->items as $item) {
+        if (isset($request->items)) {
 
-            $properties = [
-                'playerID' => $request->playerID,
-                'sourceID' => 4, 'isTaken' => 0,
-                'uniqueID' => uniqid('id', true),
-                'inStuck' => (Item::where('Name', $item['imageName'])->value('maxInStack')) == 1 ? 0 : 1
-            ];
+            foreach ($request->items as $item) {
 
-            if (in_array($item['imageName'], $rewards)) {
+                $properties = [
+                    'playerID' => $request->playerID,
+                    'sourceID' => 4, 'isTaken' => 0,
+                    'uniqueID' => uniqid('id', true),
+                    'inStuck' => (Item::where('Name', $item['imageName'])->value('maxInStack')) == 1 ? 0 : 1
+                ];
 
-                $properties['sourceID'] = 5;
+                if (in_array($item['imageName'], $rewards)) {
+
+                    $properties['sourceID'] = 5;
+                }
+
+                CloudItem::create(array_merge($item, $properties));
             }
-
-            CloudItem::create(array_merge($item, $properties));
         }
-        return redirect('players')->with('flash_message', "Player items updated!");
+
+        return redirect('players' . getQueryParams(request()))->with('flash_message', "Player items updated!");
     }
 
     public function getItem(Request $request, $id)

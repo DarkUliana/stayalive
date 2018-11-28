@@ -10,7 +10,7 @@
                     <div class="card-header">event-island {{ $eventIsland->ID }}</div>
                     <div class="card-body">
 
-                        <a href="{{ url('/event-islands') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/event-islands' . getQueryParams(request())) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <a href="{{ url('/event-islands/' . $eventIsland->ID . '/edit') }}" title="Edit event-island"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                         <form method="POST" action="{{ url('event-islands' . '/' . $eventIsland->ID) }}" accept-charset="UTF-8" style="display:inline">
