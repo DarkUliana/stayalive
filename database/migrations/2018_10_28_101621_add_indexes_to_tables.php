@@ -42,6 +42,7 @@ class AddIndexesToTables extends Migration
         'player_quests',
         'timers'
     ];
+
     /**
      * Run the migrations.
      *
@@ -50,27 +51,16 @@ class AddIndexesToTables extends Migration
     public function up()
     {
         foreach ($this->tablesWithGoogleID as $table) {
-//
-//            if (in_array($table, $this->tablesWithEnum)) {
-//                DB::Statement("ALTER TABLE $table CHANGE googleID playerID INT NOT NULL");
-//
-//            } else {
 
-                Schema::table($table, function (Blueprint $t) {
-                    $t->index('googleID', 'playerID');
-                });
-//            }
+            DB::Statement("ALTER TABLE $table CHANGE googleID googleID VARCHAR(191) NOT NULL");
+            DB::Statement("ALTER TABLE $table ADD INDEX " . $table . "_playerID (googleID)");
 
         }
 
-        foreach (array_merge($this->tablesWithGoogleID, $this->tablesWithPlayerID) as $table) {
+        foreach ($this->tablesWithPlayerID as $table) {
 
-            if (!in_array($table, $this->tablesWithEnum)) {
-                Schema::table($table, function (Blueprint $t) {
-
-                    $t->index('playerID', 'playerID');
-                });
-            }
+            DB::Statement("ALTER TABLE $table CHANGE playerID playerID VARCHAR(191) NOT NULL");
+            DB::Statement("ALTER TABLE $table ADD INDEX " . $table . "_playerID (playerID)");
         }
     }
 

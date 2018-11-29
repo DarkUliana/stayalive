@@ -18,6 +18,7 @@ class CreatePlayerIdentificatorsTable extends Migration
             $table->string('localID');
             $table->bigInteger('playerID');
             $table->timestamps();
+            $table->index('localID');
         });
     }
 
