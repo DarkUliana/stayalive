@@ -68,7 +68,7 @@ class AddIndexesToTables extends Migration
             if (!in_array($table, $this->tablesWithEnum)) {
                 Schema::table($table, function (Blueprint $t) {
 
-                    $t->integer('playerID', 'playerID')->change();
+                    $t->index('playerID', 'playerID');
                 });
             }
         }
