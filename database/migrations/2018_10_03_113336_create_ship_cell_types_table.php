@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class CreateShipCellTypesTable extends Migration
 {
@@ -20,6 +21,9 @@ class CreateShipCellTypesTable extends Migration
             $table->string('color');
             $table->timestamps();
         });
+
+        Artisan::call('db:seed', ['--class' => 'ShipCellTypesTableSeeder']);
+
     }
 
     /**

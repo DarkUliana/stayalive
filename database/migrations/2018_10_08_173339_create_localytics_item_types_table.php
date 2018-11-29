@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class CreateLocalyticsItemTypesTable extends Migration
 {
@@ -19,6 +20,8 @@ class CreateLocalyticsItemTypesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        Artisan::call('db:seed', ['--class' => 'LocalyticsItemTypesTableSeeder']);
     }
 
     /**

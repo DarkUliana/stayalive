@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class CreateDirectionsTable extends Migration
 {
@@ -19,6 +20,9 @@ class CreateDirectionsTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        Artisan::call('db:seed', ['--class' => 'DirectionsTableSeeder']);
+
     }
 
     /**
