@@ -62,6 +62,9 @@ class AddIndexesToTables extends Migration
             DB::Statement("ALTER TABLE $table CHANGE playerID playerID VARCHAR(191) NOT NULL");
             DB::Statement("ALTER TABLE $table ADD INDEX " . $table . "_playerID (playerID)");
         }
+
+        DB::Statement("ALTER TABLE player_restorable_object_slots ADD INDEX  player_restorable_object_slots_objectID (restorableObjectID)");
+        DB::Statement("ALTER TABLE player_ship_chest_items ADD INDEX  player_ship_chest_items_chestID (playerShipChestID)");
     }
 
     /**
