@@ -124,6 +124,10 @@ Route::group(['middleware' => ['auth', 'sidebar']], function () {
         'index'
     ]]);
 
+    Route::resource('scene-chests', 'Admin\SceneChestsController', ['except' => [
+        'show'
+    ]]);
+
 });
 
 
