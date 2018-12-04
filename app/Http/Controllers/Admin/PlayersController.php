@@ -258,7 +258,7 @@ class PlayersController extends Controller
         PlayerTraveledIsland::where('playerID', $playerID)->delete();
         PlayerIdentificator::where('playerID', $playerID)->delete();
         TutorialSaveData::where('playerID', $playerID)->delete();
-        PlayerSceneChest::where('playerID'. $playerID)->delete();
+        PlayerSceneChest::where('playerID', $playerID)->delete();
         Player::where('ID', $playerID)->delete();
 
     }
