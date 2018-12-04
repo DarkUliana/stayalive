@@ -17,7 +17,7 @@ class CreatePlayerSceneChestsTable extends Migration
             $table->bigIncrements('ID');
             $table->integer('playerID');
             $table->string('chestName');
-            $table->string('chestDrop')->nullable();
+            $table->text('chestDrop')->nullable();
             $table->timestamps();
         });
     }
