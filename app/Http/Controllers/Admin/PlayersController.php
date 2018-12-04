@@ -31,6 +31,7 @@ use App\PlayerShipStuffItem;
 use App\PlayerTechnologiesStates;
 use App\PlayerTechnologyQuantity;
 use App\PlayerTraveledIsland;
+use App\PlayerSceneChest;
 use App\RestorableObject;
 use App\Reward;
 use App\Timer;
@@ -257,6 +258,7 @@ class PlayersController extends Controller
         PlayerTraveledIsland::where('playerID', $playerID)->delete();
         PlayerIdentificator::where('playerID', $playerID)->delete();
         TutorialSaveData::where('playerID', $playerID)->delete();
+        PlayerSceneChest::where('playerID'. $playerID)->delete();
         Player::where('ID', $playerID)->delete();
 
     }
@@ -361,6 +363,7 @@ class PlayersController extends Controller
         PlayerTechnologyQuantity::truncate();
         PlayerTraveledIsland::truncate();
         TutorialSaveData::truncate();
+        PlayerSceneChest::truncate();
 
         PlayerIdentificator::truncate();
         Player::truncate();

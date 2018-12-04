@@ -155,6 +155,12 @@ Route::post('purchase-stage', 'PurchaseStageController');
 Route::get('tutorial-save-data', 'TutorialSaveDataController@get');
 Route::post('tutorial-save-data', 'TutorialSaveDataController@post');
 
+Route::get('scene-chests', 'SceneChestController@get');
+Route::post('scene-chests', 'SceneChestController@post');
+
+Route::get('player-scene-chests', 'PlayerSceneChestController@get');
+Route::post('player-scene-chests', 'PlayerSceneChestController@post');
+
 
 
 //});
