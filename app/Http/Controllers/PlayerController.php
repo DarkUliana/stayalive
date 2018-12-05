@@ -84,10 +84,10 @@ class PlayerController extends Controller
 
             } else {
 
-                if (!empty($playerIdentificator->player->googleID)) {
-
-                    unset($playerNamed['googleID']);
-                }
+//                if (!empty($playerIdentificator->player->googleID)) {
+//
+//                    unset($playerNamed['googleID']);
+//                }
 
                 $this->checkData($playerNamed, $playerIdentificator->playerID);
                 Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
