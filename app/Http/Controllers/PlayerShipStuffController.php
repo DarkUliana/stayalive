@@ -36,7 +36,14 @@ class PlayerShipStuffController extends Controller
 
             if ($floor->recovers->isEmpty()) {
 
-                $temp['floorRecover'] = FloorRecover::where('playerID', 0)->where('shipStuffID', '=', $floor->ID)->value('floorRecover');
+                $defaultRecover = FloorRecover::where('playerID', 0)->where('shipStuffID', '=', $floor->ID)->get();
+                $temp['floorRecover'] = 0;
+
+                if (!empty($defaultRecover)) {
+
+                    $temp['floorRecover'] = $defaultRecover->floorRecover;
+                }
+
             } else {
 
                 $temp['floorRecover'] = $floor->recovers->first()->floorRecover;
