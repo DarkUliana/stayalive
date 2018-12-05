@@ -18,7 +18,12 @@ class ShipStuffController extends Controller
 
         foreach ($data['shipFloors'] as &$floor) {
 
-            $floor['floorRecover'] = $floor['recovers'][0]['floorRecover'];
+            $floor['floorRecover'] = [];
+            if (!empty($floor['recovers'])) {
+
+                $floor['floorRecover'] = $floor['recovers'][0]['floorRecover'];
+
+            }
             unset($floor['recovers']);
 
             $floor['floorCells'] = $floor['default_items'];
