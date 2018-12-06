@@ -37,7 +37,7 @@ class PlayerController extends Controller
     {
         if (!isset($request->localID)) {
 
-            return response('Your request has no localID',400 );
+            return response('Your request has no localID', 400);
         }
 
         $playerNamed = $this->renameAttributes($request->input());
@@ -53,60 +53,68 @@ class PlayerController extends Controller
 
         if (empty($playerIdentificator)) {
 
-            $player = Player::create($playerNamed);
-            $playerID = $player->ID;
-            PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
+            if (!isset($request->googleID) || empty($request->googleID) ||
+                Player::where('googleID', $request->googleID)->first() == null) {
 
-            $params = [
-                'localID' => $request->localID
-            ];
-            $client = new HttpClient();
-            $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
-        } else {
-
-            if (isset($request->googleID) && !empty($request->googleID)
-                && empty($playerIdentificator->player->googleID)
-                && !empty(Player::where('googleID', $request->googleID)->first())) {
-
-                $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
-
-                $playerIdentificator->playerID = $playerByGoogleID->ID;
-                $playerIdentificator->save();
-
-                $playerIdentificator->player->touch();
-
-                $identification = 1;
-                //можливе видалення старих даних гравця
-
+                $playerID = $this->createPlayer($request, $playerNamed);
             } else {
 
-//                if (!empty($playerIdentificator->player->googleID)) {
-//
-//                    unset($playerNamed['googleID']);
-//                }
+                PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
+
+            }
+        } else {
+
+            if (!isset($request->googleID)) {
 
                 $this->checkData($playerNamed, $playerIdentificator->playerID);
                 Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+
+
+            } else {
+
+                $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
+                if (empty($request->googleID || $request->googleID == $playerIdentificator->player->googleID)) {
+
+                    $this->checkData($playerNamed, $playerIdentificator->playerID);
+                    Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+
+                } else {
+
+                    if ($playerByGoogleID == null) {
+
+                        if ($playerIdentificator->player->googleID == null) {
+
+                            $this->checkData($playerNamed, $playerIdentificator->playerID);
+                            Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+                        } else {
+
+                            $this->createPlayer($request, $playerNamed);
+                        }
+
+
+                    } else {
+
+                        $playerIdentificator->playerID = $playerByGoogleID->ID;
+                        $playerIdentificator->save();
+
+                        $playerIdentificator->player->touch();
+                        $playerID = $playerByGoogleID->ID;
+
+                    }
+                    $identification = 1;
+                }
             }
 
-            $playerID = $playerIdentificator->playerID;
-        }
+            if (isset($request->traveledIslands)) {
 
-        if (isset($request->traveledIslands)) {
+                PlayerTraveledIsland::where('playerID', $playerID)->delete();
 
-            PlayerTraveledIsland::where('playerID', $playerID)->delete();
+                foreach ($request->traveledIslands as $island) {
 
-            foreach ($request->traveledIslands as $island) {
-
-                PlayerTraveledIsland::create(['playerID' => $playerID, 'name' => $island]);
+                    PlayerTraveledIsland::create(['playerID' => $playerID, 'name' => $island]);
+                }
             }
         }
-
-
         return response($identification, 200);
     }
 
@@ -140,13 +148,33 @@ class PlayerController extends Controller
         return $renamed;
     }
 
-    protected function checkData($data, $playerID) {
+    protected function checkData($data, $playerID)
+    {
 
         if (((CloudItem::where(['playerID' => $playerID, 'imageName' => 'goldCoinPurchase', 'isTaken' => 1])->sum('count') + 50) < $data['goldCoin'])
-        || ((CloudItem::where(['playerID' => $playerID, 'imageName' => 'keyCoinPurchase', 'isTaken' => 1])->sum('count') + 5) < $data['keyCoin'])) {
+            || ((CloudItem::where(['playerID' => $playerID, 'imageName' => 'keyCoinPurchase', 'isTaken' => 1])->sum('count') + 5) < $data['keyCoin'])) {
 
             BanList::firstOrCreate(['playerID' => $playerID]);
         }
+    }
+
+    protected function createPlayer(Request $request, $playerNamed)
+    {
+        $player = Player::create($playerNamed);
+        $playerID = $player->ID;
+        PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
+
+        $params = [
+            'localID' => $request->localID
+        ];
+//        $client = new HttpClient();
+//        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+
+        return $playerID;
     }
 
 }
