@@ -109,7 +109,7 @@ class PlayerController extends Controller
 
             } else { // якщо googleID є
 
-                if (empty($request->googleID || $request->googleID == $playerIdentificator->player->googleID)) { // якщо googleID пустий або дорівнює тому googleID, що вже є в гравця, до якого привязаний даний localID
+                if (empty($request->googleID) || ($request->googleID == $playerIdentificator->player->googleID)) { // якщо googleID пустий або дорівнює тому googleID, що вже є в гравця, до якого привязаний даний localID
 
                     $this->checkData($playerNamed, $playerIdentificator->playerID);
                     Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
