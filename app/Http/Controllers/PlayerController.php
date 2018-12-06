@@ -87,7 +87,7 @@ class PlayerController extends Controller
 
         $identification = 0;
 
-        if (empty($playerIdentificator)) { //якщо localID не зареєстрована в базі
+        if ($playerIdentificator == null) { //якщо localID не зареєстрована в базі
 
             if (!isset($request->googleID) || empty($request->googleID) ||  // якщо googleID немає або він пустий або гравця з таким googleID не існує
                 Player::where('googleID', $request->googleID)->first() == null) {
@@ -138,9 +138,9 @@ class PlayerController extends Controller
 
                         $playerIdentificator->player->touch();
                         $playerID = $playerByGoogleID->ID;
-
+                        $identification = 1;
                     }
-                    $identification = 1;
+
                 }
             }
 
