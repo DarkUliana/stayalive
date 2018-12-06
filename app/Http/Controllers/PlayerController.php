@@ -138,7 +138,11 @@ class PlayerController extends Controller
 
                         $playerIdentificator->player->touch();
                         $playerID = $playerByGoogleID->ID;
-                        $identification = 1;
+
+                        if ($playerIdentificator->player->googleID == null) {
+                            $identification = 1;
+                        }
+
                     }
 
                 }
