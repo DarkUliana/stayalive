@@ -161,6 +161,8 @@ Route::post('scene-chests', 'SceneChestController@post');
 Route::get('player-scene-chests', 'PlayerSceneChestController@get');
 Route::post('player-scene-chests', 'PlayerSceneChestController@post');
 
+Route::get('move-old-player/{googleID}', 'MovingOneOldPlayer');
+
 
 
 //});
