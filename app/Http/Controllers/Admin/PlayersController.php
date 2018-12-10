@@ -217,7 +217,7 @@ class PlayersController extends Controller
         return $arr;
     }
 
-    protected function delete($playerID)
+    public function delete($playerID)
     {
         
         Equipment::where('playerID', $playerID)->delete();

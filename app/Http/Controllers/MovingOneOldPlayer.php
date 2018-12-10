@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CloudItem;
+use App\Http\Controllers\Admin\PlayersController;
 use App\PlayerIdentificator;
 use App\PlayerPrefRecord;
 use App\PlayerRepairItem;
@@ -13,7 +14,6 @@ use App\TutorialSaveData;
 use Illuminate\Http\Request;
 use App\Player;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Client as HttpClient;
 
 class MovingOneOldPlayer extends Controller
 {
@@ -52,7 +52,7 @@ class MovingOneOldPlayer extends Controller
 
     public function __invoke($googleID)
     {
-        $oldDB = 'stay-alive';
+        $oldDB = 'alive_old';
         $oldPlayer = Player::on($oldDB)->where('googleID', $googleID)->first();
 
         if ($oldPlayer == null) {
@@ -63,8 +63,8 @@ class MovingOneOldPlayer extends Controller
         $playerInTest = Player::where('googleID', $googleID)->first();
         if ($playerInTest != null) {
 
-            $client = new HttpClient();
-            $client->request('DELETE', env('APP_URL').'/players/'.$playerInTest->ID);
+            $playersController = new PlayersController();
+            $playersController->delete($playerInTest->ID);
             CloudItem::where('playerID', $playerInTest->ID)->delete();
         }
 
