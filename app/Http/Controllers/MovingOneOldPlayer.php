@@ -52,7 +52,7 @@ class MovingOneOldPlayer extends Controller
 
     public function __invoke($googleID)
     {
-        $oldDB = 'alive_old';
+        $oldDB = 'stay-alive';
         $oldPlayer = Player::on($oldDB)->where('googleID', $googleID)->first();
 
         if ($oldPlayer == null) {
@@ -65,7 +65,6 @@ class MovingOneOldPlayer extends Controller
 
             $client = new HttpClient();
             $client->request('DELETE', env('APP_URL').'/players/'.$playerInTest->ID);
-            $playerInTest->delete();
             CloudItem::where('playerID', $playerInTest->ID)->delete();
         }
 
