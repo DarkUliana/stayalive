@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\CloudItem;
 use App\PlayerIdentificator;
+use App\PlayerPrefRecord;
 use App\PlayerRepairItem;
 use App\PlayerRepairItemPart;
 use App\PlayerRestorableObject;
 use App\PlayerRestorableObjectSlot;
+use App\TutorialSaveData;
 use Illuminate\Http\Request;
 use App\Player;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client as HttpClient;
 
 class MovingOneOldPlayer extends Controller
 {
@@ -48,23 +52,34 @@ class MovingOneOldPlayer extends Controller
 
     public function __invoke($googleID)
     {
-        $oldDB = 'stay-alive';
+        $oldDB = 'alive_old';
         $oldPlayer = Player::on($oldDB)->where('googleID', $googleID)->first();
-
-//        dd($oldPlayer);
 
         if ($oldPlayer == null) {
 
             abort(404);
         }
 
-        if (Player::where('googleID', $googleID)->first() != null) {
+        $playerInTest = Player::where('googleID', $googleID)->first();
+        if ($playerInTest != null) {
 
-            Player::where('googleID', $googleID)->delete();
+            $client = new HttpClient();
+            $client->request('DELETE', env('APP_URL').'/players/'.$playerInTest->ID);
+            $playerInTest->delete();
+            CloudItem::where('playerID', $playerInTest->ID)->delete();
         }
+
 
         $newPlayer = Player::create($oldPlayer->toArray());
         PlayerIdentificator::create(['localID' => $googleID, 'playerID' => $newPlayer->ID]);
+
+        $tutorial = [
+            'playerID' => $newPlayer->ID,
+            'prefType' => 2,
+            'prefKey' => 'TutorialData',
+            'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
+        ];
+        PlayerPrefRecord::create($tutorial);
 
         foreach (array_merge($this->tablesWithPlayerID, $this->tablesWithGoogleID) as $table) {
 

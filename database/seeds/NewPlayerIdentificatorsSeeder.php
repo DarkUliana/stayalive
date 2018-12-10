@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Player;
 use App\PlayerIdentificator;
 use Illuminate\Support\Facades\DB;
+use App\PlayerPrefRecord;
 
 class NewPlayerIdentificatorsSeeder extends Seeder
 {
@@ -75,18 +76,19 @@ class NewPlayerIdentificatorsSeeder extends Seeder
                 if (empty($player)) {
 
                     DB::table($table)->where($key, $googleID->googleID)->delete();
-//                    DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table) {
-//
-//                        DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->delete();
-//                    });
+
 
                 } else {
 
+                    $tutorial = [
+                        'playerID' => $player->ID,
+                        'prefType' => 2,
+                        'prefKey' => 'TutorialData',
+                        'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
+                    ];
+                    PlayerPrefRecord::create($tutorial);
+
                     DB::table($table)->where($key, $googleID->googleID)->update([$key => $player->ID]);
-//                    DB::table($table)->where($key, $googleID)->orderBy('ID')->chunk(100, function ($items) use ($table, $key, $player) {
-//
-//                        DB::table($table)->whereIn('ID', array_column($items->toArray(), 'ID'))->update([$key => $player->ID]);
-//                    });
 
                 }
 
