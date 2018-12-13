@@ -16,12 +16,27 @@ class PlayerEnemySaveController extends Controller
 
         $playerID = getPlayerID($request->localID);
 
-        $enemySaves = PlayerEnemySave::where('playerID', $playerID)->get();
+        $enemySaves = PlayerEnemySave::where('playerID', $playerID)->get()->toArray();
 
         $returnData = [
             'localID' => $request->localID,
-            'enemySaves' => $enemySaves
+            'enemySaves' => []
         ];
+
+        foreach ($enemySaves as $enemySave) {
+
+            $enemyConcrete = $enemySave;
+            unset($enemyConcrete['enemyName']);
+
+            $returnData['enemySaves'][] = [
+
+                'enemyName' => $enemySave['enemyName'],
+                'enemyDead' => $enemySave['enemyDead'],
+                'enemyConcrete' => $enemyConcrete
+            ];
+        }
+
+//        dd($returnData);
 
         return response($returnData, 200);
     }
@@ -41,8 +56,11 @@ class PlayerEnemySaveController extends Controller
 
             $insertData = [
                 'playerID' => $playerID,
-                'enemyName' => $enemySave['enemyName']
+                'enemyName' => $enemySave['enemyName'],
+                'enemyDead' => $enemySave['enemyDead']
             ];
+
+            $insertData = array_merge($insertData, $enemySave['enemyConcrete']);
 
             PlayerEnemySave::create($insertData);
         }

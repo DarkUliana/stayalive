@@ -17,7 +17,15 @@ class CreatePlayerEnemySavesTable extends Migration
             $table->BigIncrements('ID');
             $table->integer('playerID');
             $table->string('enemyName');
+            $table->integer('enemyType');
+            $table->integer('enemyLevel');
+            $table->integer('countInScene');
+            $table->string('lootKey')->nullable();
+            $table->float('chanceToSelect');
+            $table->float('chanceToInstatiate');
+            $table->boolean('enemyDead');
             $table->timestamps();
+
         });
     }
 
