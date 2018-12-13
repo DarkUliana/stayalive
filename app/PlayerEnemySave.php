@@ -13,4 +13,13 @@ class PlayerEnemySave extends Model
     protected $hidden = [
         'ID', 'playerID', 'created_at', 'updated_at',
     ];
+
+    protected $casts = [
+        'enemyDead' => 'boolean',
+    ];
+
+    public function setEnemyDeadAttribute($value)
+    {
+        $this->attributes['enemyDead'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
 }
