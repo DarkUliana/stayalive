@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\BanList;
 use App\CloudItem;
 use App\Equipment;
 use App\Http\Controllers\Controller;
@@ -259,6 +260,7 @@ class PlayersController extends Controller
         PlayerIdentificator::where('playerID', $playerID)->delete();
         TutorialSaveData::where('playerID', $playerID)->delete();
         PlayerSceneChest::where('playerID', $playerID)->delete();
+        BanList::where('playerID', $playerID)->delete();
         Player::where('ID', $playerID)->delete();
 
     }
@@ -364,7 +366,7 @@ class PlayersController extends Controller
         PlayerTraveledIsland::truncate();
         TutorialSaveData::truncate();
         PlayerSceneChest::truncate();
-
+        BanList::truncate();
         PlayerIdentificator::truncate();
         Player::truncate();
 
