@@ -30,4 +30,9 @@ class QuestField extends Model
         return $this->hasOne('App\Enemy', 'ID', 'value');
     }
 
+    public function note()
+    {
+        return $this->hasOne('App\DiaryStorageNote', 'ID', 'value');
+    }
+
 }

@@ -8,6 +8,7 @@ use App\DescriptionLocalization;
 use App\DescriptionMode;
 use App\Dialog;
 use App\DialogDescription;
+use App\DiaryStorageNote;
 use App\Enemy;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -80,7 +81,7 @@ class QuestsController extends Controller
         $languages = Language::all();
 
         return view('admin.quests.create', compact('rewards', 'types', 'items', 'field', 'descriptions',
-            'modes', 'speakers', 'languages'));
+            'modes', 'speakers', 'languages', 'notes'));
     }
 
     /**
@@ -165,6 +166,12 @@ class QuestsController extends Controller
                     $field['name'] = $quest->field->enemy->name;
                     $field['count'] = $quest->countToDo;
                     break;
+
+                case('noteID'):
+
+                    $field['name'] = $quest->field->note->noteSubject;
+                    $field['count'] = $quest->countToDo;
+                    break;
             }
         }
 
@@ -198,7 +205,7 @@ class QuestsController extends Controller
 //        var_dump($quest->field->value == 2);die();
 
         return view('admin.quests.edit', compact('quest', 'rewards', 'types', 'items', 'beginDialog',
-            'additionalDialog', 'descriptions', 'speakers', 'languages', 'modes', 'questdescriptions'));
+            'additionalDialog', 'descriptions', 'speakers', 'languages', 'modes', 'questdescriptions', 'notes'));
     }
 
     /**
@@ -361,6 +368,9 @@ class QuestsController extends Controller
                 break;
             case('objectToRestore'):
                 $items = RestorableObject::all();
+                break;
+            case('noteID'):
+                $items = DiaryStorageNote::all();
                 break;
         }
 
