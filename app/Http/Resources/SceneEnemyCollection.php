@@ -27,13 +27,20 @@ class SceneEnemyCollection extends ResourceCollection
 
             $array['concreteSceneEnemies'][$item->sceneName]['sceneName'] = $item->sceneName;
 
-            $array['concreteSceneEnemies'][$item->sceneName]['concreteAreaEnemies'][$item->areaKey]['areaKey'] = $item->areaKey;
-            $array['concreteSceneEnemies'][$item->sceneName]['concreteAreaEnemies'][$item->areaKey] = $item->item;
+
+            $array['concreteSceneEnemies'][$item->sceneName]['concreteAreaEnemies'][$item->areaKey]['areaKey'] = $item['areaKey'];
+            $array['concreteSceneEnemies'][$item->sceneName]['concreteAreaEnemies'][$item->areaKey]['concreteEnemies'] = $item->item;
+
         }
 
         $array['concreteSceneEnemies'] = array_values($array['concreteSceneEnemies']);
 
-        var_dump($array); die();
+        foreach ($array['concreteSceneEnemies'] as &$enemy) {
+
+            $enemy['concreteAreaEnemies'] = array_values($enemy['concreteAreaEnemies']);
+        }
+
+        return $array;
 
     }
 }

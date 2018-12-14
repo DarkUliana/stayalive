@@ -17,6 +17,12 @@ class CreateSceneEnemiesTable extends Migration
             $table->increments('ID');
             $table->string('sceneName');
             $table->string('areaKey')->nullable();
+            $table->integer('enemyType');
+            $table->integer('enemyLevel');
+            $table->integer('countInScene');
+            $table->string('lootKey')->nullable();
+            $table->float('chanceToSelect');
+            $table->float('chanceToInstatiate');
             $table->timestamps();
         });
     }
