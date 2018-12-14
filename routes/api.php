@@ -166,6 +166,9 @@ Route::get('move-old-player/{googleID}', 'MovingOneOldPlayer');
 Route::get('player-enemy-saves', 'PlayerEnemySaveController@get');
 Route::post('player-enemy-saves', 'PlayerEnemySaveController@post');
 
+Route::get('scene-enemy-storage', 'SceneEnemyController@get');
+Route::post('scene-enemy-storage', 'SceneEnemyController@post');
+
 
 
 //});

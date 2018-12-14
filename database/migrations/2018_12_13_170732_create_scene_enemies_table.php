@@ -16,7 +16,7 @@ class CreateSceneEnemiesTable extends Migration
         Schema::create('scene_enemies', function (Blueprint $table) {
             $table->increments('ID');
             $table->string('sceneName');
-            $table->string('areaKey');
+            $table->string('areaKey')->nullable();
             $table->timestamps();
         });
     }
