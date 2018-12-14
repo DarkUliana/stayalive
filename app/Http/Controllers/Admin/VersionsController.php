@@ -49,8 +49,10 @@ class VersionsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|unique:versions',
-            'version' => 'required|string'
+            'description' => 'required|string|unique:versions',
+            'serverVersion' => 'required|string',
+            'serverAvailable' => 'required',
+            'serverTimer' => 'required|date_format:"Y-m-d\TH:i"'
         ]);
 
         $requestData = $request->all();
@@ -84,6 +86,7 @@ class VersionsController extends Controller
     public function edit($id)
     {
         $version = Version::findOrFail($id);
+        $version->serverTimer = date('Y-m-d\TH:i', strtotime($version->serverTimer));
 
         return view('admin.versions.edit', compact('version'));
     }
@@ -99,8 +102,10 @@ class VersionsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'version' => 'required|string'
+            'description' => 'required|string',
+            'serverVersion' => 'required|string',
+            'serverAvailable' => 'required',
+            'serverTimer' => 'required|date_format:"Y-m-d\TH:i"'
         ]);
 
         $requestData = $request->all();

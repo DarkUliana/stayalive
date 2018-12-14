@@ -10,5 +10,14 @@ class Version extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['ID'];
+    protected $hidden = ['ID', 'created_at', 'updated_at'];
+
+    protected $casts = [
+        'serverAvailable' => 'boolean',
+    ];
+
+    public function setServerAvailableAttribute($value)
+    {
+        $this->attributes['serverAvailable'] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
 }
