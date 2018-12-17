@@ -128,6 +128,8 @@ Route::group(['middleware' => ['auth', 'sidebar']], function () {
         'show'
     ]]);
 
+    Route::resource('scene-enemies', 'Admin\SceneEnemiesController');
+
 });
 
 
