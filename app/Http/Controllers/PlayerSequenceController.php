@@ -73,7 +73,7 @@ class PlayerSequenceController extends Controller
         $sequencesArr = [];
 
         $IDs = $sequences->pluck('sequenceID');
-        $missing = DiaryStorageNote::whereNotIn('ID', $IDs)->pluck('ID');
+        $missing = DiaryStorageNote::whereNotIn('ID', $IDs)->pluck('noteID');
 
         foreach ($missing as $item) {
 
