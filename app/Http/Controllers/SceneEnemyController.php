@@ -20,21 +20,24 @@ class SceneEnemyController extends Controller
     {
         if (!isset($request->concreteSceneEnemies)) {
 
-             return response('Invalid', 200);
+            return response('Invalid', 200);
         }
 
         SceneEnemy::truncate();
-        SceneEnemyItem::truncate();
+
+        $sceneEnemy = [];
         foreach ($request->concreteSceneEnemies as $scene) {
+
+            $sceneEnemy['sceneName'] = $scene['sceneName'];
+
 
             foreach ($scene['concreteAreaEnemies'] as $area) {
 
-                $sceneEnemy = SceneEnemy::create(['sceneName' => $scene['sceneName'], 'areaKey' => $area['areaKey']]);
+                $sceneEnemy['areaKey'] = $area['areaKey'];
 
                 foreach ($area['concreteEnemies'] as $enemy) {
 
-                    $newEnemy = new SceneEnemyItem($enemy);
-                    $sceneEnemy->item()->save($newEnemy);
+                    SceneEnemy::create(array_merge($sceneEnemy, $enemy));
                 }
 
             }
