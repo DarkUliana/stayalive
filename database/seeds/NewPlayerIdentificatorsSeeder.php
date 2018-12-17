@@ -46,6 +46,8 @@ class NewPlayerIdentificatorsSeeder extends Seeder
     public function run()
     {
 
+        DB::table('player_sequences')->truncate();
+
         Player::orderBy('ID')->chunk(100, function ($players) {
 
             foreach ($players as $player) {
@@ -53,8 +55,6 @@ class NewPlayerIdentificatorsSeeder extends Seeder
                 PlayerIdentificator::create(['playerID' => $player->ID, 'localID' => $player->googleID]);
             }
         });
-
-
 
         foreach (array_merge($this->tables, $this->tablesWithPlayerID) as $table) {
 
@@ -80,14 +80,6 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
                 } else {
 
-                    $tutorial = [
-                        'playerID' => $player->ID,
-                        'prefType' => 2,
-                        'prefKey' => 'TutorialData',
-                        'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
-                    ];
-                    PlayerPrefRecord::create($tutorial);
-
                     DB::table($table)->where($key, $googleID->googleID)->update([$key => $player->ID]);
 
                 }
@@ -95,6 +87,26 @@ class NewPlayerIdentificatorsSeeder extends Seeder
             }
 
         }
+
+        Player::orderBy('ID')->chunk(100, function ($players) {
+
+            foreach ($players as $player) {
+
+                DB::table('player_sequences')->insert([
+                    ['googleID' => $player->ID, 'sequenceID' => 1, 'state' => 1],
+                    ['googleID' => $player->ID, 'sequenceID' => 2, 'state' => 1],
+                    ['googleID' => $player->ID, 'sequenceID' => 3, 'state' => 1],
+                    ['googleID' => $player->ID, 'sequenceID' => 4, 'state' => 0]
+                ]);
+
+                PlayerPrefRecord::create([
+                    'playerID' => $player->ID,
+                    'prefType' => 2,
+                    'prefKey' => 'TutorialData',
+                    'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
+                ]);
+            }
+        });
 
     }
 }

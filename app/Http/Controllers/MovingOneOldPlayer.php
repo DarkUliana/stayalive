@@ -34,7 +34,7 @@ class MovingOneOldPlayer extends Controller
         'player_quest_replacements',
         'player_restorable_objects',
         'player_rewards',
-        'player_sequences',
+//        'player_sequences',
         'player_technologies_states',
         'player_traveled_islands',
         'timers',
@@ -72,13 +72,20 @@ class MovingOneOldPlayer extends Controller
         $newPlayer = Player::create($oldPlayer->toArray());
         PlayerIdentificator::create(['localID' => $googleID, 'playerID' => $newPlayer->ID]);
 
-        $tutorial = [
+
+        PlayerPrefRecord::create([
             'playerID' => $newPlayer->ID,
             'prefType' => 2,
             'prefKey' => 'TutorialData',
             'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
-        ];
-        PlayerPrefRecord::create($tutorial);
+        ]);
+
+        DB::table('player_sequences')->insert([
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 1, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 2, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 3, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 4, 'state' => 0]
+        ]);
 
         foreach (array_merge($this->tablesWithPlayerID, $this->tablesWithGoogleID) as $table) {
 
