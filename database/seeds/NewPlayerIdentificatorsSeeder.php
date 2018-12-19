@@ -48,14 +48,6 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
         DB::table('player_sequences')->truncate();
 
-        Player::orderBy('ID')->chunk(100, function ($players) {
-
-            foreach ($players as $player) {
-
-                PlayerIdentificator::create(['playerID' => $player->ID, 'localID' => $player->googleID]);
-            }
-        });
-
         foreach (array_merge($this->tables, $this->tablesWithPlayerID) as $table) {
 
 
@@ -95,8 +87,8 @@ class NewPlayerIdentificatorsSeeder extends Seeder
                 DB::table('player_sequences')->insert([
                     ['googleID' => $player->ID, 'sequenceID' => 1, 'state' => 1],
                     ['googleID' => $player->ID, 'sequenceID' => 2, 'state' => 1],
-                    ['googleID' => $player->ID, 'sequenceID' => 3, 'state' => 1],
-                    ['googleID' => $player->ID, 'sequenceID' => 4, 'state' => 0]
+                    ['googleID' => $player->ID, 'sequenceID' => 4, 'state' => 1],
+                    ['googleID' => $player->ID, 'sequenceID' => 6, 'state' => 0]
                 ]);
 
                 PlayerPrefRecord::create([
