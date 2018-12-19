@@ -26,6 +26,7 @@ class PlayerSequenceController extends Controller
         $data['questControllerData'] = json_encode(['progress' => $quest->progress, 'ID' => $quest->ID]);
         $data['questID'] = $quest->questID;
         $data['localID'] = $request->localID;
+
         $data['openedSequences'] = $sequences->toArray();
 
         if ($sequences->count() < DiaryStorageNote::count()) {
@@ -73,7 +74,7 @@ class PlayerSequenceController extends Controller
         $sequencesArr = [];
 
         $IDs = $sequences->pluck('sequenceID');
-        $missing = DiaryStorageNote::whereNotIn('ID', $IDs)->pluck('noteID');
+        $missing = DiaryStorageNote::whereNotIn('ID', $IDs)->pluck('ID');
 
         foreach ($missing as $item) {
 
