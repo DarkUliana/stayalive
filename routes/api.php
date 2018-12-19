@@ -80,7 +80,8 @@ Route::get('cloud-items', 'CloudItemController@getItems');
 //Route::post('daily-quests', 'QuestController@storeDaily');
 //Route::post('plot-quests', 'QuestController@storePlot');
 Route::get('daily-quests', 'QuestController@getDaily');
-Route::get('plot-quests', 'QuestController@getPlot');
+Route::get('plot-quests', 'QuestController@getOldPlot');
+Route::get('plot-quests2', 'QuestController@getPlot');
 //    Route::get('quests', 'QuestController@index');
 
 Route::get('quest-descriptions', 'QuestDescriptionController');
