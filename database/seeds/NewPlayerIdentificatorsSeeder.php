@@ -38,6 +38,7 @@ class NewPlayerIdentificatorsSeeder extends Seeder
         'player_ship_stuff_items',
         'player_technology_quantities'
     ];
+
     /**
      * Run the database seeds.
      *
@@ -47,6 +48,13 @@ class NewPlayerIdentificatorsSeeder extends Seeder
     {
 
         DB::table('player_sequences')->truncate();
+
+//        $playerRestorableObjectsIDs = \App\PlayerRestorableObject::pluck('ID');
+
+//        foreach ($playerRestorableObjectsIDs as $playerRestorableObjectsID) {
+//
+//            \App\PlayerRestorableObjectSlot::where('restorableObjectID', $playerRestorableObjectsID)->orderBy('ID')->limit(6)->delete();
+//        }
 
         foreach (array_merge($this->tables, $this->tablesWithPlayerID) as $table) {
 

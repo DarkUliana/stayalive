@@ -65,6 +65,8 @@ class AddIndexesToTables extends Migration
 
         DB::Statement("ALTER TABLE player_restorable_object_slots ADD INDEX  player_restorable_object_slots_objectID (restorableObjectID)");
         DB::Statement("ALTER TABLE player_ship_chest_items ADD INDEX  player_ship_chest_items_chestID (playerShipChestID)");
+
+        DB::Statement("ALTER TABLE player_restorable_object_slots ADD INDEX player_restorable_object_slots_restorableObjectID (restorableObjectID)");
     }
 
     /**

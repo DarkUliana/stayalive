@@ -83,8 +83,8 @@ class MovingOneOldPlayer extends Controller
         DB::table('player_sequences')->insert([
             ['playerID' => $newPlayer->ID, 'sequenceID' => 1, 'state' => 1],
             ['playerID' => $newPlayer->ID, 'sequenceID' => 2, 'state' => 1],
-            ['playerID' => $newPlayer->ID, 'sequenceID' => 3, 'state' => 1],
-            ['playerID' => $newPlayer->ID, 'sequenceID' => 4, 'state' => 0]
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 4, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 6, 'state' => 0]
         ]);
 
         foreach (array_merge($this->tablesWithPlayerID, $this->tablesWithGoogleID) as $table) {
@@ -106,12 +106,17 @@ class MovingOneOldPlayer extends Controller
                     $item['playerID'] = $newPlayer->ID;
                     $newObj = PlayerRestorableObject::create($item);
 
-                    foreach ($obj['slots'] as $slot) {
+                    $slots = $obj['slots']->sortBy('ID')->toArray();
+                    array_splice($slots, 0, 6);
 
-                        $slotData = $slot->toArray();
-                        $newSlot =  new PlayerRestorableObjectSlot($slotData);
+
+                    foreach ($slots as $slot) {
+
+                        $newSlot = new PlayerRestorableObjectSlot($slot);
 
                         $newObj->slots()->save($newSlot);
+
+
                     }
 
                 }
