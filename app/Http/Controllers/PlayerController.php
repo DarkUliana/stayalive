@@ -41,7 +41,7 @@ class PlayerController extends Controller
 
             return response('Your request has no localID', 400);
         }
-        
+
         $playerNamed = $this->renameAttributes($request->input());
         unset($playerNamed['traveledIslands']);
         unset($playerNamed['localID']);
@@ -102,15 +102,16 @@ class PlayerController extends Controller
                 }
 
 
-            } else {
-
-                $playerID = $this->createPlayer($request, $playerNamed);
-                $playerIdentificator->playerID = $playerID;
-                $playerIdentificator->save();
-
-                $playerIdentificator->player->touch();
-
             }
+//            else {
+//
+//                $playerID = $this->createPlayer($request, $playerNamed);
+//                $playerIdentificator->playerID = $playerID;
+//                $playerIdentificator->save();
+//
+//                $playerIdentificator->player->touch();
+//
+//            }
 
             $playerID = $playerIdentificator->playerID;
         }
