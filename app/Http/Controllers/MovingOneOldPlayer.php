@@ -30,7 +30,7 @@ class MovingOneOldPlayer extends Controller
         'player_chest_items',
         'player_diary_notes',
         'player_learned_recipes',
-        'player_quests',
+//        'player_quests',
         'player_quest_replacements',
         'player_restorable_objects',
         'player_rewards',
@@ -78,6 +78,14 @@ class MovingOneOldPlayer extends Controller
             'prefType' => 2,
             'prefKey' => 'TutorialData',
             'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
+        ]);
+
+        DB::table('player_quests')->insert([
+            'playerID' => $newPlayer->ID,
+            'type' => 'plot',
+            'progress' => 0,
+            'questID' => 2
+
         ]);
 
         DB::table('player_sequences')->insert([
