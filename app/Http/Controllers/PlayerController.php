@@ -61,18 +61,23 @@ class PlayerController extends Controller
                 if ($playerByGoogleID) {
 
                     $playerID = $playerByGoogleID->ID;
+                    $playerIdentificator->playerID = $playerByGoogleID->ID;
+                    $playerIdentificator->save();
+
+                    $playerIdentificator->player->touch();
+
                     $identification = 1;
 
                 } else {
 
                     $playerID = $this->createPlayer($request, $playerNamed);
+
                 }
-
-
 
             } else {
 
                 $playerID = $this->createPlayer($request, $playerNamed);
+
             }
             PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
 
@@ -80,28 +85,37 @@ class PlayerController extends Controller
         } else {
 
             if (isset($request->googleID) && !empty($request->googleID)
-                && !empty(Player::where('googleID', $request->googleID)->first())) {
+                && Player::where('googleID', $request->googleID)->first()) {
 
                 $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
 
-                $playerIdentificator->playerID = $playerByGoogleID->ID;
+                if ($playerByGoogleID && $playerByGoogleID->ID != $playerIdentificator->playerID) {
+
+                    $playerIdentificator->playerID = $playerByGoogleID->ID;
+                    $playerIdentificator->save();
+
+                    $playerIdentificator->player->touch();
+
+                    $identification = 1;
+
+                } else {
+
+                    $this->checkData($playerNamed, $playerIdentificator->playerID);
+                    Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+                }
+
+
+
+
+
+            } else {
+
+                $playerID = $this->createPlayer($request, $playerNamed);
+                $playerIdentificator->playerID = $playerID;
                 $playerIdentificator->save();
 
                 $playerIdentificator->player->touch();
 
-                $identification = 1;
-
-                //можливе видалення старих даних гравця
-
-            } else {
-
-//                if (!empty($playerIdentificator->player->googleID)) {
-//
-//                    unset($playerNamed['googleID']);
-//                }
-
-                $this->checkData($playerNamed, $playerIdentificator->playerID);
-                Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
             }
 
             $playerID = $playerIdentificator->playerID;
