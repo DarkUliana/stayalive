@@ -103,15 +103,12 @@ class PlayerController extends Controller
 
 
             }
-//            else {
-//
-//                $playerID = $this->createPlayer($request, $playerNamed);
-//                $playerIdentificator->playerID = $playerID;
-//                $playerIdentificator->save();
-//
-//                $playerIdentificator->player->touch();
-//
-//            }
+            else {
+
+                $this->checkData($playerNamed, $playerIdentificator->playerID);
+                Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+
+            }
 
             $playerID = $playerIdentificator->playerID;
         }
