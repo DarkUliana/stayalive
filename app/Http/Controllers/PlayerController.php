@@ -182,9 +182,9 @@ class PlayerController extends Controller
                 'start' => Carbon::now()
             ];
 
-            Timer::updateOrCreate($data);
+            Timer::create($data);
         }
-        
+
 //        $params = [
 //            'localID' => $request->localID
 //        ];
