@@ -6,6 +6,8 @@ use App\BanList;
 use App\CloudItem;
 use App\PlayerIdentificator;
 use App\PlayerTraveledIsland;
+use App\Timer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Player;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +39,7 @@ class PlayerController extends Controller
     {
         if (!isset($request->localID)) {
 
-            return response('Your request has no localID',400 );
+            return response('Your request has no localID', 400);
         }
 
         $playerNamed = $this->renameAttributes($request->input());
@@ -100,9 +102,6 @@ class PlayerController extends Controller
                 }
 
 
-
-
-
             } else {
 
                 $playerID = $this->createPlayer($request, $playerNamed);
@@ -160,7 +159,8 @@ class PlayerController extends Controller
         return $renamed;
     }
 
-    protected function checkData($data, $playerID) {
+    protected function checkData($data, $playerID)
+    {
 
         if (((CloudItem::where(['playerID' => $playerID, 'imageName' => 'goldCoinPurchase', 'isTaken' => 1])->sum('count') + 50) < $data['goldCoin'])
             || ((CloudItem::where(['playerID' => $playerID, 'imageName' => 'keyCoinPurchase', 'isTaken' => 1])->sum('count') + 5) < $data['keyCoin'])) {
@@ -174,15 +174,27 @@ class PlayerController extends Controller
         $player = Player::create($playerNamed);
         $playerID = $player->ID;
 
-        $params = [
-            'localID' => $request->localID
-        ];
-        $client = new HttpClient();
-        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+        foreach (['tech', 'craft', 'walking', 'last-save', 'quest'] as $type) {
+
+            $data = [
+                'playerID' => $playerID,
+                'type' => $type,
+                'start' => Carbon::now()
+            ];
+
+            Timer::updateOrCreate($data);
+        }
+        
+//        $params = [
+//            'localID' => $request->localID
+//        ];
+
+//        $client = new HttpClient();
+//        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
 
         return $playerID;
     }
