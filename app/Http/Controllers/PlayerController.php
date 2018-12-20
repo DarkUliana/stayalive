@@ -61,27 +61,20 @@ class PlayerController extends Controller
                 if ($playerByGoogleID) {
 
                     $playerID = $playerByGoogleID->ID;
+                    $identification = 1;
 
                 } else {
 
-                    $player = Player::create($playerNamed);
-                    $playerID = $player->ID;
-
-                    $params = [
-                        'localID' => $request->localID
-                    ];
-                    $client = new HttpClient();
-                    $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
-                    $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
-                    $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
-                    $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
-                    $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+                    $playerID = $this->createPlayer($request, $playerNamed);
                 }
 
-                PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
-                $identification = 1;
 
+
+            } else {
+
+                $playerID = $this->createPlayer($request, $playerNamed);
             }
+            PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
 
 
         } else {
@@ -165,6 +158,24 @@ class PlayerController extends Controller
 
             BanList::firstOrCreate(['playerID' => $playerID]);
         }
+    }
+
+    protected function createPlayer(Request $request, $playerNamed)
+    {
+        $player = Player::create($playerNamed);
+        $playerID = $player->ID;
+
+        $params = [
+            'localID' => $request->localID
+        ];
+        $client = new HttpClient();
+        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+
+        return $playerID;
     }
 
 }
