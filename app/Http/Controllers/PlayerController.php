@@ -177,12 +177,12 @@ class PlayerController extends Controller
         $params = [
             'localID' => $request->localID
         ];
-//        $client = new HttpClient();
-//        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
-//        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
-//        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
-//        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
-//        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+        $client = new HttpClient();
+        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
 
         return $playerID;
     }
