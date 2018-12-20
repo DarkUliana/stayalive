@@ -41,8 +41,7 @@ class PlayerController extends Controller
 
             return response('Your request has no localID', 400);
         }
-
-        dd(123);
+        
         $playerNamed = $this->renameAttributes($request->input());
         unset($playerNamed['traveledIslands']);
         unset($playerNamed['localID']);
