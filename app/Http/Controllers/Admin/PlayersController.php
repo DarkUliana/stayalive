@@ -261,6 +261,7 @@ class PlayersController extends Controller
         TutorialSaveData::where('playerID', $playerID)->delete();
         PlayerSceneChest::where('playerID', $playerID)->delete();
         BanList::where('playerID', $playerID)->delete();
+        CloudItem::where('playerID', $playerID)->delete();
         Player::where('ID', $playerID)->delete();
 
     }
