@@ -61,10 +61,6 @@ class PlayerController extends Controller
                 if ($playerByGoogleID) {
 
                     $playerID = $playerByGoogleID->ID;
-                    $playerIdentificator->playerID = $playerByGoogleID->ID;
-                    $playerIdentificator->save();
-
-                    $playerIdentificator->player->touch();
 
                     $identification = 1;
 
@@ -84,8 +80,7 @@ class PlayerController extends Controller
 
         } else {
 
-            if (isset($request->googleID) && !empty($request->googleID)
-                && Player::where('googleID', $request->googleID)->first()) {
+            if (isset($request->googleID) && !empty($request->googleID)) {
 
                 $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
 
@@ -182,12 +177,12 @@ class PlayerController extends Controller
         $params = [
             'localID' => $request->localID
         ];
-        $client = new HttpClient();
-        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
-        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+//        $client = new HttpClient();
+//        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
 
         return $playerID;
     }
