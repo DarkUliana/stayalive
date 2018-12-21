@@ -104,7 +104,10 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
             foreach ($players as $player) {
 
-                $this->command->info('Seeding sequences, quests and tutorial' . $player->ID);
+                $this->command->info('Seeding sequences, quests, identificators and tutorial' . $player->ID);
+
+                PlayerIdentificator::create(['playerID' => $player->ID, 'localID' => $player->googleID]);
+
 
                 DB::table('player_sequences')->insert([
                     ['googleID' => $player->ID, 'sequenceID' => 1, 'state' => 1],
