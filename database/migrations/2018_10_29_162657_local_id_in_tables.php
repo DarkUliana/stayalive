@@ -51,16 +51,17 @@ class LocalIdInTables extends Migration
      */
     public function up()
     {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
-        $this->info('Seeding');
+        $output->writeln('Seeding');
 
         Artisan::call('db:seed', ['--class' => 'NewPlayerIdentificatorsSeeder']);
 
-        $this->info('Change googleID playerID');
+        $output->writeln('Change googleID playerID');
 
         foreach ($this->tablesWithGoogleID as $table) {
 
-            $this->info($table);
+            $output->writeln($table);
 
 
             if (in_array($table, $this->tablesWithEnum)) {
@@ -77,7 +78,7 @@ class LocalIdInTables extends Migration
 
         foreach (array_merge($this->tablesWithGoogleID, $this->tablesWithPlayerID) as $table) {
 
-            $this->info($table);
+            $output->writeln($table);
 
             if (!in_array($table, $this->tablesWithEnum)) {
                 Schema::table($table, function (Blueprint $t) {
@@ -87,7 +88,7 @@ class LocalIdInTables extends Migration
             }
         }
 
-        $this->info('End of local_id_in_tables migration');
+        $output->writeln('End of local_id_in_tables migration');
 
     }
 
