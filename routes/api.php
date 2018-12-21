@@ -162,7 +162,8 @@ Route::post('scene-chests', 'SceneChestController@post');
 Route::get('player-scene-chests', 'PlayerSceneChestController@get');
 Route::post('player-scene-chests', 'PlayerSceneChestController@post');
 
-Route::get('move-old-player/{googleID}', 'MovingOneOldPlayer');
+Route::get('move-old-player/{googleID}', 'MovingOneOldPlayer@moveOne');
+Route::get('move-all-old-players', 'MovingOneOldPlayer@moveAll');
 
 Route::get('player-enemy-saves', 'PlayerEnemySaveController@get');
 Route::post('player-enemy-saves', 'PlayerEnemySaveController@post');

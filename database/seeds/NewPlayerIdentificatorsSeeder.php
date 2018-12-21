@@ -5,6 +5,8 @@ use App\Player;
 use App\PlayerIdentificator;
 use Illuminate\Support\Facades\DB;
 use App\PlayerPrefRecord;
+use App\PlayerRestorableObject;
+use App\PlayerRestorableObjectSlot;
 
 class NewPlayerIdentificatorsSeeder extends Seeder
 {
@@ -48,24 +50,31 @@ class NewPlayerIdentificatorsSeeder extends Seeder
     {
 
         DB::table('player_sequences')->truncate();
+        DB::table('player_quests')->truncate();
 
-//        $playerRestorableObjectsIDs = \App\PlayerRestorableObject::pluck('ID');
+        $this->command->info('Deleting player restorable slots');
 
-//        foreach ($playerRestorableObjectsIDs as $playerRestorableObjectsID) {
-//
-//            \App\PlayerRestorableObjectSlot::where('restorableObjectID', $playerRestorableObjectsID)->orderBy('ID')->limit(6)->delete();
-//        }
+        $playerRestorableObjectsIDs = \App\PlayerRestorableObject::pluck('ID');
+
+        PlayerRestorableObjectSlot::whereNotIn('restorableObjectID', PlayerRestorableObject::pluck('ID')->toArray())->delete();
+
+        foreach ($playerRestorableObjectsIDs as $playerRestorableObjectsID) {
+
+            $this->command->info($playerRestorableObjectsID);
+            \App\PlayerRestorableObjectSlot::where('restorableObjectID', $playerRestorableObjectsID)->orderBy('ID')->limit(6)->delete();
+        }
+
+        $this->command->info('Updating playerID');
 
         foreach (array_merge($this->tables, $this->tablesWithPlayerID) as $table) {
 
+            $this->command->info($table);
 
             $key = 'googleID';
             if (in_array($table, $this->tablesWithPlayerID)) {
 
                 $key = 'playerID';
             }
-
-
 
             $googleIDs = DB::table($table)->select("$key as googleID")->distinct()->get();
 
@@ -80,6 +89,7 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
                 } else {
 
+                    $this->command->info($table . ' ' . $player->ID);
                     DB::table($table)->where($key, $googleID->googleID)->update([$key => $player->ID]);
 
                 }
@@ -90,13 +100,25 @@ class NewPlayerIdentificatorsSeeder extends Seeder
 
         Player::orderBy('ID')->chunk(100, function ($players) {
 
+            $this->command->info('Seeding sequences, quests and tutorial');
+
             foreach ($players as $player) {
+
+                $this->command->info('Seeding sequences, quests and tutorial' . $player->ID);
 
                 DB::table('player_sequences')->insert([
                     ['googleID' => $player->ID, 'sequenceID' => 1, 'state' => 1],
                     ['googleID' => $player->ID, 'sequenceID' => 2, 'state' => 1],
                     ['googleID' => $player->ID, 'sequenceID' => 4, 'state' => 1],
                     ['googleID' => $player->ID, 'sequenceID' => 6, 'state' => 0]
+                ]);
+
+                DB::table('player_quests')->insert([
+                    'googleID' => $player->ID,
+                    'type' => 'plot',
+                    'progress' => 0,
+                    'questID' => 2
+
                 ]);
 
                 PlayerPrefRecord::create([

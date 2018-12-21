@@ -50,7 +50,7 @@ class MovingOneOldPlayer extends Controller
     ];
 
 
-    public function __invoke($googleID)
+    public function moveOne($googleID)
     {
         $oldDB = 'stay-alive';
         $oldPlayer = Player::on($oldDB)->where('googleID', $googleID)->first();
@@ -140,14 +140,18 @@ class MovingOneOldPlayer extends Controller
                     $item['playerID'] = $newPlayer->ID;
                     $newObj = PlayerRepairItem::create($item);
 
-                    foreach ($item['parts'] as $part) {
+                    if(isset($item['parts'])) {
 
-                        $partData = $part->toArray();
-                        $newPart = new PlayerRepairItemPart($partData);
+                        foreach ($item['parts'] as $part) {
 
-                        $newObj->parts()->save($newPart);
+                            $partData = $part->toArray();
+                            $newPart = new PlayerRepairItemPart($partData);
 
+                            $newObj->parts()->save($newPart);
+
+                        }
                     }
+
                 }
 
 
@@ -168,5 +172,19 @@ class MovingOneOldPlayer extends Controller
 
         }
         return response($newPlayer->ID, 200);
+    }
+
+    public function moveAll()
+    {
+        $oldDB = 'stay-alive';
+
+        $players = Player::on($oldDB)->orderBy('ID')->take(100)->get();
+
+        foreach ($players as $player) {
+
+            $this->moveOne($player->googleID);
+        }
+
+        return response('ok', 200);
     }
 }
