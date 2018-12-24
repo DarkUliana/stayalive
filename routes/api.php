@@ -80,7 +80,8 @@ Route::get('cloud-items', 'CloudItemController@getItems');
 //Route::post('daily-quests', 'QuestController@storeDaily');
 //Route::post('plot-quests', 'QuestController@storePlot');
 Route::get('daily-quests', 'QuestController@getDaily');
-Route::get('plot-quests', 'QuestController@getPlot');
+Route::get('plot-quests', 'QuestController@getOldPlot');
+Route::get('plot-quests2', 'QuestController@getPlot');
 //    Route::get('quests', 'QuestController@index');
 
 Route::get('quest-descriptions', 'QuestDescriptionController');
@@ -161,10 +162,14 @@ Route::post('scene-chests', 'SceneChestController@post');
 Route::get('player-scene-chests', 'PlayerSceneChestController@get');
 Route::post('player-scene-chests', 'PlayerSceneChestController@post');
 
-Route::get('move-old-player/{googleID}', 'MovingOneOldPlayer');
+Route::get('move-old-player/{googleID}', 'MovingOneOldPlayer@moveOne');
+Route::get('move-all-old-players', 'MovingOneOldPlayer@moveAll');
 
 Route::get('player-enemy-saves', 'PlayerEnemySaveController@get');
 Route::post('player-enemy-saves', 'PlayerEnemySaveController@post');
+
+Route::get('scene-enemy-storage', 'SceneEnemyController@get');
+Route::post('scene-enemy-storage', 'SceneEnemyController@post');
 
 
 

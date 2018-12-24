@@ -22,6 +22,13 @@ class QuestController extends Controller
         return response($quests, 200);
     }
 
+    public function getOldPlot()
+    {
+        $quests = new QuestCollection(Quest::where('daily', 0)->where('typeID', '!=', 9)->get());
+
+        return response($quests, 200);
+    }
+
     public function getDaily()
     {
         $quests = new QuestCollection(Quest::where('daily', 1)->get());

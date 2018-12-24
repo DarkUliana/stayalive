@@ -30,11 +30,11 @@ class MovingOneOldPlayer extends Controller
         'player_chest_items',
         'player_diary_notes',
         'player_learned_recipes',
-        'player_quests',
+//        'player_quests',
         'player_quest_replacements',
         'player_restorable_objects',
         'player_rewards',
-        'player_sequences',
+//        'player_sequences',
         'player_technologies_states',
         'player_traveled_islands',
         'timers',
@@ -50,7 +50,7 @@ class MovingOneOldPlayer extends Controller
     ];
 
 
-    public function __invoke($googleID)
+    public function moveOne($googleID)
     {
         $oldDB = 'stay-alive';
         $oldPlayer = Player::on($oldDB)->where('googleID', $googleID)->first();
@@ -72,13 +72,28 @@ class MovingOneOldPlayer extends Controller
         $newPlayer = Player::create($oldPlayer->toArray());
         PlayerIdentificator::create(['localID' => $googleID, 'playerID' => $newPlayer->ID]);
 
-        $tutorial = [
+
+        PlayerPrefRecord::create([
             'playerID' => $newPlayer->ID,
             'prefType' => 2,
             'prefKey' => 'TutorialData',
             'prefValue' => '{"isComplete":true,"tutorialStep":4194304,"tutorialStage":9}'
-        ];
-        PlayerPrefRecord::create($tutorial);
+        ]);
+
+        DB::table('player_quests')->insert([
+            'playerID' => $newPlayer->ID,
+            'type' => 'plot',
+            'progress' => 0,
+            'questID' => 2
+
+        ]);
+
+        DB::table('player_sequences')->insert([
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 1, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 2, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 4, 'state' => 1],
+            ['playerID' => $newPlayer->ID, 'sequenceID' => 6, 'state' => 0]
+        ]);
 
         foreach (array_merge($this->tablesWithPlayerID, $this->tablesWithGoogleID) as $table) {
 
@@ -99,12 +114,17 @@ class MovingOneOldPlayer extends Controller
                     $item['playerID'] = $newPlayer->ID;
                     $newObj = PlayerRestorableObject::create($item);
 
-                    foreach ($obj['slots'] as $slot) {
+                    $slots = $obj['slots']->sortBy('ID')->toArray();
+                    array_splice($slots, 0, 6);
 
-                        $slotData = $slot->toArray();
-                        $newSlot =  new PlayerRestorableObjectSlot($slotData);
+
+                    foreach ($slots as $slot) {
+
+                        $newSlot = new PlayerRestorableObjectSlot($slot);
 
                         $newObj->slots()->save($newSlot);
+
+
                     }
 
                 }
@@ -120,14 +140,18 @@ class MovingOneOldPlayer extends Controller
                     $item['playerID'] = $newPlayer->ID;
                     $newObj = PlayerRepairItem::create($item);
 
-                    foreach ($item['parts'] as $part) {
+                    if(isset($item['parts'])) {
 
-                        $partData = $part->toArray();
-                        $newPart = new PlayerRepairItemPart($partData);
+                        foreach ($item['parts'] as $part) {
 
-                        $newObj->parts()->save($newPart);
+                            $partData = $part->toArray();
+                            $newPart = new PlayerRepairItemPart($partData);
 
+                            $newObj->parts()->save($newPart);
+
+                        }
                     }
+
                 }
 
 
@@ -148,5 +172,19 @@ class MovingOneOldPlayer extends Controller
 
         }
         return response($newPlayer->ID, 200);
+    }
+
+    public function moveAll()
+    {
+        $oldDB = 'stay-alive';
+
+        $players = Player::on($oldDB)->orderBy('ID')->take(100)->get();
+
+        foreach ($players as $player) {
+
+            $this->moveOne($player->googleID);
+        }
+
+        return response('ok', 200);
     }
 }

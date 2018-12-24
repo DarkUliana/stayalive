@@ -16,7 +16,7 @@
     {{--<link href="{{ asset('css/menu.css') }}" rel="stylesheet">--}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
@@ -124,7 +124,7 @@
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="{{ asset('select2/js/select2.full.min.js') }}"></script>
 
 @if(!Request::is('rewards*'))
     <script src="{{ asset('js/parts.js') }}"></script>
@@ -219,6 +219,10 @@
 
 @if(Request::is('quests/*'))
     <script src="{{ asset('js/quest.js') }}"></script>
+@endif
+
+@if(Request::is('scene-enemies/*'))
+    <script src="{{ asset('js/scene-enemy.js') }}"></script>
 @endif
 
 </body>

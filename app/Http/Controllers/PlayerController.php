@@ -6,6 +6,8 @@ use App\BanList;
 use App\CloudItem;
 use App\PlayerIdentificator;
 use App\PlayerTraveledIsland;
+use App\Timer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Player;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +39,7 @@ class PlayerController extends Controller
     {
         if (!isset($request->localID)) {
 
-            return response('Your request has no localID',400 );
+            return response('Your request has no localID', 400);
         }
 
         $playerNamed = $this->renameAttributes($request->input());
@@ -53,44 +55,59 @@ class PlayerController extends Controller
 
         if (empty($playerIdentificator)) {
 
-            $player = Player::create($playerNamed);
-            $playerID = $player->ID;
-            PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
 
-            $params = [
-                'localID' => $request->localID
-            ];
-            $client = new HttpClient();
-            $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
-            $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
-        } else {
-
-            if (isset($request->googleID) && !empty($request->googleID)
-                && empty($playerIdentificator->player->googleID)
-                && !empty(Player::where('googleID', $request->googleID)->first())) {
+            if (isset($request->googleID) && !empty($request->googleID)) {
 
                 $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
 
-                $playerIdentificator->playerID = $playerByGoogleID->ID;
-                $playerIdentificator->save();
+                if ($playerByGoogleID) {
 
-                $playerIdentificator->player->touch();
+                    $playerID = $playerByGoogleID->ID;
 
-                $identification = 1;
-                //можливе видалення старих даних гравця
+                    $identification = 1;
+
+                } else {
+
+                    $playerID = $this->createPlayer($request, $playerNamed);
+
+                }
 
             } else {
 
-//                if (!empty($playerIdentificator->player->googleID)) {
-//
-//                    unset($playerNamed['googleID']);
-//                }
+                $playerID = $this->createPlayer($request, $playerNamed);
+
+            }
+            PlayerIdentificator::create(['localID' => $request->localID, 'playerID' => $playerID]);
+
+
+        } else {
+
+            if (isset($request->googleID) && !empty($request->googleID)) {
+
+                $playerByGoogleID = Player::where('googleID', $request->googleID)->first();
+
+                if ($playerByGoogleID && $playerByGoogleID->ID != $playerIdentificator->playerID) {
+
+                    $playerIdentificator->playerID = $playerByGoogleID->ID;
+                    $playerIdentificator->save();
+
+                    $playerIdentificator->player->touch();
+
+                    $identification = 1;
+
+                } else {
+
+                    $this->checkData($playerNamed, $playerIdentificator->playerID);
+                    Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+                }
+
+
+            }
+            else {
 
                 $this->checkData($playerNamed, $playerIdentificator->playerID);
                 Player::where('ID', $playerIdentificator->playerID)->update($playerNamed);
+
             }
 
             $playerID = $playerIdentificator->playerID;
@@ -140,13 +157,44 @@ class PlayerController extends Controller
         return $renamed;
     }
 
-    protected function checkData($data, $playerID) {
+    protected function checkData($data, $playerID)
+    {
 
         if (((CloudItem::where(['playerID' => $playerID, 'imageName' => 'goldCoinPurchase', 'isTaken' => 1])->sum('count') + 50) < $data['goldCoin'])
             || ((CloudItem::where(['playerID' => $playerID, 'imageName' => 'keyCoinPurchase', 'isTaken' => 1])->sum('count') + 5) < $data['keyCoin'])) {
 
             BanList::firstOrCreate(['playerID' => $playerID]);
         }
+    }
+
+    protected function createPlayer(Request $request, $playerNamed)
+    {
+        $player = Player::create($playerNamed);
+        $playerID = $player->ID;
+
+        foreach (['tech', 'craft', 'walking', 'last-save', 'quest'] as $type) {
+
+            $data = [
+                'playerID' => $playerID,
+                'type' => $type,
+                'start' => Carbon::now()
+            ];
+
+            Timer::create($data);
+        }
+
+//        $params = [
+//            'localID' => $request->localID
+//        ];
+
+//        $client = new HttpClient();
+//        $client->request('POST', env('APP_URL').'/api/timer/tech', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/craft', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/walking', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/last-save', ['query' => $params]);
+//        $client->request('POST', env('APP_URL').'/api/timer/quest', ['query' => $params]);
+
+        return $playerID;
     }
 
 }
