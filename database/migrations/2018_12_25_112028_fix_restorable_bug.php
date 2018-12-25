@@ -25,6 +25,7 @@ class FixRestorableBug extends Migration
 
         foreach ($ids as $id) {
 
+            DB::table('player_restorable_objects')->where('playerID', $id)->update(['isBuilded' => 1]);
             $restorableIds = DB::table('player_restorable_objects')->where('playerID', $id)->pluck('ID');
 
             foreach ($restorableIds as $restorableId) {
