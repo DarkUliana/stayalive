@@ -52,17 +52,17 @@ class NewPlayerIdentificatorsSeeder extends Seeder
         DB::table('player_sequences')->truncate();
         DB::table('player_quests')->truncate();
 
-        $this->command->info('Deleting player restorable slots');
-
-        $playerRestorableObjectsIDs = \App\PlayerRestorableObject::pluck('ID');
-
-        PlayerRestorableObjectSlot::whereNotIn('restorableObjectID', PlayerRestorableObject::pluck('ID')->toArray())->delete();
-
-        foreach ($playerRestorableObjectsIDs as $playerRestorableObjectsID) {
-
-            $this->command->info($playerRestorableObjectsID);
-            \App\PlayerRestorableObjectSlot::where('restorableObjectID', $playerRestorableObjectsID)->orderBy('ID')->limit(6)->delete();
-        }
+//        $this->command->info('Deleting player restorable slots');
+//
+//        $playerRestorableObjectsIDs = \App\PlayerRestorableObject::pluck('ID');
+//
+//        PlayerRestorableObjectSlot::whereNotIn('restorableObjectID', PlayerRestorableObject::pluck('ID')->toArray())->delete();
+//
+//        foreach ($playerRestorableObjectsIDs as $playerRestorableObjectsID) {
+//
+//            $this->command->info($playerRestorableObjectsID);
+//            \App\PlayerRestorableObjectSlot::where('restorableObjectID', $playerRestorableObjectsID)->orderBy('ID')->limit(6)->delete();
+//        }
 
         $this->command->info('Updating playerID');
 
