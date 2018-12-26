@@ -225,5 +225,9 @@
     <script src="{{ asset('js/scene-enemy.js') }}"></script>
 @endif
 
+@if(Request::is('event-locations/*'))
+    <script src="{{ asset('js/event-location.js') }}"></script>
+@endif
+
 </body>
 </html>

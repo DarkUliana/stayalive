@@ -171,6 +171,7 @@ Route::post('player-enemy-saves', 'PlayerEnemySaveController@post');
 Route::get('scene-enemy-storage', 'SceneEnemyController@get');
 Route::post('scene-enemy-storage', 'SceneEnemyController@post');
 
-
+Route::get('event-locations-storage', 'EventLocationController@get');
+//Route::post('event-locations-storage', 'EventLocationController@post');
 
 //});

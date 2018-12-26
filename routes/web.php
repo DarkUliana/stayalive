@@ -130,6 +130,10 @@ Route::group(['middleware' => ['auth', 'sidebar']], function () {
 
     Route::resource('scene-enemies', 'Admin\SceneEnemiesController');
 
+    Route::resource('event-locations', 'Admin\EventLocationsController');
+    Route::get('event-location-setting', 'Admin\EventLocationsController@getSetting');
+    Route::post('timer-to-new-attempt', 'Admin\EventLocationsController@updateTimer');
+
 });
 
 
