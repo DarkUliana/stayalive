@@ -21,6 +21,12 @@ class NullableFields extends Migration
             $table->string('timeRaising')->nullable()->change();
         });
 
+        Schema::table('player_event_conditions', function (Blueprint $table) {
+
+            $table->string('conditionName')->nullable()->change();
+            $table->string('timeFirstInitialization')->nullable()->change();
+        });
+
     }
 
     /**
@@ -30,6 +36,18 @@ class NullableFields extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('player_event_locations', function (Blueprint $table) {
+
+            $table->string('conditionName')->change();
+            $table->string('locationName')->change();
+            $table->string('timeInitializing')->change();
+            $table->string('timeRaising')->change();
+        });
+
+        Schema::table('player_event_conditions', function (Blueprint $table) {
+
+            $table->string('conditionName')->change();
+            $table->string('timeFirstInitialization')->change();
+        });
     }
 }
