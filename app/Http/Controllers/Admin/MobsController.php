@@ -10,6 +10,35 @@ use Illuminate\Http\Request;
 
 class MobsController extends Controller
 {
+    protected $validationArray = [
+
+        'enemyType' => 'required|integer',
+        'enemyLevel' => 'required|integer',
+        'peaceRadius' => 'required|numeric',
+        'maximumHP' => 'required|integer',
+        'playerDetectRadius' => 'required|numeric',
+        'callRadius' => 'required|numeric',
+        'addAgroRadius' => 'required|numeric',
+        'attackCloseRange' => 'required|numeric',
+        'attackClosePower' => 'required|integer',
+        'attackCloseRate' => 'required|numeric',
+        'giveExpirience' => 'required|integer',
+        'movementSpeed' => 'required|numeric',
+        'timeToStay' => 'required|numeric',
+        'increaseSpeedRange' => 'required|numeric',
+        'increaseSpeedValue' => 'required|numeric',
+        'increaseSpeedTime' => 'required|numeric',
+        'attackDistanceRange' => 'required|numeric',
+        'attackDistancePower' => 'required|integer',
+        'attackDistanceRate' => 'required|numeric',
+        'attackSpeedDecrease' => 'required|numeric',
+        'movementSpeedDecrease' => 'required|numeric',
+        'timeDebuff' => 'required|numeric',
+        'chance' => 'required|numeric',
+        'hillRange' => 'required|numeric',
+        'hillPower' => 'required|integer',
+        'hillRate' => 'required|numeric'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -74,6 +103,7 @@ class MobsController extends Controller
     public function store(Request $request)
     {
 
+        $this->validate($request, $this->validationArray);
         $requestData = $request->all();
 
         Mob::create($requestData);
@@ -121,6 +151,7 @@ class MobsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, $this->validationArray);
 
         $requestData = $request->all();
 

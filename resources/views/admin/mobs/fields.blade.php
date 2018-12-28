@@ -110,7 +110,7 @@
         </th>
         <td>
             <input class="form-control" name="attackCloseRange" type="number" step="0.001" id="attackCloseRange"
-                   value="{{ $mob->attackCloseRange or ''}}">
+                   value="{{ $mob->attackCloseRange or ''}}" required>
             {!! $errors->first('attackCloseRange', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -120,7 +120,7 @@
         </th>
         <td>
             <input class="form-control" name="attackClosePower" type="number" id="attackClosePower"
-                   value="{{ $mob->attackClosePower or ''}}">
+                   value="{{ $mob->attackClosePower or ''}}" required>
             {!! $errors->first('attackClosePower', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -130,7 +130,7 @@
         </th>
         <td>
             <input class="form-control" name="attackCloseRate" type="number" step="0.001" id="attackCloseRate"
-                   value="{{ $mob->attackCloseRate or ''}}">
+                   value="{{ $mob->attackCloseRate or ''}}" required>
             {!! $errors->first('attackCloseRate', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -143,7 +143,7 @@
         <td>
             <input class="form-control" name="attackDistanceRange" type="number" step="0.001"
                    id="attackDistanceRange"
-                   value="{{ $mob->attackDistanceRange or ''}}">
+                   value="{{ $mob->attackDistanceRange or ''}}" required>
             {!! $errors->first('attackDistanceRange', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -153,7 +153,7 @@
         </th>
         <td>
             <input class="form-control" name="attackDistancePower" type="number" id="attackDistancePower"
-                   value="{{ $mob->attackDistancePower or ''}}">
+                   value="{{ $mob->attackDistancePower or ''}}" required>
             {!! $errors->first('attackDistancePower', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -164,7 +164,7 @@
         <td>
             <input class="form-control" name="attackDistanceRate" type="number" step="0.001"
                    id="attackDistanceRate"
-                   value="{{ $mob->attackDistanceRate or ''}}">
+                   value="{{ $mob->attackDistanceRate or ''}}" required>
             {!! $errors->first('attackDistanceRate', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -177,7 +177,7 @@
         <td>
             <input class="form-control" name="attackSpeedDecrease" type="number" step="0.001"
                    id="attackSpeedDecrease"
-                   value="{{ $mob->attackSpeedDecrease or ''}}">
+                   value="{{ $mob->attackSpeedDecrease or ''}}" required>
             {!! $errors->first('attackSpeedDecrease', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -188,7 +188,7 @@
         </th>
         <td>
             <input class="form-control" name="movementSpeedDecrease" type="number" step="0.001"
-                   id="movementSpeedDecrease" value="{{ $mob->movementSpeedDecrease or ''}}">
+                   id="movementSpeedDecrease" value="{{ $mob->movementSpeedDecrease or ''}}" required>
             {!! $errors->first('movementSpeedDecrease', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -198,7 +198,7 @@
         </th>
         <td>
             <input class="form-control" name="timeDebuff" type="number" step="0.001" id="timeDebuff"
-                   value="{{ $mob->timeDebuff or ''}}">
+                   value="{{ $mob->timeDebuff or ''}}" required>
             {!! $errors->first('timeDebuff', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -208,7 +208,7 @@
         </th>
         <td>
             <input class="form-control" name="chance" type="number" step="0.001" id="chance"
-                   value="{{ $mob->chance or ''}}">
+                   value="{{ $mob->chance or ''}}" required>
             {!! $errors->first('chance', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -221,7 +221,7 @@
         <td>
             <input class="form-control" name="increaseSpeedRange" type="number" step="0.001"
                    id="increaseSpeedRange"
-                   value="{{ $mob->increaseSpeedRange or ''}}">
+                   value="{{ $mob->increaseSpeedRange or ''}}" required>
             {!! $errors->first('increaseSpeedRange', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -232,7 +232,7 @@
         <td>
             <input class="form-control" name="increaseSpeedValue" type="number" step="0.001"
                    id="increaseSpeedValue"
-                   value="{{ $mob->increaseSpeedValue or ''}}">
+                   value="{{ $mob->increaseSpeedValue or ''}}" required>
             {!! $errors->first('increaseSpeedValue', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -243,7 +243,7 @@
         <td>
             <input class="form-control" name="increaseSpeedTime" type="number" step="0.001"
                    id="increaseSpeedTime"
-                   value="{{ $mob->increaseSpeedTime or ''}}">
+                   value="{{ $mob->increaseSpeedTime or ''}}" required>
             {!! $errors->first('increaseSpeedTime', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -256,7 +256,7 @@
         </th>
         <td>
             <input class="form-control" name="hillRange" type="number" step="0.001" id="hillRange"
-                   value="{{ $mob->hillRange or ''}}">
+                   value="{{ $mob->hillRange or ''}}" required>
             {!! $errors->first('hillRange', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -266,7 +266,7 @@
         </th>
         <td>
             <input class="form-control" name="hillPower" type="number" id="hillPower"
-                   value="{{ $mob->hillPower or ''}}">
+                   value="{{ $mob->hillPower or ''}}" required>
             {!! $errors->first('hillPower', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
@@ -276,7 +276,7 @@
         </th>
         <td>
             <input class="form-control" name="hillRate" type="number" step="0.001" id="hillRate"
-                   value="{{ $mob->hillRate or ''}}">
+                   value="{{ $mob->hillRate or ''}}" required>
             {!! $errors->first('hillRate', '<p class="help-block">:message</p>') !!}
         </td>
     </tr>
