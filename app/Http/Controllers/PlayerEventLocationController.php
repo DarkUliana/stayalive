@@ -35,7 +35,7 @@ class PlayerEventLocationController extends Controller
 
         $playerID = getPlayerID($request->localID);
 
-        if (isset($request->timePreviouslyAttempt)) {
+        if ($request->has('timePreviouslyAttempt')) {
 
             PlayerEventTime::updateOrCreate(['playerID' => $playerID], ['timePreviouslyAttempt' => $request->timePreviouslyAttempt]);
         }

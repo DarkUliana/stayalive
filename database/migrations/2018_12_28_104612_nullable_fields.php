@@ -27,6 +27,11 @@ class NullableFields extends Migration
             $table->string('timeFirstInitialization')->nullable()->change();
         });
 
+        Schema::table('player_event_time', function (Blueprint $table) {
+
+            $table->string('timePreviouslyAttempt')->nullable()->change();
+        });
+
     }
 
     /**
@@ -48,6 +53,11 @@ class NullableFields extends Migration
 
             $table->string('conditionName')->change();
             $table->string('timeFirstInitialization')->change();
+        });
+
+        Schema::table('player_event_time', function (Blueprint $table) {
+
+            $table->string('timePreviouslyAttempt')->change();
         });
     }
 }
