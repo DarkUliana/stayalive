@@ -5,11 +5,11 @@
                value="{{ isset($setting) ? $setting->eventLocationName : ''}}">
     </td>
     <td>
-        <input class="form-control" name="settings[{{$index}}][lifeTime]" type="number" step="0.01"
+        <input class="form-control" name="settings[{{$index}}][lifeTime]" type="number" step="any"
                value="{{ isset($setting) ? $setting->lifeTime : ''}}">
     </td>
     <td>
-        <input class="form-control" name="settings[{{$index}}][chanceToEvent]" type="number" step="0.01"
+        <input class="form-control" name="settings[{{$index}}][chanceToEvent]" type="number" step="any"
 
                value="{{ isset($setting) ? $setting->chanceToEvent : ''}}">
     </td>
