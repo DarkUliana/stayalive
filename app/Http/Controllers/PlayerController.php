@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BanList;
 use App\CloudItem;
 use App\PlayerIdentificator;
+use App\PlayerIp;
 use App\PlayerTraveledIsland;
 use App\Timer;
 use Carbon\Carbon;
@@ -182,6 +183,8 @@ class PlayerController extends Controller
 
             Timer::create($data);
         }
+
+        PlayerIp::create(['playerID' => $playerID, 'ip' => $request->ip()]);
 
 //        $params = [
 //            'localID' => $request->localID
