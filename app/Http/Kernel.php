@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
 //        'api-connection' => \App\Http\Middleware\CheckConnectionForApi::class,
         'sidebar' => \App\Http\Middleware\Sidebar::class,
         'player-ip' => \App\Http\Middleware\CheckPlayerIp::class,
+        'geo-ip' => \App\Http\Middleware\GeoIp::class,
     ];
 }

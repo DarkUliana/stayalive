@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 
 //Route::group(['middleware' => 'api-connection'], function () {
 
-Route::group(['middleware' => 'player-ip'], function () {
+Route::group(['middleware' => ['player-ip', 'geo-ip']], function () {
 
 
     Route::get('player', 'PlayerController@get');

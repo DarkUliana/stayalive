@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'sidebar']], function () {
+Route::group(['middleware' => ['auth', 'sidebar', 'geo-ip']], function () {
     Route::get('/tests', function () {
         return view('welcome');
     });
