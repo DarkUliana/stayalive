@@ -21,9 +21,9 @@ class GeoIp
      */
     public function handle($request, \Closure $next, $guard = null)
     {
-        if (geoip_country_name_by_name($request->ip())) {
+        if (geoip_country_name_by_name($request->ip()) == 'China') {
 
-            abort(403);
+            abort(403, 'Error 403');
         }
 
         return $next($request);
