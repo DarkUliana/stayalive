@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\BanList;
 use App\Player;
+use App\PlayerIdentificator;
 use Illuminate\Http\Request;
 
 class BanListController extends Controller
@@ -57,7 +58,7 @@ class BanListController extends Controller
 
         $requestData = $request->all();
 
-        if (!BanList::where('playerID', $request->playerID)) {
+        if (!BanList::where('playerID', $request->playerID)->first()) {
 
             BanList::create($requestData);
         }
@@ -124,5 +125,37 @@ class BanListController extends Controller
         BanList::destroy($id);
 
         return redirect('ban-list')->with('flash_message', 'Player deleted!');
+    }
+
+    public function getPlayers(Request $request)
+    {
+        if(!$request->ajax()) {
+            abort(404);
+        }
+
+        $this->validate($request, [
+            'term.term' => 'required|string'
+        ]);
+//        dd($request->input());
+
+
+        $keyword = $request->term['term'];
+        $players = Player::where('Name', 'LIKE', "%$keyword%")
+            ->orWhere('googleID', 'LIKE', "%$keyword%")
+            ->orWhereIn('ID', PlayerIdentificator::where('localID', 'LIKE', "%$keyword%")->pluck('playerID')->toArray())
+            ->select('ID', 'Name')
+            ->get();
+
+        $response = [];
+
+        foreach ($players as $player) {
+
+            $response[] = [
+                'id' => $player->ID,
+                'text' => $player->Name
+            ];
+        }
+
+        return response(['results' => $response], 200);
     }
 }

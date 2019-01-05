@@ -9,8 +9,6 @@ $(document).ready(function () {
 
     $('#filter').select2({width: '150px', placeholder: 'Type'});
 
-    $('#ban').select2({width: '100%', placeholder: 'Player'});
-
     $('#itemID').select2({width: '100%'});
 
 });

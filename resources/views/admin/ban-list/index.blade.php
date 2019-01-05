@@ -64,7 +64,7 @@
                                 </tr>
                             @endforeach
                         </table>
-
+                        <div class="pagination-wrapper"> {!! $banlist->appends(['search' => Request::get('search')])->render() !!} </div>
                     </div>
                 </div>
             </div>
