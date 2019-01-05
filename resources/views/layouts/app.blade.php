@@ -183,7 +183,6 @@
 @endif
 
 @if(Request::is('ban-list'))
-    <script src="{{ asset('js/select.js') }}"></script>
     <script src="{{ asset('js/ban-list.js') }}"></script>
 @endif
 

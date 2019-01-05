@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth', 'sidebar']], function () {
     Route::resource('ban-list', 'Admin\BanListController', ['only' => [
         'index', 'store', 'update', 'destroy'
     ]]);
+    Route::get('players-to-ban', 'Admin\BanListController@getPlayers');
 
     Route::resource('event-islands', 'Admin\EventIslandsController');
 
